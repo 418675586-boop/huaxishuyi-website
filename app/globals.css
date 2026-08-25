@@ -8,24 +8,37 @@
   --muted: #f5f5f5;
   --muted-foreground: #737373;
   --border: #e5e5e5;
-  --ring: #6366F1;
-  --accent: #6366F1;
-  --accent-light: #A5B4FC;
+  --ring: #6366f1;
+  --accent: #6366f1;
+  --accent-light: #a5b4fc;
   --accent-foreground: #ffffff;
-  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-sans: "PingFang SC", "苹方-简", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --rb-accent: oklch(20.5% 0 0);
+  --rb-accent-fg: oklch(100% 0 0);
+    --rb-radius: 10px;
+    --rb-r-xs: max(0px, calc(var(--rb-radius) - 6px));
+    --rb-r-sm: max(0px, calc(var(--rb-radius) - 4px));
+    --rb-r-md: max(0px, calc(var(--rb-radius) - 2px));
+    --rb-r-lg: var(--rb-radius);
+    --rb-r-xl: calc(var(--rb-radius) + min(2px, var(--rb-radius)));
+    --rb-r-2xl: calc(var(--rb-radius) + min(4px, var(--rb-radius)));
+    --rb-r-3xl: calc(var(--rb-radius) + min(6px, var(--rb-radius)));
+    --rb-r-4xl: calc(var(--rb-radius) + min(8px, var(--rb-radius)));
 }
 
 .dark {
-  --background: #03040A;
+  --background: #03040a;
   --foreground: #fafafa;
   --muted: #18181b;
   --muted-foreground: #a1a1aa;
   --border: #27272a;
-  --ring: #6366F1;
-  --accent: #6366F1;
-  --accent-light: #A5B4FC;
+  --ring: #6366f1;
+  --accent: #6366f1;
+  --accent-light: #a5b4fc;
   --accent-foreground: #ffffff;
+  --rb-accent: oklch(100% 0 0);
+  --rb-accent-fg: oklch(20.5% 0 0);
 }
 
 @theme inline {
@@ -40,6 +53,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --color-rb-accent-fg: var(----rb-accent-fg);
+  --color-rb-accent: var(----rb-accent);
 }
 
 html {
@@ -142,4 +157,47 @@ textarea:focus-visible {
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.dither-cursor-layer,
+.dither-cursor-layer * {
+  pointer-events: none !important;
+}
+
+/* Shared image overlay — keep in sync across product / agent cards */
+:root {
+  --media-overlay-color: #060010;
+  --media-overlay-dim: 0.175;
+  --media-overlay-fade: 39%;
+}
+
+.media-image-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      transparent 45%,
+      color-mix(
+        in srgb,
+        var(--media-overlay-color) var(--media-overlay-fade),
+        transparent
+      )
+        100%
+    ),
+    color-mix(
+      in srgb,
+      var(--media-overlay-color) calc(var(--media-overlay-dim) * 100%),
+      transparent
+    );
+}
+@keyframes icon-flip-once {
+  0% { transform: scaleX(1); }
+  50% { transform: scaleX(-1); }
+  100% { transform: scaleX(1); }
+}
+
+.group:hover .icon-flip-once {
+  animation: icon-flip-once 0.55s ease-in-out;
 }

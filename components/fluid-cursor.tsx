@@ -146,10 +146,11 @@ const SHADERS = {
     precision highp sampler2D;
     varying vec2 vUv;
     uniform sampler2D u_output_texture;
+    uniform vec3 u_min_color;
 
     void main () {
       vec3 C = texture2D(u_output_texture, vUv).rgb;
-      gl_FragColor = vec4(vec3(1.) - C, 1.);
+      gl_FragColor = vec4(max(vec3(1.) - C, u_min_color), 1.);
     }
   `,
 };
@@ -329,7 +330,7 @@ function createWebGLContext(canvas: HTMLCanvasElement) {
 }
 
 export function FluidCursor({
-  color = { r: 0.21, g: 0.18, b: 0.51 },
+  color = { r: 0.04, g: 0.4, b: 0.92 },
   className = "",
 }: FluidCursorProps): ReactNode {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -481,6 +482,12 @@ export function FluidCursor({
 
       gl.useProgram(output.program);
       gl.uniform1i(u(output.uniforms, "u_output_texture"), outputColor.read().attach(1));
+      gl.uniform3f(
+        u(output.uniforms, "u_min_color"),
+        color.r,
+        color.g,
+        color.b
+      );
       blit(null);
 
       animationRef.current = requestAnimationFrame(render);

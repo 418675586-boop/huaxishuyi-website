@@ -1,0 +1,99 @@
+.soft-aurora-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #07001f;
+}
+
+/* Always-visible dark aurora (CSS). WebGL sits underneath when available. */
+.soft-aurora-fallback {
+  position: absolute;
+  inset: -20%;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 72% 48% at 28% 38%, rgba(75, 142, 255, 0.42), transparent 62%),
+    radial-gradient(ellipse 58% 42% at 72% 32%, rgba(227, 44, 255, 0.34), transparent 60%),
+    radial-gradient(ellipse 64% 52% at 52% 78%, rgba(90, 70, 200, 0.22), transparent 66%),
+    #07001f;
+  animation: soft-aurora-drift 11s ease-in-out infinite alternate;
+  filter: blur(10px) saturate(1.25);
+  will-change: transform;
+}
+
+.soft-aurora-fallback::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 78% 26% at 38% 48%, rgba(75, 142, 255, 0.5), transparent 72%),
+    radial-gradient(ellipse 68% 22% at 68% 58%, rgba(200, 80, 255, 0.38), transparent 72%);
+  animation: soft-aurora-band 8s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+
+.soft-aurora-fallback::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.08) 48%,
+    transparent 62%
+  );
+  background-size: 220% 100%;
+  animation: soft-aurora-shine 7s linear infinite;
+  mix-blend-mode: soft-light;
+}
+
+.soft-aurora-container canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
+@keyframes soft-aurora-drift {
+  0% {
+    transform: translate3d(-4%, -3%, 0) scale(1.06);
+  }
+  100% {
+    transform: translate3d(5%, 4%, 0) scale(1.14);
+  }
+}
+
+@keyframes soft-aurora-band {
+  0% {
+    transform: translate3d(0, 5%, 0) scaleX(1.04);
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate3d(-4%, -4%, 0) scaleX(1.14);
+    opacity: 1;
+  }
+}
+
+@keyframes soft-aurora-shine {
+  0% {
+    background-position: 130% 0;
+  }
+  100% {
+    background-position: -130% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .soft-aurora-fallback,
+  .soft-aurora-fallback::before,
+  .soft-aurora-fallback::after {
+    animation: none;
+  }
+}

@@ -16,18 +16,10 @@ export function ThemeSwitch(): ReactNode {
   const mounted = useIsMounted();
   const { setTheme, resolvedTheme } = useTheme();
 
-  const toggleTheme = (): void => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
-  };
-
   if (!mounted) {
     return (
-      <div className="fixed bottom-6 right-6 z-50">
-        <button
-          className="w-12 h-12 rounded-full bg-foreground/10 opacity-30 cursor-not-allowed"
-          aria-label="Toggle theme"
-          disabled
-        />
+      <div className="fixed right-6 bottom-[50px] z-50">
+        <div className="h-11 w-[148px] animate-pulse rounded-full border border-border bg-muted" />
       </div>
     );
   }
@@ -35,19 +27,38 @@ export function ThemeSwitch(): ReactNode {
   const isDark = resolvedTheme === "dark";
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div
+      className="fixed right-6 bottom-[50px] z-50 flex items-center gap-1 rounded-full border border-border bg-background/90 p-1 shadow-lg backdrop-blur-md"
+      aria-label="颜色模式"
+      role="group"
+    >
       <button
-        onClick={toggleTheme}
-        className="w-10 h-10 cursor-pointer rounded-full bg-muted text-foreground flex items-center justify-center opacity-30 hover:opacity-100 transition-opacity duration-300 shadow-lg hover:shadow-xl"
-        aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+        onClick={() => setTheme("light")}
+        className={`flex h-9 cursor-pointer items-center gap-1.5 rounded-full px-3 text-xs font-medium transition-colors ${
+          !isDark
+            ? "bg-foreground text-background shadow-sm"
+            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+        }`}
+        aria-label="切换到浅色模式"
+        aria-pressed={!isDark}
+        type="button"
+      >
+        <Sun className="h-4 w-4" aria-hidden="true" />
+        <span>浅色</span>
+      </button>
+      <button
+        onClick={() => setTheme("dark")}
+        className={`flex h-9 cursor-pointer items-center gap-1.5 rounded-full px-3 text-xs font-medium transition-colors ${
+          isDark
+            ? "bg-foreground text-background shadow-sm"
+            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+        }`}
+        aria-label="切换到深色模式"
         aria-pressed={isDark}
         type="button"
       >
-        {isDark ? (
-          <Sun className="w-5 h-5" aria-hidden="true" />
-        ) : (
-          <Moon className="w-5 h-5" aria-hidden="true" />
-        )}
+        <Moon className="h-4 w-4" aria-hidden="true" />
+        <span>深色</span>
       </button>
     </div>
   );

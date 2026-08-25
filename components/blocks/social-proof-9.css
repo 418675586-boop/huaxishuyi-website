@@ -1,0 +1,49 @@
+@keyframes sp9-marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-33.333%, 0, 0);
+  }
+}
+
+@keyframes sp9-marquee-right {
+  from {
+    transform: translate3d(-33.333%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.sp9-marquee {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.sp9-marquee__track {
+  display: flex;
+  width: max-content;
+  flex-shrink: 0;
+  align-items: center;
+  will-change: transform;
+}
+
+.sp9-marquee__track--left {
+  animation: sp9-marquee-left var(--sp9-duration, 48s) linear infinite;
+}
+
+.sp9-marquee__track--right {
+  animation: sp9-marquee-right var(--sp9-duration, 48s) linear infinite;
+}
+
+.sp9-marquee:hover .sp9-marquee__track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp9-marquee__track {
+    animation: none !important;
+  }
+}

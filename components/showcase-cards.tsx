@@ -1,15 +1,26 @@
 "use client";
 
-import { useRef, useEffect, useCallback, useState, useSyncExternalStore, type ReactNode } from "react";
+import { useRef, useEffect, useCallback, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { motion } from "motion/react";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import NextImage from "next/image";
+import SpotlightCard from "@/components/SpotlightCard";
+import StaggeredText from "@/components/react-bits/staggered-text";
+import { OutlineCtaLink } from "@/components/outline-cta";
 
 function getIsSafari(): boolean {
   if (typeof window === "undefined") return false;
   const ua = navigator.userAgent.toLowerCase();
   return ua.includes("safari") && !ua.includes("chrome") && !ua.includes("chromium");
+}
+
+function subscribeLg(onStoreChange: () => void): () => void {
+  const mql = window.matchMedia("(min-width: 1024px)");
+  mql.addEventListener("change", onStoreChange);
+  return () => mql.removeEventListener("change", onStoreChange);
+}
+
+function getIsLg(): boolean {
+  return window.matchMedia("(min-width: 1024px)").matches;
 }
 
 const emptySubscribe = () => () => {};
@@ -22,32 +33,37 @@ function useIsSafari(): boolean {
   );
 }
 
-interface CardData {
-  title: string;
-  image: string;
+function useIsThreeCol(): boolean {
+  return useSyncExternalStore(subscribeLg, getIsLg, () => true);
 }
 
+interface CardData {
+  title: string;
+}
+
+/** Shared panorama image spanning all three cards */
+const PANORAMA_IMAGE = "/img/mock5_compressed.webp";
+/** Matches Tailwind `gap-6` (1.5rem) on the card grid */
+const CARD_GAP_PX = 24;
+const CARD_COUNT = 3;
+
 const cards: CardData[] = [
-  {
-    title: "Startup Launch Kit",
-    image: "/img/mock1_compressed.webp",
-  },
-  {
-    title: "E-commerce Suite",
-    image: "/img/mock5_compressed.webp",
-  },
-  {
-    title: "SaaS Dashboard",
-    image: "/img/mock9_compressed.webp",
-  },
+  { title: "智慧医院/系统集成" },
+  { title: "区域医疗数智化转型" },
+  { title: "医疗数智化转型" },
 ];
 
 const VERTEX_SHADER = `
   attribute vec2 position;
   attribute vec2 uv;
   varying vec2 vUv;
-  uniform vec2 uResolution;
+  varying vec2 vLocalUv;
   uniform vec2 uTextureResolution;
+  uniform vec2 uResolution;
+  uniform vec2 uVirtualResolution;
+  uniform float uSliceStart;
+  uniform float uSliceWidth;
+  uniform float uPanorama;
 
   vec2 resizeUvCover(vec2 uv, vec2 size, vec2 resolution) {
     vec2 ratio = vec2(
@@ -62,7 +78,12 @@ const VERTEX_SHADER = `
 
   void main() {
     vec2 flippedUv = vec2(uv.x, 1.0 - uv.y);
-    vUv = resizeUvCover(flippedUv, uTextureResolution, uResolution);
+    vLocalUv = flippedUv;
+    vec2 virtualUv = uPanorama > 0.5
+      ? vec2(uSliceStart + flippedUv.x * uSliceWidth, flippedUv.y)
+      : flippedUv;
+    vec2 coverResolution = uPanorama > 0.5 ? uVirtualResolution : uResolution;
+    vUv = resizeUvCover(virtualUv, uTextureResolution, coverResolution);
     gl_Position = vec4(position, 0.0, 1.0);
   }
 `;
@@ -77,24 +98,19 @@ const FRAGMENT_SHADER = `
   uniform float uStrength;
   
   varying vec2 vUv;
+  varying vec2 vLocalUv;
 
   vec2 bulge(vec2 uv, vec2 center) {
     vec2 delta = uv - center;
     float dist = length(delta);
     
-    // Gaussian falloff for smooth organic blend
     float falloff = exp(-dist * dist / (uRadius * uRadius));
     
-    // Reduce effect near edges to prevent artifacts
-    float edgeFade = smoothstep(0.0, 0.15, uv.x) * smoothstep(0.0, 0.15, 1.0 - uv.x) *
-                     smoothstep(0.0, 0.15, uv.y) * smoothstep(0.0, 0.15, 1.0 - uv.y);
+    float edgeFade = smoothstep(0.0, 0.15, vLocalUv.x) * smoothstep(0.0, 0.15, 1.0 - vLocalUv.x) *
+                     smoothstep(0.0, 0.15, vLocalUv.y) * smoothstep(0.0, 0.15, 1.0 - vLocalUv.y);
     
-    // Push pixels outward from center
     float bulgeAmount = falloff * uStrength * uBulge * edgeFade;
-    
     vec2 displaced = uv + delta * bulgeAmount;
-    
-    // Clamp to prevent sampling outside texture
     return clamp(displaced, 0.001, 0.999);
   }
 
@@ -144,15 +160,24 @@ interface BulgeCardProps {
   title: string;
   imageSrc: string;
   index: number;
+  panorama: boolean;
+}
+
+/** One continuous image across the 3-column grid (accounts for gap-6). */
+function panoramaStyle(index: number): CSSProperties {
+  return {
+    width: `calc(${CARD_COUNT * 100}% + ${(CARD_COUNT - 1) * 1.5}rem)`,
+    left: `calc(${-index} * (100% + 1.5rem))`,
+  };
 }
 
 // Safari-friendly card with CSS hover effect instead of WebGL
-function SafariCard({ title, imageSrc, index }: BulgeCardProps): ReactNode {
+function SafariCard({ title, imageSrc, index, panorama }: BulgeCardProps): ReactNode {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
-      className="relative border border-border/25 aspect-4/5 w-full overflow-hidden rounded-xl cursor-pointer"
+      className="relative aspect-4/5 w-full cursor-pointer overflow-hidden rounded-xl border border-border/25"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -160,18 +185,24 @@ function SafariCard({ title, imageSrc, index }: BulgeCardProps): ReactNode {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div 
-        className="absolute inset-0"
-        animate={{ scale: isHovered ? 1.1 : 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+      <motion.div
+        className="absolute inset-0 will-change-transform"
+        animate={{ scale: isHovered ? 1.055 : 1 }}
+        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
       >
-        <NextImage
-          src={imageSrc}
-          alt={title}
-          fill
-          className="object-cover"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
+        <div
+          className={panorama ? "absolute top-0 h-full" : "absolute inset-0"}
+          style={panorama ? panoramaStyle(index) : undefined}
+        >
+          <NextImage
+            src={imageSrc}
+            alt={title}
+            fill
+            className="object-cover"
+            sizes={panorama ? "1200px" : "(max-width: 640px) 100vw, 50vw"}
+            priority={index === 0}
+          />
+        </div>
       </motion.div>
       <div
         className="pointer-events-none absolute inset-0 mix-blend-color"
@@ -180,31 +211,38 @@ function SafariCard({ title, imageSrc, index }: BulgeCardProps): ReactNode {
         }}
         aria-hidden="true"
       />
-      <motion.div 
+      <motion.div
         className="absolute inset-0"
-        animate={{ backgroundColor: isHovered ? "rgba(0,0,0,0.1)" : "rgba(0,0,0,0.2)" }}
-        transition={{ duration: 0.3 }}
+        animate={{
+          backgroundColor: isHovered ? "rgba(0,0,0,0.12)" : "rgba(0,0,0,0.22)",
+        }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       />
       <div className="absolute inset-0 flex items-center justify-center">
-        <h3 className="text-2xl font-medium tracking-tight text-white md:text-3xl">
-          {title}
+        <h3 className="text-center text-[32px] font-medium tracking-tight text-white">
+          <span className="block">{title}</span>
+          <span className="mt-1 block">解决方案</span>
         </h3>
       </div>
     </motion.div>
   );
 }
 
-function BulgeCard({ title, imageSrc, index }: BulgeCardProps): ReactNode {
+function BulgeCard({ title, imageSrc, index, panorama }: BulgeCardProps): ReactNode {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const glRef = useRef<WebGLRenderingContext | null>(null);
   const programRef = useRef<WebGLProgram | null>(null);
   const textureRef = useRef<WebGLTexture | null>(null);
   const rafRef = useRef<number>(0);
+  const startLoopRef = useRef<(() => void) | null>(null);
   const uniformsRef = useRef<Record<string, WebGLUniformLocation | null>>({});
   const imageLoadedRef = useRef(false);
   const imageSizeRef = useRef({ width: 1, height: 1 });
   const isDisposedRef = useRef(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [webglReady, setWebglReady] = useState(false);
+  const [shouldInitWebgl, setShouldInitWebgl] = useState(false);
 
   const mouseX = useRef(0.5);
   const mouseY = useRef(0.5);
@@ -214,14 +252,34 @@ function BulgeCard({ title, imageSrc, index }: BulgeCardProps): ReactNode {
   const targetBulge = useRef(0);
 
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setShouldInitWebgl(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "120px" },
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldInitWebgl) return;
+
     isDisposedRef.current = false;
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
 
     const gl = canvas.getContext("webgl", {
-      antialias: true,
+      antialias: false,
       alpha: false,
+      powerPreference: "low-power",
     });
     if (!gl) return;
     glRef.current = gl;
@@ -260,16 +318,23 @@ function BulgeCard({ title, imageSrc, index }: BulgeCardProps): ReactNode {
       uBulge: gl.getUniformLocation(program, "uBulge"),
       uRadius: gl.getUniformLocation(program, "uRadius"),
       uStrength: gl.getUniformLocation(program, "uStrength"),
-      uResolution: gl.getUniformLocation(program, "uResolution"),
       uTextureResolution: gl.getUniformLocation(program, "uTextureResolution"),
+      uResolution: gl.getUniformLocation(program, "uResolution"),
+      uVirtualResolution: gl.getUniformLocation(program, "uVirtualResolution"),
+      uSliceStart: gl.getUniformLocation(program, "uSliceStart"),
+      uSliceWidth: gl.getUniformLocation(program, "uSliceWidth"),
+      uPanorama: gl.getUniformLocation(program, "uPanorama"),
     };
 
     const uniforms = uniformsRef.current;
-    if (uniforms.uRadius) gl.uniform1f(uniforms.uRadius, 0.5);
-    if (uniforms.uStrength) gl.uniform1f(uniforms.uStrength, 0.5);
+    if (uniforms.uRadius) gl.uniform1f(uniforms.uRadius, 0.62);
+    if (uniforms.uStrength) gl.uniform1f(uniforms.uStrength, 0.22);
+    if (uniforms.uPanorama) gl.uniform1f(uniforms.uPanorama, panorama ? 1 : 0);
+    if (uniforms.uTexture) gl.uniform1i(uniforms.uTexture, 0);
 
     const texture = gl.createTexture();
     textureRef.current = texture;
+    gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -288,11 +353,93 @@ function BulgeCard({ title, imageSrc, index }: BulgeCardProps): ReactNode {
       new Uint8Array([128, 128, 128, 255])
     );
 
+    const drawFrame = () => {
+      if (!gl || !programRef.current || !imageLoadedRef.current || !textureRef.current) return;
+
+      mouseX.current += (targetMouseX.current - mouseX.current) * 0.045;
+      mouseY.current += (targetMouseY.current - mouseY.current) * 0.045;
+      bulgeValue.current += (targetBulge.current - bulgeValue.current) * 0.035;
+
+      gl.useProgram(programRef.current);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, textureRef.current);
+
+      const u = uniformsRef.current;
+      if (u.uTexture) gl.uniform1i(u.uTexture, 0);
+      if (u.uMouse) gl.uniform2f(u.uMouse, mouseX.current, mouseY.current);
+      if (u.uBulge) gl.uniform1f(u.uBulge, bulgeValue.current);
+
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    };
+
+    const isSettled = () =>
+      Math.abs(targetBulge.current - bulgeValue.current) < 0.001 &&
+      Math.abs(targetMouseX.current - mouseX.current) < 0.001 &&
+      Math.abs(targetMouseY.current - mouseY.current) < 0.001 &&
+      bulgeValue.current < 0.001;
+
+    const render = () => {
+      if (isDisposedRef.current) return;
+      if (!imageLoadedRef.current) {
+        rafRef.current = 0;
+        return;
+      }
+
+      drawFrame();
+
+      if (isSettled()) {
+        rafRef.current = 0;
+        return;
+      }
+
+      rafRef.current = requestAnimationFrame(render);
+    };
+
+    const startLoop = () => {
+      if (isDisposedRef.current || rafRef.current) return;
+      rafRef.current = requestAnimationFrame(render);
+    };
+
+    startLoopRef.current = startLoop;
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      const width = container.offsetWidth;
+      const height = container.offsetHeight;
+      if (width <= 0 || height <= 0) return;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+
+      const totalWidth = panorama
+        ? CARD_COUNT * width + (CARD_COUNT - 1) * CARD_GAP_PX
+        : width;
+      const sliceStart = panorama
+        ? (index * (width + CARD_GAP_PX)) / totalWidth
+        : 0;
+      const sliceWidth = panorama ? width / totalWidth : 1;
+
+      const u = uniformsRef.current;
+      if (u.uResolution) gl.uniform2f(u.uResolution, width, height);
+      if (u.uVirtualResolution) gl.uniform2f(u.uVirtualResolution, totalWidth, height);
+      if (u.uSliceStart) gl.uniform1f(u.uSliceStart, sliceStart);
+      if (u.uSliceWidth) gl.uniform1f(u.uSliceWidth, sliceWidth);
+      if (u.uPanorama) gl.uniform1f(u.uPanorama, panorama ? 1 : 0);
+
+      if (imageLoadedRef.current) {
+        drawFrame();
+      }
+    };
+
     const image = new Image();
-    image.crossOrigin = "anonymous";
+    image.decoding = "async";
     image.onload = () => {
       if (!gl || !texture || isDisposedRef.current) return;
       imageSizeRef.current = { width: image.width, height: image.height };
+      gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       imageLoadedRef.current = true;
@@ -300,91 +447,100 @@ function BulgeCard({ title, imageSrc, index }: BulgeCardProps): ReactNode {
       if (texResLoc) {
         gl.uniform2f(texResLoc, image.width, image.height);
       }
+      resize();
+      drawFrame();
+      setWebglReady(true);
+      startLoop();
+    };
+    image.onerror = () => {
+      setWebglReady(false);
     };
     image.src = imageSrc;
 
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio, 2);
-      const width = container.offsetWidth;
-      const height = container.offsetHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      gl.viewport(0, 0, canvas.width, canvas.height);
-      const resLoc = uniformsRef.current.uResolution;
-      if (resLoc) gl.uniform2f(resLoc, width, height);
-    };
-
     resize();
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(container);
     window.addEventListener("resize", resize);
-
-    const render = () => {
-      if (isDisposedRef.current) return;
-      
-      if (!gl || !programRef.current || !imageLoadedRef.current) {
-        rafRef.current = requestAnimationFrame(render);
-        return;
-      }
-
-      mouseX.current += (targetMouseX.current - mouseX.current) * 0.08;
-      mouseY.current += (targetMouseY.current - mouseY.current) * 0.08;
-      bulgeValue.current += (targetBulge.current - bulgeValue.current) * 0.06;
-
-      const u = uniformsRef.current;
-      if (u.uMouse) gl.uniform2f(u.uMouse, mouseX.current, mouseY.current);
-      if (u.uBulge) gl.uniform1f(u.uBulge, bulgeValue.current);
-
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
-      rafRef.current = requestAnimationFrame(render);
-    };
-
-    render();
 
     return () => {
       isDisposedRef.current = true;
+      startLoopRef.current = null;
       cancelAnimationFrame(rafRef.current);
+      rafRef.current = 0;
+      resizeObserver.disconnect();
       window.removeEventListener("resize", resize);
       if (program) gl.deleteProgram(program);
       if (texture) gl.deleteTexture(texture);
       glRef.current = null;
       programRef.current = null;
       textureRef.current = null;
+      setWebglReady(false);
     };
-  }, [imageSrc]);
+  }, [shouldInitWebgl, imageSrc, index, panorama]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
     targetMouseX.current = (e.clientX - rect.left) / rect.width;
     targetMouseY.current = (e.clientY - rect.top) / rect.height;
+    startLoopRef.current?.();
   }, []);
 
   const handleMouseEnter = useCallback(() => {
     targetBulge.current = 1;
+    startLoopRef.current?.();
   }, []);
 
   const handleMouseLeave = useCallback(() => {
     targetBulge.current = 0;
+    startLoopRef.current?.();
   }, []);
-
   return (
     <motion.div
       ref={containerRef}
-      className="group relative border border-border/25 aspect-4/5 w-full overflow-hidden rounded-xl cursor-pointer"
+      className="group relative aspect-4/5 w-full cursor-pointer overflow-hidden rounded-xl border border-border/25"
       onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        handleMouseEnter();
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        handleMouseLeave();
+      }}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       viewport={{ once: true }}
     >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 h-full w-full"
-        aria-hidden="true"
-      />
+      <motion.div
+        className="absolute inset-0 will-change-transform"
+        animate={{ scale: isHovered ? 1.055 : 1 }}
+        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {/* Fallback image when WebGL is unavailable or still loading */}
+        <div
+          className={panorama ? "absolute top-0 h-full" : "absolute inset-0"}
+          style={panorama ? panoramaStyle(index) : undefined}
+          aria-hidden={webglReady}
+        >
+          <NextImage
+            src={imageSrc}
+            alt=""
+            fill
+            className="object-cover"
+            sizes={panorama ? "1200px" : "(max-width: 640px) 100vw, 50vw"}
+            priority={index === 0}
+          />
+        </div>
+        <canvas
+          ref={canvasRef}
+          className={`absolute inset-0 h-full w-full transition-opacity duration-300 ${
+            webglReady ? "opacity-100" : "opacity-0"
+          }`}
+          aria-hidden="true"
+        />
+      </motion.div>
       <div
         className="pointer-events-none absolute inset-0 mix-blend-color"
         style={{
@@ -392,10 +548,17 @@ function BulgeCard({ title, imageSrc, index }: BulgeCardProps): ReactNode {
         }}
         aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-black/20" />
+      <motion.div
+        className="absolute inset-0"
+        animate={{
+          backgroundColor: isHovered ? "rgba(0,0,0,0.12)" : "rgba(0,0,0,0.22)",
+        }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      />
       <div className="absolute inset-0 flex items-center justify-center">
-        <h3 className="text-2xl font-medium tracking-tight text-white md:text-3xl">
-          {title}
+        <h3 className="text-center text-[32px] font-medium tracking-tight text-white">
+          <span className="block">{title}</span>
+          <span className="mt-1 block">解决方案</span>
         </h3>
       </div>
     </motion.div>
@@ -404,38 +567,58 @@ function BulgeCard({ title, imageSrc, index }: BulgeCardProps): ReactNode {
 
 export function ShowcaseCards(): ReactNode {
   const isSafari = useIsSafari();
+  const panorama = useIsThreeCol();
   const CardComponent = isSafari ? SafariCard : BulgeCard;
 
   return (
-    <section className="px-4 py-20 sm:px-6 md:py-28 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <h2 className="mb-12 text-2xl font-medium tracking-tight text-foreground md:text-3xl lg:text-4xl">
-          Pre-built designs, ready to customize
-        </h2>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {cards.map((card, index) => (
-            <CardComponent
-              key={card.title}
-              title={card.title}
-              imageSrc={card.image}
-              index={index}
+    <section
+      id="solutions"
+      className="bg-white px-4 py-[150px] dark:bg-black sm:px-6 lg:px-8"
+    >
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-8 sm:gap-10">
+        {/* 标题在卡片/图片上方 */}
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex max-w-3xl flex-col gap-2">
+            <StaggeredText
+              as="h2"
+              text="解决方案"
+              segmentBy="chars"
+              direction="bottom"
+              delay={70}
+              blur={false}
+              className="justify-start text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white"
             />
-          ))}
+            <StaggeredText
+              as="p"
+              text="一体化服务，全周期管理"
+              segmentBy="words"
+              direction="bottom"
+              delay={35}
+              blur={false}
+              className="justify-start text-[16px] leading-tight text-neutral-600 dark:text-neutral-400"
+            />
+          </div>
+
+          <OutlineCtaLink href="#" className="self-start sm:self-auto">
+            查看全部
+          </OutlineCtaLink>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 sm:flex-row items-start sm:justify-between">
-          <p className="max-w-md text-lg text-muted-foreground">
-            Skip the blank canvas. Start with curated presets crafted for
-            specific industries and use cases.
-          </p>
-          <Link
-            href="#"
-            className="group flex shrink-0 items-center leading-0 gap-2 text-xl font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            See all
-            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
-          </Link>
+        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          {cards.map((card, index) => (
+            <SpotlightCard
+              key={card.title}
+              className="rounded-xl"
+              spotlightColor="rgba(255, 255, 255, 0.3)"
+            >
+              <CardComponent
+                title={card.title}
+                imageSrc={PANORAMA_IMAGE}
+                index={index}
+                panorama={panorama}
+              />
+            </SpotlightCard>
+          ))}
         </div>
       </div>
     </section>
