@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 
 const navLinks = [
-  { href: "#", label: "首页" },
+  { href: "/", label: "首页" },
   { href: "#products", label: "产品服务" },
   { href: "#solutions", label: "解决方案" },
   { href: "#technology", label: "技术创新" },

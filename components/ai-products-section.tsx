@@ -7,7 +7,11 @@ import AccordionGallery from "@/components/react-bits/accordion-gallery";
 import StaggeredText from "@/components/react-bits/staggered-text";
 
 const galleryItems = [
-  { image: "/img/products/ai-doctor-platform.jpeg", label: "AI医生应用平台" },
+  {
+    image: "/img/products/ai-doctor-platform.jpeg",
+    label: "AI医生应用平台",
+    link: "/products/ai-doctor-platform",
+  },
   { image: "/img/products/ai-pre-consultation.jpeg", label: "AI预问诊系统" },
   { image: "/img/products/ai-health-portal.jpeg", label: "AI健康门户" },
   { image: "/img/products/research-digital-doctor.jpeg", label: "研究型数字医生平台" },

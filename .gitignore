@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules/
 /.pnp
 .pnp.*
 .yarn/*
@@ -12,12 +12,14 @@
 .pnpm-store/
 
 # testing
-/coverage
+coverage/
 
-# next.js
-/.next/
-/out/
-/dist/
+# next.js / compile output
+.next/
+out/
+dist/
+build/
+storybook-static/
 
 # production
 /build
@@ -49,6 +51,10 @@ next-env.d.ts
 .eslintcache
 .turbo/
 .cache/
+.parcel-cache/
+
+# generated source maps
+*.map
 
 # editor / local IDE
 .cursor/
@@ -63,14 +69,14 @@ next-env.d.ts
 *~
 
 # package manager leftovers
-npm-debug.log*
-yarn-error.log*
 package-lock.json.bak
 
 # build / export artifacts
 *.zip
 *.tgz
+*.tar.gz
 deliverables/**/*.zip
+deliverables/**/static-html/
 deliverables/screenshots/
 **/homepage-*-debug*.png
 **/_dbg_*.png

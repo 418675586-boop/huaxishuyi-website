@@ -5,35 +5,30 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import type { LucideIcon } from "lucide-react";
 import {
-  Activity,
-  ArrowDownToLine,
+  AlertTriangle,
   ArrowLeftRight,
   ArrowRight,
-  BookOpen,
+  BedDouble,
   Bot,
-  Boxes,
-  CalendarClock,
-  GitBranchPlus,
-  GraduationCap,
-  Layers,
-  LayoutDashboard,
-  LayoutGrid,
-  MonitorPlay,
-  Network,
-  Scale,
-  Share2,
-  ShieldOff,
-  Stethoscope,
-  TrendingUp,
-  Video,
+  Building2,
+  CircleCheck,
+  ClipboardList,
+  Clock,
+  FilePenLine,
+  Handshake,
+  Laptop,
+  Link2,
+  Microscope,
+  Shield,
+  Zap,
 } from "lucide-react";
 
 import { Header } from "@/components/header";
 import { BackToTop } from "@/components/back-to-top";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { OutlineCtaLink } from "@/components/outline-cta";
-import Comparison8 from "@/components/blocks/comparison-8";
-import Features12 from "@/components/blocks/features-12";
+import Comparison8DoctorPlatform from "@/components/blocks/comparison-8-doctor-platform";
+import Features12DoctorPlatform from "@/components/blocks/features-12-doctor-platform";
 import { CountUp } from "@/components/blocks/stats-10";
 import GradientBlinds from "@/components/GradientBlinds/GradientBlinds";
 
@@ -41,34 +36,32 @@ const CTA_GRADIENT_COLORS = ["#1496d9", "#3b82f6", "#9ec9ff"];
 
 const stats = [
   {
-    value: 7.7,
-    format: (n: number) => n.toFixed(1),
-    suffix: "万+",
-    label: "基层医疗机构覆盖（讯飞标杆）",
-  },
-  {
-    value: 12,
+    value: 84,
     format: (n: number) => `${Math.round(n)}`,
-    suffix: "亿+",
-    label: "累计辅助诊断建议次数",
+    suffix: "% ↓",
+    label: "病历录入时间缩减",
   },
   {
-    value: 52.6,
-    format: (n: number) => n.toFixed(1),
+    value: 98,
+    format: (n: number) => `${Math.round(n)}`,
     suffix: "%",
-    label: "基层诊疗人次占比",
+    label: "病历甲级率",
+  },
+  {
+    value: 40,
+    format: (n: number) => `${Math.round(n)}`,
+    suffix: "% ↓",
+    label: "医疗差错率下降",
   },
 ];
 
 const painHoverStyles = [
   {
-    // 蓝 → 薰衣草
     background:
       "linear-gradient(145deg, #3b82f6 0%, #6b8cff 45%, #b8a4f8 100%)",
     shadow: "0 18px 40px rgba(59, 130, 246, 0.28)",
   },
   {
-    // 中蓝
     background: "linear-gradient(180deg, #5ba8ff 0%, #3b82f6 55%, #2563eb 100%)",
     shadow: "0 18px 40px rgba(37, 99, 235, 0.28)",
   },
@@ -80,34 +73,40 @@ const pains: {
   icon: LucideIcon;
 }[] = [
   {
-    title: "数据壁垒高",
-    description: "各机构业务系统独立运行，患者信息无法跨机构共享，重复检查用药突出。",
-    icon: Boxes,
+    title: "文书负担过重",
+    description:
+      "病历书写占临床工作总时长的40%以上，每日花费2-3小时在重复性文书工作上，核心诊疗精力被严重稀释。",
+    icon: FilePenLine,
   },
   {
-    title: "资源分布不均",
-    description: "优质专家集中在上级医院，基层资源匮乏，患者无序流动，分级诊疗难落地。",
-    icon: Scale,
+    title: "多系统频繁切换",
+    description:
+      "HIS、EMR、LIS、PACS等数十套系统各自独立，医生需频繁切换登录、重复录入信息，操作碎片化严重。",
+    icon: ArrowLeftRight,
   },
   {
-    title: "基层能力薄弱",
-    description: "基层诊疗能力参差不齐，缺少上级专家实时指导，疑难重症识别率与信任度不足。",
-    icon: Stethoscope,
+    title: "病历质控滞后",
+    description:
+      "病历质控依赖事后抽查，问题发现时已错过修正窗口，病历甲级率提升困难，电子病历评级压力大。",
+    icon: Clock,
   },
   {
-    title: "转诊通道不畅",
-    description: "双向转诊依赖线下审批，就诊信息无法同步流转，转诊响应慢、链路易断裂。",
-    icon: GitBranchPlus,
+    title: "任务管理分散",
+    description:
+      "日程待办、随访任务、会诊通知、行政事务散落各处，缺乏统一工作入口，遗漏和延误频发。",
+    icon: ClipboardList,
   },
   {
-    title: "集团调度困难",
-    description: "多院区缺乏统一排班排床与号源调配，资源统筹效率低，运营管理分散。",
-    icon: Network,
+    title: "风险预警缺失",
+    description:
+      "危急值、药物相互作用、病情恶化等风险依赖人工识别，预警不及时，患者安全隐患大。",
+    icon: AlertTriangle,
   },
   {
-    title: "协同管控缺失",
-    description: "跨机构业务缺少统一权限、内容审计与运营监控，合规与效率难以保障。",
-    icon: ShieldOff,
+    title: "诊疗决策受限",
+    description:
+      "医生决策依赖个人经验，缺乏循证知识库和AI辅助，多专科信息整合视角有限，诊疗同质化难保障。",
+    icon: Building2,
   },
 ];
 
@@ -115,138 +114,106 @@ const architectureLayers = [
   {
     name: "场景层",
     items: [
+      "互联网医院",
+      "门诊接诊",
+      "住院查房",
       "远程会诊",
-      "数字MDT",
-      "双向转诊",
-      "资源调度",
-      "专科联盟",
-      "科研随访",
-      "平台运营",
+      "事务管理",
     ],
   },
   {
-    name: "协同层",
+    name: "工具层",
     items: [
-      "跨院诊疗协同",
-      "集团资源调度",
-      "专科联盟管理",
-      "统筹排班排床",
-      "号源智能调配",
-      "跨院信息查询",
-      "全域协同",
+      "病历AI助手",
+      "质控AI助手",
+      "病情监控AI",
+      "专科报告AI",
+      "任务管理AI",
+      "语音录入AI",
+    ],
+  },
+  {
+    name: "核心层",
+    items: [
+      "统一智能工作台",
+      "医疗+事务双核驱动",
+      "语音录入",
+      "病历生成",
+      "质控反馈",
+      "风险预警",
+      "任务提醒",
+      "统一入口",
     ],
   },
   {
     name: "引擎层",
     items: [
-      "医疗大模型",
+      "华西数医大模型",
       "多智能体协同",
-      "专家知识库",
-      "数字分身引擎",
-      "转诊决策引擎",
-      "资源调度算法",
+      "医学知识图谱",
+      "临床循证引擎",
+      "语音识别引擎",
     ],
   },
   {
-    name: "底座层",
+    name: "数据源",
     items: [
-      "患者360全景视图",
-      "跨机构数据中台",
-      "检验检查互认",
-      "影像共享中心",
-      "心电/病理共享",
-      "数据底座",
-    ],
-  },
-  {
-    name: "机构层",
-    items: [
-      "村卫生室",
-      "乡镇卫生院",
-      "县级医院",
-      "市级三甲",
-      "多院区",
-      "专科联盟",
+      "HIS/EMR院内数据",
+      "LIS/PACS检验检查",
+      "医嘱/护理数据",
+      "患者体征数据",
+      "排班/日程数据",
     ],
   },
 ];
 
-const roles: {
-  audience: string;
-  items: {
-    title: string;
-    description: string;
-    icon: LucideIcon;
-  }[];
+const applicationScenarios: {
+  category: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
 }[] = [
   {
-    audience: "面向基层医生：诊疗能力提升",
-    items: [
-      {
-        title: "AI辅助诊断决策",
-        description:
-          "AI大模型提供辅助诊断建议，辅助基层医生规范诊疗路径，累计提供超12亿次辅助诊断建议。",
-        icon: Bot,
-      },
-      {
-        title: "上级专家远程指导",
-        description:
-          "疑难重症实时申请上级专家远程会诊、远程查房指导，获取专家诊疗方案建议，提升诊断准确率。",
-        icon: Video,
-      },
-      {
-        title: "双向转诊一键发起",
-        description:
-          "线上智能转诊模块，精简线下审批流程，患者双向转诊、诊疗信息同步流转，转诊响应率达100%。",
-        icon: ArrowLeftRight,
-      },
-    ],
+    category: "线上场景",
+    title: "互联网医院",
+    description:
+      "AI驱动的全流程智慧服务，优化在线诊疗生态，自动关联患者数据，辅助线上问诊决策，自动生成线上问诊记录。",
+    icon: Laptop,
   },
   {
-    audience: "面向上级专家：知识数字沉淀",
-    items: [
-      {
-        title: "专家知识库构建",
-        description:
-          "专家诊疗经验、诊断路径数字化沉淀为可复用知识库，形成专家「数字分身」赋能基层。",
-        icon: BookOpen,
-      },
-      {
-        title: "远程会诊工作台",
-        description:
-          "专属工作端口支持远程会诊、数字MDT、跨院查房，实时调阅患者360全景数据，高效输出诊疗意见。",
-        icon: MonitorPlay,
-      },
-      {
-        title: "专科能力标准化输出",
-        description:
-          "将专科诊疗能力标准化输出至基层，推动专科联盟同质化发展，缩小上下级诊疗能力差距。",
-        icon: GraduationCap,
-      },
-    ],
+    category: "核心场景",
+    title: "门诊接诊",
+    description:
+      "AI赋能全流程创新，重塑门诊全流程，接诊前调阅病史，接诊中辅助决策，接诊后自动生成病历并质控。",
+    icon: Building2,
   },
   {
-    audience: "面向管理端：集团化统一管控",
-    items: [
-      {
-        title: "集团统筹资源调度",
-        description:
-          "多院区、医联体统筹排班、统一排床、号源智能调配，集团化运营效率显著提升。",
-        icon: CalendarClock,
-      },
-      {
-        title: "全域运营监控",
-        description:
-          "机构人员、AI模型、知识库、内容安全统一管理，权限审计、运营监控全流程保障合规高效。",
-        icon: Activity,
-      },
-      {
-        title: "智慧监管大屏",
-        description:
-          "依托医疗大数据动态监测核心业务指标，实现医疗风险全流程管控，提升精细化管理水平。",
-        icon: LayoutDashboard,
-      },
-    ],
+    category: "住院场景",
+    title: "住院查房",
+    description:
+      "AI驱动全周期诊疗协同，重构住院全链路，查房前病情摘要，查房中语音记录，查房后自动生成记录。",
+    icon: BedDouble,
+  },
+  {
+    category: "协同场景",
+    title: "远程会诊",
+    description:
+      "AI协同全流程智慧升级，重构会诊链路，自动汇聚多院数据，生成会诊摘要，辅助决策与记录。",
+    icon: Handshake,
+  },
+  {
+    category: "事务场景",
+    title: "事务管理",
+    description:
+      "AI驱动智慧政务中枢，赋能医院行政事务管理，日程、审批流程、会议纪要等事务智能处理。",
+    icon: ClipboardList,
+  },
+  {
+    category: "专科场景",
+    title: "专科报告辅助",
+    description:
+      "历史报告自动调取与病情变化对比，报告错别字检测纠错，报告意义解读与专科诊疗建议。",
+    icon: Microscope,
   },
 ];
 
@@ -256,67 +223,67 @@ const values: {
   icon: LucideIcon;
 }[] = [
   {
-    title: "全域资源互联互通",
+    title: "全场景能力集成，统一工作台入口",
     description:
-      "打破机构院区数据壁垒，患者信息、诊疗资源与专家能力跨院共享，互认项目达888项。",
-    icon: Share2,
+      "整合诊疗、文书、质控、任务管理各类工具，统一工作台入口，减少多系统频繁切换，操作效率显著提升。",
+    icon: Zap,
   },
   {
-    title: "优质资源精准下沉",
+    title: "文书减负，病历效率飞跃",
     description:
-      "专家知识库与数字分身赋能基层，辅助查房评估与出院研判，异常检出率从32%升至68%。",
-    icon: ArrowDownToLine,
+      "语音录入+AI病历生成，病历录入时间缩短84%，书写效率提升60%，每日节省2小时，病历甲级率达98%。",
+    icon: FilePenLine,
   },
   {
-    title: "分层AI精准赋能",
+    title: "质控前移，病历质量保障",
     description:
-      "适配基层医生、上级专家、管理端三类角色，覆盖诊疗辅助、知识沉淀与平台管控。",
-    icon: Layers,
+      "事前+事中+事后全流程质控，缺陷自动检出与一键纠错，病历当日完成率从68%升至99.2%，支撑电子病历评审。",
+    icon: CircleCheck,
   },
   {
-    title: "全业务场景一站式集成",
+    title: "风险预警，医疗安全提升",
     description:
-      "整合诊疗协同、资源调度、科研随访与专科联盟，一站式满足医联体运营，避免平台割裂。",
-    icon: LayoutGrid,
+      "危急值实时识别、药物相互作用拦截、病情恶化预测，主动推送风险预警，医疗差错率下降40%。",
+    icon: Shield,
   },
   {
-    title: "双向转诊闭环畅通",
+    title: "多AI联动，数据一次调用多处复用",
     description:
-      "线上智能转诊实现双向转诊与信息同步，上转优先诊疗检查住院，转诊响应率100%。",
-    icon: ArrowLeftRight,
+      "病历、质控、病情监控多类专项AI工具联动协同，数据一次调用多处复用，减少重复信息录入。",
+    icon: Bot,
   },
   {
-    title: "AI能力持续迭代进化",
+    title: "全流程闭环，问题可追踪可闭环",
     description:
-      "依托真实临床数据持续优化模型与知识库，平台能力自主进化，越用越智能、越用越精准。",
-    icon: TrendingUp,
+      "任务提醒、风险预警、质控反馈一体化，问题可追踪闭环处置，实现全流程闭环管控。",
+    icon: Link2,
   },
 ];
 
 const valueStats = [
   {
-    value: 7.7,
-    format: (n: number) => n.toFixed(1),
-    suffix: "万+",
-    label: "基层机构覆盖（讯飞标杆）",
-  },
-  {
-    value: 888,
+    value: 84,
     format: (n: number) => `${Math.round(n)}`,
-    suffix: "项",
-    label: "检验检查互认项目",
+    suffix: "% ↓",
+    label: "病历录入时间缩减",
   },
   {
-    value: 100,
+    value: 98,
     format: (n: number) => `${Math.round(n)}`,
     suffix: "%",
-    label: "双向转诊响应率",
+    label: "病历甲级率",
   },
   {
-    value: 50,
+    value: 40,
     format: (n: number) => `${Math.round(n)}`,
-    suffix: "%↑",
-    label: "双向转诊人次增长（vs2020）",
+    suffix: "% ↓",
+    label: "医疗差错率下降",
+  },
+  {
+    value: 2,
+    format: (n: number) => `${Math.round(n)}`,
+    suffix: "h+",
+    label: "每日节省文书时间",
   },
 ];
 
@@ -359,7 +326,6 @@ function PainCard({
           : undefined
       }
     >
-      {/* 悬停渐变：透明度淡入，避免硬切与描边 */}
       <div
         aria-hidden="true"
         className={`pointer-events-none absolute inset-0 rounded-[24px] transition-opacity duration-300 ease-out ${
@@ -409,7 +375,7 @@ function PainCard({
   );
 }
 
-export function AiMedicalAllianceProduct() {
+export default function AiDoctorPlatformPage() {
   return (
     <>
       <Header />
@@ -417,7 +383,6 @@ export function AiMedicalAllianceProduct() {
       <BackToTop />
 
       <main id="main-content" className="relative flex-1 dark:bg-neutral-950">
-        {/* 深色模式：页面底部淡光晕 */}
         <div
           aria-hidden="true"
           className="pointer-events-none fixed inset-x-0 bottom-0 z-0 hidden h-[55vh] dark:block"
@@ -427,6 +392,7 @@ export function AiMedicalAllianceProduct() {
           <div className="absolute left-[35%] bottom-[-15%] h-[240px] w-[420px] rounded-full bg-[#6b5b95]/15 blur-[120px]" />
           <div className="absolute -right-[8%] bottom-[-8%] h-[300px] w-[400px] rounded-full bg-[#2b4fd4]/19 blur-[110px]" />
         </div>
+
         {/* Hero */}
         <section className="relative z-[1] overflow-hidden bg-[#F4F5F7]/50 pt-[120px] pb-[90px] dark:bg-transparent">
           <div
@@ -451,17 +417,17 @@ export function AiMedicalAllianceProduct() {
                     大模型
                   </span>
                   <span className="mr-2 text-[12px] text-neutral-900 dark:text-neutral-100">
-                    多智能体 · 跨机构协同 · 分级诊疗连续服务
+                    华西数医大模型驱动 · 多智能体协同 · 医疗+事务双核驱动
                   </span>
                 </div>
 
                 <h1 className="text-[36px] font-semibold leading-tight tracking-tight text-neutral-950 dark:text-white sm:text-[44px]">
-                  AI医联体平台
+                  AI医生助手
                   <br />
-                  跨机构AI医疗协同赋能
+                  打通医务工作全链条
                 </h1>
                 <p className="max-w-2xl text-[14px] leading-relaxed text-neutral-600 dark:text-neutral-400">
-                  面向医联体、多院区、专科联盟的一体化跨机构医疗协同平台。以患者为核心，串联患者服务、基层医疗机构、上级专科资源与院内业务系统，打通院内外、上下级医疗服务链路，实现跨院诊疗协同、信息共享、资源下沉与集团化统一调度。
+                  聚焦临床医生的统一智能工作入口，聚合各类医疗AI能力，覆盖日程待办、门诊接诊、住院查房、病历撰写、病历质控、风险预警等全场景工作，协助医生完成95%+的医务工作，实现效率、质量、安全三重突破。
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3 pt-1">
@@ -483,8 +449,8 @@ export function AiMedicalAllianceProduct() {
                 className="relative overflow-hidden rounded-[20px] bg-neutral-200 dark:bg-neutral-900"
               >
                 <Image
-                  src="/img/products/ai-medical-alliance.jpeg"
-                  alt="AI 医联体平台"
+                  src="/img/products/ai-doctor-platform.jpeg"
+                  alt="AI 医生助手"
                   width={1200}
                   height={900}
                   className="h-auto w-full object-cover"
@@ -524,10 +490,10 @@ export function AiMedicalAllianceProduct() {
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>行业痛点</SectionLabel>
               <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
-                医联体协同的六大困局
+                临床医生的六大负担
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
-                机构间数据壁垒高、资源分布不均、基层能力薄弱，连续医疗服务体系建设面临系统性挑战
+                病历书写占临床工作40%以上，多系统切换、重复录入、质控滞后，医生核心诊疗精力被严重稀释
               </p>
             </div>
 
@@ -545,10 +511,10 @@ export function AiMedicalAllianceProduct() {
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>产品架构</SectionLabel>
               <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
-                五层架构 · 跨机构AI医疗协同底座
+                五层架构 · 统一智能工作入口
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
-                以患者360全景视图为核心底座，多智能体协同，构建从基层到专家的全链路协同生态
+                以华西数医大模型为核心引擎，多类专项AI工具联动协同，构建医疗+事务双核驱动的智能工作台
               </p>
             </div>
 
@@ -581,52 +547,49 @@ export function AiMedicalAllianceProduct() {
           </div>
         </section>
 
-        <Features12 />
+        <Features12DoctorPlatform />
 
-        {/* Roles */}
+        {/* Application scenarios */}
         <section className="relative z-[1] bg-[#F8F8F8] px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
-              <SectionLabel>分层赋能</SectionLabel>
+              <SectionLabel>应用场景</SectionLabel>
               <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
-                基层医生 · 上级专家 · 管理端 三角色协同
+                五大场景 · 全链路覆盖医务工作
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
-                针对性适配三类角色，实现诊疗辅助、知识沉淀、平台管控全覆盖
+                从互联网医院到住院查房，从门诊接诊到行政事务，AI驱动全场景智慧升级
               </p>
             </div>
 
-            <div className="flex flex-col gap-8">
-              {roles.map((role) => (
-                <div key={role.audience} className="flex flex-col gap-4">
-                  <h3 className="text-[18px] font-semibold text-neutral-950 dark:text-white">
-                    {role.audience}
-                  </h3>
-                  <div className="grid gap-4 sm:grid-cols-3">
-                    {role.items.map((item) => {
-                      const Icon = item.icon;
-                      return (
-                        <div
-                          key={item.title}
-                          className="flex flex-col gap-4 rounded-[16px] bg-white p-6 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:backdrop-blur-xl"
-                        >
-                          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-neutral-950 text-white dark:bg-white/15">
-                            <Icon className="h-5 w-5" aria-hidden="true" />
-                          </div>
-                          <div className="flex flex-col gap-2">
-                            <h4 className="text-[17px] font-semibold text-neutral-950 dark:text-white">
-                              {item.title}
-                            </h4>
-                            <p className="text-[14px] leading-relaxed text-neutral-600 dark:text-neutral-400">
-                              {item.description}
-                            </p>
-                          </div>
-                        </div>
-                      );
-                    })}
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+              {applicationScenarios.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <div
+                    key={item.title}
+                    className="flex flex-col gap-4 rounded-[16px] border-l-4 border-l-neutral-950 bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.04)] dark:bg-white/[0.06] dark:shadow-none dark:backdrop-blur-xl"
+                  >
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-neutral-950 text-white dark:bg-white/15">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex flex-wrap items-center gap-1">
+                        <h3 className="text-[17px] font-semibold text-neutral-950 dark:text-white">
+                          {item.title}
+                        </h3>
+                        <span className="inline-flex w-fit rounded-full bg-neutral-100 px-2.5 py-0.5 text-[11px] font-medium text-neutral-950 dark:bg-white/10 dark:text-white">
+                          {item.category}
+                        </span>
+                      </div>
+                      <p className="text-[14px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
@@ -637,10 +600,10 @@ export function AiMedicalAllianceProduct() {
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>核心价值</SectionLabel>
               <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
-                六大价值 · 协同提效 · 资源下沉
+                六大价值 · 效率 · 质量 · 安全三重突破
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
-                打破机构壁垒，让优质资源下沉基层，让数据在跨机构间安全流动
+                从文书减负到诊疗增效，从质控前移到风险防控，助推医疗数字化转型
               </p>
             </div>
 
@@ -706,7 +669,7 @@ export function AiMedicalAllianceProduct() {
           </div>
         </section>
 
-        <Comparison8 />
+        <Comparison8DoctorPlatform />
 
         {/* CTA */}
         <section
@@ -733,10 +696,10 @@ export function AiMedicalAllianceProduct() {
 
           <div className="relative z-10 mx-auto flex w-full max-w-[900px] flex-col items-center gap-8 text-center">
             <h2 className="text-[36px] font-semibold tracking-tight text-white">
-              让优质资源下沉基层 — 构建连续医疗服务新生态
+              让医生从文书减负回归诊疗核心
             </h2>
             <p className="max-w-2xl text-[16px] leading-relaxed text-white/80">
-              AI医联体平台与您携手，打破机构壁垒，打通上下级服务链路，实现跨院诊疗协同、信息共享、资源下沉与集团化统一调度。
+              AI医生助手与您携手，打通医务工作全链条，以「医疗+事务」双核驱动模式，实现效率、质量、安全三重突破，助推医疗数字化转型。
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
