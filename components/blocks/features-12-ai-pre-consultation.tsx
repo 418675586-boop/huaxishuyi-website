@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import type { LucideIcon } from "lucide-react";
 import {
-  AlertTriangle,
+  Bot,
   FileText,
   GitBranch,
   Layers,
@@ -113,11 +113,15 @@ const cards: FeatureCard[] = [
     ],
   },
   {
-    icon: AlertTriangle,
-    statement: "风险预警与急危重症识别",
+    icon: Bot,
+    statement: "疑似诊断辅助",
     description:
-      "基于高危症状、体征及危急值进行急危重症智能识别与转诊提示，保障患者安全，前置风险防控。",
-    points: ["高危症状实时识别", "急危重症转诊提示", "多维度病历质控"],
+      "参考腾讯健康临床助手（ACA）能力，根据采集的病史信息计算疑似诊断并按置信度排序展示，辅助医生前置研判。",
+    points: [
+      "3-5个疑似诊断按置信度排序",
+      "鉴别诊断方向提示",
+      "进一步检查检验建议",
+    ],
   },
 ];
 
@@ -160,7 +164,7 @@ export function Features12AiPreConsultation() {
             variants={fadeUp}
             className="mt-4 max-w-3xl text-[36px] font-semibold leading-[1.15] tracking-tight text-neutral-950 dark:text-white"
           >
-            七大核心能力 · 覆盖诊前采集全流程
+            八大核心能力 · 覆盖诊前采集全流程
           </motion.h2>
           <motion.p
             variants={fadeUp}
@@ -243,14 +247,16 @@ export function Features12AiPreConsultation() {
                     {card.points.map((point) => (
                       <li
                         key={point}
-                        className={`flex items-center gap-2 text-[12px] leading-snug sm:text-[13px] ${
+                        className={`flex min-w-0 items-center gap-1.5 text-[11px] leading-none sm:text-[12px] ${
                           active
                             ? "text-neutral-300 dark:text-neutral-700"
                             : "text-neutral-600 dark:text-neutral-300"
                         }`}
                       >
-                        <DoneIcon className="h-4 w-4 shrink-0 text-[#cdcdcd]" />
-                        <span>{point}</span>
+                        <DoneIcon className="h-3.5 w-3.5 shrink-0 text-[#cdcdcd]" />
+                        <span className="truncate whitespace-nowrap">
+                          {point}
+                        </span>
                       </li>
                     ))}
                   </ul>

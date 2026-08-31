@@ -143,6 +143,7 @@ const architectureLayers = [
       "临床标准化问诊逻辑",
       "医学知识图谱",
       "递进式问诊策略",
+      "核心引擎",
     ],
   },
   {
@@ -178,50 +179,43 @@ const applicationScenarios: {
     category: "核心场景",
     title: "线下门诊诊前预问诊",
     description:
-      "医院公众号或小程序在患者挂号后触发AI预问诊待办，患者在候诊期间完成前置表单和AI病情采集，预问诊结果同步至HIS医生端。",
+      "医院公众号或小程序在患者挂号后触发AI预问诊待办，患者在候诊期间完成前置表单和AI病情采集，预问诊结果同步至HIS医生端，供接诊医生查看、复制或引用。",
     icon: Building2,
   },
   {
     category: "高频场景",
     title: "互联网医院线上问诊前置",
     description:
-      "患者选择线上问诊医生后进入AI预问诊，通过前置表单和AI多轮问诊提前梳理病情并同步接诊医生，改善线上信息零散问题。",
+      "患者选择线上问诊医生后进入AI预问诊，通过前置表单和AI多轮问诊提前梳理病情并同步接诊医生，改善线上患者描述零散、信息不完整的问题。",
     icon: Laptop,
   },
   {
     category: "分级诊疗",
     title: "基层医联体/社区卫生服务中心",
     description:
-      "AI按照标准化框架采集患者病史，为基层医生提供接诊前信息参考，推动规范化问诊能力向基层延伸。",
+      "AI按照标准化框架采集患者病史，为基层医生提供接诊前信息参考，推动规范化问诊能力向基层延伸，缩小诊疗能力差距。",
     icon: Hospital,
   },
   {
     category: "专科定制",
     title: "专科门诊个性化预问诊",
     description:
-      "根据儿科、妇科、盆底等不同专科的业务需求，配置专科前置表单、问诊策略和结构化输出内容。",
+      "根据儿科、妇科、盆底等不同专科的业务需求，配置专科前置表单、问诊策略和结构化输出内容，满足专科病情采集需要。",
     icon: Baby,
   },
   {
     category: "连续医疗",
     title: "复诊患者诊前预问诊",
     description:
-      "针对复诊患者，结合本次就诊诉求采集症状变化、检查、用药及治疗反馈等信息，自动形成复诊前病情摘要。",
+      "针对复诊患者，结合本次就诊诉求采集症状变化、检查、用药及治疗反馈等信息，自动形成复诊前病情摘要并同步接诊医生。",
     icon: RefreshCw,
   },
   {
     category: "入院前置",
     title: "住院入院问诊信息采集",
     description:
-      "面向已开具入院证的患者，提前采集基础信息、专科病史、量表及相关资料，形成入院问诊记录，供医生和护士查看。",
+      "面向已开具入院证的患者，提前采集基础信息、专科病史、量表及相关资料，形成入院问诊记录，供医生和护士查看使用。",
     icon: BedDouble,
-  },
-  {
-    category: "一体化场景",
-    title: "数智问诊舱一体化场景",
-    description:
-      "扫码进入问诊流程，完成专科表单、量表、体征采集及AI入院问诊，体征与问诊结果合并生成入院评估报告，同步推送医生和护士工作站。",
-    icon: Link2,
   },
 ];
 
@@ -233,7 +227,7 @@ const values: {
   {
     title: "医生接诊效率提升40%",
     description:
-      "传统问诊中医生需花5-10分钟收集基础信息，AI预问诊前置完成后，医生接诊时间显著缩短，单位时间接诊量提升。",
+      "传统问诊中医生需花5-10分钟收集基础信息，AI预问诊前置完成后，医生接诊时间显著缩短，单位时间接诊量提升，高峰期压力缓解。",
     icon: Zap,
   },
   {
@@ -245,13 +239,13 @@ const values: {
   {
     title: "病史采集完整性显著提升",
     description:
-      "AI遵循临床标准化问诊逻辑，递进式采集主诉、既往史、用药史、过敏史等全维度信息，不漏关键病史。",
+      "AI遵循临床标准化问诊逻辑，递进式采集主诉、既往史、用药史、过敏史等全维度信息，不漏关键病史，保障诊疗质量。",
     icon: CheckCircle2,
   },
   {
     title: "患者候诊等待缩减60%",
     description:
-      "患者在候诊期间完成预问诊，有效利用等待时间；医生提前获取病情信息，患者感知等待时间缩短60%以上。",
+      "患者在候诊期间完成预问诊，有效利用等待时间；医生提前获取病情信息，接诊更高效，患者感知等待时间缩短60%以上。",
     icon: Clock,
   },
   {
@@ -300,6 +294,7 @@ const deliveryPlans: {
   description: string;
   suitable: string;
   icon: LucideIcon;
+  iconClassName?: string;
 }[] = [
   {
     title: "SaaS云端部署",
@@ -307,6 +302,7 @@ const deliveryPlans: {
       "云端开箱即用，无需本地基础设施投入，快速上线、弹性扩容，按需付费。",
     suitable: "基层诊所、社区卫生服务中心、中小医疗机构",
     icon: Cloud,
+    iconClassName: "h-6 w-6",
   },
   {
     title: "私有化部署",
@@ -321,6 +317,7 @@ const deliveryPlans: {
       "以API接口形式对接现有HIS/互联网医院平台，轻量集成，快速嵌入现有流程。",
     suitable: "已有信息化基础的医院、互联网医院平台",
     icon: Link2,
+    iconClassName: "h-6 w-6",
   },
 ];
 
@@ -683,7 +680,7 @@ export default function AiPreConsultationPage() {
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>应用场景</SectionLabel>
               <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
-                七大场景 · 全方位赋能诊前采集
+                六大场景 · 全方位赋能诊前采集
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
                 从门诊到住院，从三甲到基层，从线下到线上，构建全域诊前智能采集网络
@@ -743,7 +740,7 @@ export default function AiPreConsultationPage() {
                       <h3 className="mb-2 text-[18px] font-semibold tracking-tight text-neutral-950 dark:text-white sm:text-[20px]">
                         {item.title}
                       </h3>
-                      <p className="line-clamp-2 text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400 sm:text-[15px]">
+                      <p className="text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400 sm:text-[15px]">
                         {item.description}
                       </p>
                     </div>
@@ -805,7 +802,11 @@ export default function AiPreConsultationPage() {
                     className="flex flex-col gap-4 rounded-[16px] bg-[#F8F8F8] p-6 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:backdrop-blur-xl sm:p-7"
                   >
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-neutral-950 text-white dark:bg-white/15">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
+                      <Icon
+                        className={item.iconClassName ?? "h-5 w-5"}
+                        strokeWidth={1.75}
+                        aria-hidden="true"
+                      />
                     </div>
                     <div className="flex flex-col gap-2">
                       <h3 className="text-[18px] font-semibold text-neutral-950 dark:text-white">
