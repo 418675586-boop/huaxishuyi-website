@@ -12,9 +12,17 @@ const galleryItems = [
     label: "AI医生应用平台",
     link: "/products/ai-doctor-platform",
   },
-  { image: "/img/products/ai-pre-consultation.jpeg", label: "AI预问诊系统" },
+  {
+    image: "/img/products/ai-pre-consultation.jpeg",
+    label: "AI预问诊系统",
+    link: "/products/ai-pre-consultation",
+  },
   { image: "/img/products/ai-health-portal.jpeg", label: "AI健康门户" },
-  { image: "/img/products/research-digital-doctor.jpeg", label: "研究型数字医生平台" },
+  {
+    image: "/img/products/research-digital-doctor.jpeg",
+    label: "研究型数字医生平台",
+    link: "/products/research-digital-doctor",
+  },
   {
     image: "/img/products/ai-medical-alliance.jpeg",
     label: "AI医联体平台",

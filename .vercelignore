@@ -1,0 +1,11 @@
+.git
+.next
+node_modules
+.pnpm-store
+deliverables
+.cursor
+*.zip
+*.tgz
+.env
+.env.*
+!.env.example

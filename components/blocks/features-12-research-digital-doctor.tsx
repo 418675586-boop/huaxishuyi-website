@@ -5,14 +5,14 @@ import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import type { LucideIcon } from "lucide-react";
 import {
-  AlertTriangle,
-  BedDouble,
+  BookOpen,
+  Bot,
   CalendarDays,
-  FilePenLine,
-  FolderCheck,
-  Gem,
-  Mic,
-  ShieldCheck,
+  CircleCheck,
+  Link2,
+  RefreshCw,
+  Save,
+  Target,
 } from "lucide-react";
 
 type FeatureCard = {
@@ -44,84 +44,76 @@ function DoneIcon({ className }: { className?: string }) {
 
 const cards: FeatureCard[] = [
   {
-    icon: Mic,
-    statement: "智能语音录入",
+    icon: BookOpen,
+    statement: "知识库智能生成",
     description:
-      "医生口述实时转写，自动匹配标准病历模板，支持医学术语精准识别，单份病历录入时间缩减84%。",
+      "上传课题方案或管理协议，AI 自动结构化为纳入排除标准、必采内容、随访模板，秒级完成知识库构建。",
     points: [
-      "实时语音转写，准确率98%+",
-      "医学术语自动识别纠错",
-      "录入时间14.7→2.3分钟",
+      "协议文档 AI 自动解析",
+      "纳入排除标准自动提取",
+      "随访模板智能生成",
     ],
   },
   {
-    icon: FilePenLine,
-    statement: "AI病历生成",
+    icon: Target,
+    statement: "患者精准入组匹配",
     description:
-      "基于多模态智能体，自动生成结构化SOAP病历、入院记录、病程记录，临床采纳率与回写率达87.9%。",
+      "数字医生多轮问诊生成 SOAP 病历，自动匹配 Top3 适合的研究项目/管理组，入组效率提升 3-5 倍。",
     points: [
-      "SOAP病历自动生成",
-      "入院/病程/出院记录一键生成",
-      "书写效率提升60%，日省2小时",
+      "多轮问诊生成 SOAP 病历",
+      "Top3 项目智能推荐",
+      "入排标准逐条匹配（92.1% 准确率）",
     ],
   },
   {
-    icon: ShieldCheck,
-    statement: "病历质控反馈",
+    icon: CircleCheck,
+    statement: "入组智能审核",
     description:
-      "病历书写规范实时质控，自动检测缺陷与错别字，一键纠错，病历甲级率从85%提升至98%。",
-    points: [
-      "事前、事中、事后全流程质控",
-      "缺陷自动检测与一键纠错",
-      "当日完成率68%→99.2%",
-    ],
-  },
-  {
-    icon: AlertTriangle,
-    statement: "风险智能预警",
-    description:
-      "自动识别危急值、药物相互作用、病情恶化趋势，主动推送风险预警，医疗差错率下降40%。",
-    points: [
-      "危急值实时识别推送",
-      "药物相互作用智能拦截",
-      "病情恶化趋势预测预警",
-    ],
+      "患者画像与入组标准自动逐条对比（通过/不通过/待确认），AI 给出初审、终审决策建议，审核效率倍增。",
+    points: ["逐条标准自动比对", "初审/终审决策建议", "审核依据可回溯"],
   },
   {
     icon: CalendarDays,
-    statement: "日程待办管理",
+    statement: "全流程随访管控",
     description:
-      "工作日程、门诊排班、会诊通知、随访任务、行政事务统一管理，智能提醒确保任务不遗漏。",
-    points: ["多来源任务统一汇聚", "智能优先级排序提醒", "全流程任务闭环跟踪"],
+      "入组后任务日历驱动每日待办，病历库与对话历史可回溯，建立长期健康管理与随访照护。",
+    points: ["随访计划自动生成", "任务日历驱动执行", "随访数据实时采集"],
   },
   {
-    icon: Gem,
-    statement: "门诊接诊增强",
+    icon: Link2,
+    statement: "科研数据全链路溯源",
     description:
-      "接诊前自动调阅患者历史数据生成360患者画像，接诊中辅助诊断决策，接诊后自动生成病历。",
+      "病历可定位到对话原文，审核可回溯到推理依据，签署可重放签名轨迹，满足 GCP 合规要求。",
     points: [
-      "患者画像前置呈现",
-      "循证辅助诊断决策建议",
-      "接诊-病历-质控全流程闭环",
+      "病历 → 对话原文可定位",
+      "审核 → 推理依据可回溯",
+      "签署 → 签名轨迹可重放",
     ],
   },
   {
-    icon: BedDouble,
-    statement: "住院查房协同",
+    icon: Bot,
+    statement: "多智能体分工协同",
     description:
-      "查房前自动生成患者病情摘要与重点关注项，查房中语音记录查房意见，查房后自动生成查房记录。",
-    points: ["病情摘要自动生成", "查房语音实时转写", "查房记录自动成文"],
+      "搭载问诊、匹配、随访、结构化抽取、审核等多类专属智能体，精准适配科研全场景细分业务需求。",
+    points: ["专属智能体各司其职", "智能体间协同编排", "场景化精细分工"],
   },
   {
-    icon: FolderCheck,
-    statement: "专科报告辅助",
+    icon: Save,
+    statement: "知识资产沉淀复用",
     description:
-      "支持历史报告自动调取与病情变化对比，报告错别字自动检测一键纠错，解读报告临床意义。",
+      "沉淀医生专属审核策略、随访方案、补采策略，形成标准化科研资产，实现能力持续迭代复用。",
     points: [
-      "历史报告自动调取对比",
-      "病情变化趋势自动分析",
-      "报告解读与辅助建议",
+      "审核策略数字化沉淀",
+      "随访方案标准化复用",
+      "科研能力持续迭代",
     ],
+  },
+  {
+    icon: RefreshCw,
+    statement: "跨端数据高度统一",
+    description:
+      "依托标准化研究知识库，保障医患两端字段、标准、流程一致性，规避业务偏差，确保科研数据质量。",
+    points: ["医患两端字段统一", "标准与流程一致性", "业务偏差自动检测"],
   },
 ];
 
@@ -139,7 +131,7 @@ const fadeUp: Variants = {
   },
 };
 
-export function Features12DoctorPlatform() {
+export function Features12ResearchDigitalDoctor() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (
@@ -164,13 +156,13 @@ export function Features12DoctorPlatform() {
             variants={fadeUp}
             className="mt-4 max-w-3xl text-[36px] font-semibold leading-[1.15] tracking-tight text-neutral-950 dark:text-white"
           >
-            八大核心能力 · 覆盖医务工作全场景
+            八大核心能力 · 覆盖科研全链路
           </motion.h2>
           <motion.p
             variants={fadeUp}
             className="mt-3 max-w-2xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400"
           >
-            从语音录入到病历生成，从质控反馈到风险预警，构建全场景智能工作台
+            从知识库一键生成到科研数据全链路溯源，构建端到端的智能化科研闭环
           </motion.p>
         </motion.div>
 
@@ -194,7 +186,9 @@ export function Features12DoctorPlatform() {
                 tabIndex={0}
                 aria-pressed={active}
                 onClick={() =>
-                  setActiveIndex((current) => (current === index ? null : index))
+                  setActiveIndex((current) =>
+                    current === index ? null : index,
+                  )
                 }
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === " ") {
@@ -251,9 +245,7 @@ export function Features12DoctorPlatform() {
                             : "text-neutral-600 dark:text-neutral-300"
                         }`}
                       >
-                        <DoneIcon
-                          className="h-4 w-4 shrink-0 text-[#cdcdcd]"
-                        />
+                        <DoneIcon className="h-4 w-4 shrink-0 text-[#cdcdcd]" />
                         <span>{point}</span>
                       </li>
                     ))}
@@ -268,4 +260,4 @@ export function Features12DoctorPlatform() {
   );
 }
 
-export default Features12DoctorPlatform;
+export default Features12ResearchDigitalDoctor;

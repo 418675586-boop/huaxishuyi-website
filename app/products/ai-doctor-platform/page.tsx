@@ -8,20 +8,27 @@ import {
   AlertTriangle,
   ArrowLeftRight,
   ArrowRight,
-  BedDouble,
   Bot,
-  Building2,
-  CircleCheck,
+  CircleMinus,
   ClipboardList,
-  Clock,
   FilePenLine,
-  Handshake,
-  Laptop,
+  History,
   Link2,
-  Microscope,
-  Shield,
-  Zap,
 } from "lucide-react";
+import {
+  AffairsManagementIcon,
+  InpatientRoundIcon,
+  OnlineHospitalIcon,
+  OutpatientClinicIcon,
+  RemoteConsultationIcon,
+  SpecialtyReportIcon,
+} from "@/components/icons/application-scenario-icons";
+import {
+  MedicalRecordIcon,
+  ValueCubeIcon,
+  ValueShieldCheckIcon,
+  ValueSirenIcon,
+} from "@/components/icons/core-value-icons";
 
 import { Header } from "@/components/header";
 import { BackToTop } from "@/components/back-to-top";
@@ -88,7 +95,7 @@ const pains: {
     title: "病历质控滞后",
     description:
       "病历质控依赖事后抽查，问题发现时已错过修正窗口，病历甲级率提升困难，电子病历评级压力大。",
-    icon: Clock,
+    icon: History,
   },
   {
     title: "任务管理分散",
@@ -106,7 +113,7 @@ const pains: {
     title: "诊疗决策受限",
     description:
       "医生决策依赖个人经验，缺乏循证知识库和AI辅助，多专科信息整合视角有限，诊疗同质化难保障。",
-    icon: Building2,
+    icon: CircleMinus,
   },
 ];
 
@@ -178,42 +185,42 @@ const applicationScenarios: {
     title: "互联网医院",
     description:
       "AI驱动的全流程智慧服务，优化在线诊疗生态，自动关联患者数据，辅助线上问诊决策，自动生成线上问诊记录。",
-    icon: Laptop,
+    icon: OnlineHospitalIcon,
   },
   {
     category: "核心场景",
     title: "门诊接诊",
     description:
       "AI赋能全流程创新，重塑门诊全流程，接诊前调阅病史，接诊中辅助决策，接诊后自动生成病历并质控。",
-    icon: Building2,
+    icon: OutpatientClinicIcon,
   },
   {
     category: "住院场景",
     title: "住院查房",
     description:
       "AI驱动全周期诊疗协同，重构住院全链路，查房前病情摘要，查房中语音记录，查房后自动生成记录。",
-    icon: BedDouble,
+    icon: InpatientRoundIcon,
   },
   {
     category: "协同场景",
     title: "远程会诊",
     description:
       "AI协同全流程智慧升级，重构会诊链路，自动汇聚多院数据，生成会诊摘要，辅助决策与记录。",
-    icon: Handshake,
+    icon: RemoteConsultationIcon,
   },
   {
     category: "事务场景",
     title: "事务管理",
     description:
       "AI驱动智慧政务中枢，赋能医院行政事务管理，日程、审批流程、会议纪要等事务智能处理。",
-    icon: ClipboardList,
+    icon: AffairsManagementIcon,
   },
   {
     category: "专科场景",
     title: "专科报告辅助",
     description:
       "历史报告自动调取与病情变化对比，报告错别字检测纠错，报告意义解读与专科诊疗建议。",
-    icon: Microscope,
+    icon: SpecialtyReportIcon,
   },
 ];
 
@@ -226,25 +233,25 @@ const values: {
     title: "全场景能力集成，统一工作台入口",
     description:
       "整合诊疗、文书、质控、任务管理各类工具，统一工作台入口，减少多系统频繁切换，操作效率显著提升。",
-    icon: Zap,
+    icon: ValueCubeIcon,
   },
   {
     title: "文书减负，病历效率飞跃",
     description:
       "语音录入+AI病历生成，病历录入时间缩短84%，书写效率提升60%，每日节省2小时，病历甲级率达98%。",
-    icon: FilePenLine,
+    icon: MedicalRecordIcon,
   },
   {
     title: "质控前移，病历质量保障",
     description:
       "事前+事中+事后全流程质控，缺陷自动检出与一键纠错，病历当日完成率从68%升至99.2%，支撑电子病历评审。",
-    icon: CircleCheck,
+    icon: ValueShieldCheckIcon,
   },
   {
     title: "风险预警，医疗安全提升",
     description:
       "危急值实时识别、药物相互作用拦截、病情恶化预测，主动推送风险预警，医疗差错率下降40%。",
-    icon: Shield,
+    icon: ValueSirenIcon,
   },
   {
     title: "多AI联动，数据一次调用多处复用",
@@ -375,6 +382,95 @@ function PainCard({
   );
 }
 
+function ApplicationScenarioCard({
+  item,
+  index,
+}: {
+  item: (typeof applicationScenarios)[number];
+  index: number;
+}) {
+  const Icon = item.icon;
+  const [hoverStyle, setHoverStyle] = useState(painHoverStyles[0]);
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      onMouseEnter={() => {
+        setHoverStyle(
+          painHoverStyles[Math.floor(Math.random() * painHoverStyles.length)],
+        );
+        setIsHovered(true);
+      }}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`relative flex flex-col gap-4 overflow-hidden rounded-[16px] border-l-4 bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.04)] transition-[box-shadow,color,border-color] duration-300 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:shadow-none dark:backdrop-blur-xl ${
+        isHovered ? "border-l-white/40" : "border-l-neutral-950"
+      }`}
+      style={
+        isHovered
+          ? { boxShadow: hoverStyle.shadow, color: "#fff" }
+          : undefined
+      }
+    >
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 rounded-[16px] transition-opacity duration-300 ease-out ${
+          isHovered ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ background: hoverStyle.background }}
+      />
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 rounded-[16px] transition-opacity duration-300 ease-out ${
+          isHovered ? "opacity-[0.18]" : "opacity-0"
+        }`}
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          mixBlendMode: "overlay",
+        }}
+      />
+
+      <div
+        className={`relative z-[1] flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300 ${
+          isHovered
+            ? "bg-black/25 text-white"
+            : "bg-neutral-950 text-white dark:bg-white/15"
+        }`}
+      >
+        <Icon className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
+      </div>
+
+      <div className="relative z-[1] flex flex-col gap-2">
+        <div className="flex flex-wrap items-center gap-1">
+          <h3 className="text-[17px] font-semibold">{item.title}</h3>
+          <span
+            className={`inline-flex w-fit rounded-full px-2.5 py-0.5 text-[11px] font-medium transition-colors duration-300 ${
+              isHovered
+                ? "bg-white/20 text-white"
+                : "bg-neutral-100 text-neutral-950 dark:bg-white/10 dark:text-white"
+            }`}
+          >
+            {item.category}
+          </span>
+        </div>
+        <p
+          className={`text-[14px] leading-relaxed transition-colors duration-300 ${
+            isHovered
+              ? "text-white/90"
+              : "text-neutral-600 dark:text-neutral-400"
+          }`}
+        >
+          {item.description}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function AiDoctorPlatformPage() {
   return (
     <>
@@ -417,7 +513,7 @@ export default function AiDoctorPlatformPage() {
                     大模型
                   </span>
                   <span className="mr-2 text-[12px] text-neutral-900 dark:text-neutral-100">
-                    华西数医大模型驱动 · 多智能体协同 · 医疗+事务双核驱动
+                    华西数医大模型 · 多智能体协同 · 医事双核
                   </span>
                 </div>
 
@@ -563,33 +659,13 @@ export default function AiDoctorPlatformPage() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-              {applicationScenarios.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <div
-                    key={item.title}
-                    className="flex flex-col gap-4 rounded-[16px] border-l-4 border-l-neutral-950 bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.04)] dark:bg-white/[0.06] dark:shadow-none dark:backdrop-blur-xl"
-                  >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-neutral-950 text-white dark:bg-white/15">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <div className="flex flex-wrap items-center gap-1">
-                        <h3 className="text-[17px] font-semibold text-neutral-950 dark:text-white">
-                          {item.title}
-                        </h3>
-                        <span className="inline-flex w-fit rounded-full bg-neutral-100 px-2.5 py-0.5 text-[11px] font-medium text-neutral-950 dark:bg-white/10 dark:text-white">
-                          {item.category}
-                        </span>
-                      </div>
-                      <p className="text-[14px] leading-relaxed text-neutral-600 dark:text-neutral-400">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+              {applicationScenarios.map((item, index) => (
+                <ApplicationScenarioCard
+                  key={item.title}
+                  item={item}
+                  index={index}
+                />
+              ))}
             </div>
           </div>
         </section>

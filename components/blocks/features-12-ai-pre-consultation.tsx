@@ -6,13 +6,13 @@ import type { Variants } from "motion/react";
 import type { LucideIcon } from "lucide-react";
 import {
   AlertTriangle,
-  BedDouble,
-  CalendarDays,
-  FilePenLine,
-  FolderCheck,
-  Gem,
-  Mic,
-  ShieldCheck,
+  FileText,
+  GitBranch,
+  Layers,
+  Network,
+  Stethoscope,
+  Tags,
+  Workflow,
 } from "lucide-react";
 
 type FeatureCard = {
@@ -44,84 +44,80 @@ function DoneIcon({ className }: { className?: string }) {
 
 const cards: FeatureCard[] = [
   {
-    icon: Mic,
-    statement: "智能语音录入",
+    icon: Workflow,
+    statement: "双模式交互",
     description:
-      "医生口述实时转写，自动匹配标准病历模板，支持医学术语精准识别，单份病历录入时间缩减84%。",
+      "固定表单 + AI自主追问结合，兼顾操作便捷性与病史完整性。表单保障标准化采集，AI追问补齐个性化病情。",
     points: [
-      "实时语音转写，准确率98%+",
-      "医学术语自动识别纠错",
-      "录入时间14.7→2.3分钟",
+      "专科定制结构化表单",
+      "AI动态递进式追问",
+      "自然语言+点选双模式",
     ],
   },
   {
-    icon: FilePenLine,
-    statement: "AI病历生成",
+    icon: Stethoscope,
+    statement: "临床循证驱动",
     description:
-      "基于多模态智能体，自动生成结构化SOAP病历、入院记录、病程记录，临床采纳率与回写率达87.9%。",
+      "遵循真实医师问诊逻辑，复刻临床标准化问诊框架，不漏关键病史维度，采集逻辑符合临床诊疗规范。",
     points: [
-      "SOAP病历自动生成",
-      "入院/病程/出院记录一键生成",
-      "书写效率提升60%，日省2小时",
+      "主诉-现病史-既往史-用药史-过敏史",
+      "覆盖100+科室标准化问诊路径",
+      "递进式采集，模拟医生思维链",
     ],
   },
   {
-    icon: ShieldCheck,
-    statement: "病历质控反馈",
+    icon: FileText,
+    statement: "结构化病历自动生成",
     description:
-      "病历书写规范实时质控，自动检测缺陷与错别字，一键纠错，病历甲级率从85%提升至98%。",
+      "自动输出标准化结构化病历，遵循门诊电子病历书写规范，同步至HIS医生工作站，支持直接复用和编辑。",
     points: [
-      "事前、事中、事后全流程质控",
-      "缺陷自动检测与一键纠错",
-      "当日完成率68%→99.2%",
+      "主诉、现病史、既往史自动提取",
+      "病历书写时长缩短50%",
+      "医生一键引用，支持编辑修改",
+    ],
+  },
+  {
+    icon: Tags,
+    statement: "智能标签与重点标注",
+    description:
+      "为医生提供病情摘要、智能标签、重点标注，前置完成患者全维度病史收集，接诊时一目了然。",
+    points: ["病情摘要自动凝练", "关键风险标签高亮", "疑似诊断方向提示"],
+  },
+  {
+    icon: GitBranch,
+    statement: "全链路院内打通",
+    description:
+      "预问诊病历直推HIS医生工作站和护士工作站，支持直接复用编辑，实现「患者未到，信息先到」。",
+    points: ["HIS/EMR深度对接", "医生端同步查阅", "护士端入院信息同步"],
+  },
+  {
+    icon: Network,
+    statement: "多渠道全域覆盖",
+    description:
+      "线下门诊、线上问诊、基层医联体统一适配，全渠道一致体验，数据互通互联。",
+    points: [
+      "公众号/小程序/自助终端",
+      "互联网医院/远程问诊",
+      "基层社区/医联体终端",
+    ],
+  },
+  {
+    icon: Layers,
+    statement: "专科个性化配置",
+    description:
+      "根据儿科、妇科、盆底等不同专科的业务需求，配置专科前置表单、问诊策略和结构化输出内容。",
+    points: [
+      "专科问诊策略模板",
+      "专科量表嵌入（如盆底量表）",
+      "专科病历结构定制",
     ],
   },
   {
     icon: AlertTriangle,
-    statement: "风险智能预警",
+    statement: "风险预警与急危重症识别",
     description:
-      "自动识别危急值、药物相互作用、病情恶化趋势，主动推送风险预警，医疗差错率下降40%。",
-    points: [
-      "危急值实时识别推送",
-      "药物相互作用智能拦截",
-      "病情恶化趋势预测预警",
-    ],
-  },
-  {
-    icon: CalendarDays,
-    statement: "日程待办管理",
-    description:
-      "工作日程、门诊排班、会诊通知、随访任务、行政事务统一管理，智能提醒确保任务不遗漏。",
-    points: ["多来源任务统一汇聚", "智能优先级排序提醒", "全流程任务闭环跟踪"],
-  },
-  {
-    icon: Gem,
-    statement: "门诊接诊增强",
-    description:
-      "接诊前自动调阅患者历史数据生成360患者画像，接诊中辅助诊断决策，接诊后自动生成病历。",
-    points: [
-      "患者画像前置呈现",
-      "循证辅助诊断决策建议",
-      "接诊-病历-质控全流程闭环",
-    ],
-  },
-  {
-    icon: BedDouble,
-    statement: "住院查房协同",
-    description:
-      "查房前自动生成患者病情摘要与重点关注项，查房中语音记录查房意见，查房后自动生成查房记录。",
-    points: ["病情摘要自动生成", "查房语音实时转写", "查房记录自动成文"],
-  },
-  {
-    icon: FolderCheck,
-    statement: "专科报告辅助",
-    description:
-      "支持历史报告自动调取与病情变化对比，报告错别字自动检测一键纠错，解读报告临床意义。",
-    points: [
-      "历史报告自动调取对比",
-      "病情变化趋势自动分析",
-      "报告解读与辅助建议",
-    ],
+      "基于高危症状、体征及危急值进行急危重症智能识别与转诊提示，保障患者安全，前置风险防控。",
+    points: ["高危症状实时识别", "急危重症转诊提示", "多维度病历质控"],
   },
 ];
 
@@ -139,7 +135,7 @@ const fadeUp: Variants = {
   },
 };
 
-export function Features12DoctorPlatform() {
+export function Features12AiPreConsultation() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (
@@ -164,13 +160,13 @@ export function Features12DoctorPlatform() {
             variants={fadeUp}
             className="mt-4 max-w-3xl text-[36px] font-semibold leading-[1.15] tracking-tight text-neutral-950 dark:text-white"
           >
-            八大核心能力 · 覆盖医务工作全场景
+            七大核心能力 · 覆盖诊前采集全流程
           </motion.h2>
           <motion.p
             variants={fadeUp}
             className="mt-3 max-w-2xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400"
           >
-            从语音录入到病历生成，从质控反馈到风险预警，构建全场景智能工作台
+            双模式交互、临床循证驱动、全链路院内打通，打造真正的「诊前信息前置」
           </motion.p>
         </motion.div>
 
@@ -194,7 +190,9 @@ export function Features12DoctorPlatform() {
                 tabIndex={0}
                 aria-pressed={active}
                 onClick={() =>
-                  setActiveIndex((current) => (current === index ? null : index))
+                  setActiveIndex((current) =>
+                    current === index ? null : index,
+                  )
                 }
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === " ") {
@@ -204,7 +202,7 @@ export function Features12DoctorPlatform() {
                     );
                   }
                 }}
-                className={`group relative z-0 flex origin-center min-h-[320px] cursor-pointer flex-col rounded-3xl p-6 transition-[background-color,color] duration-300 ease-out sm:min-h-[340px] sm:p-7 ${
+                className={`group relative z-0 flex min-h-[320px] origin-center cursor-pointer flex-col rounded-3xl p-6 transition-[background-color,color] duration-300 ease-out sm:min-h-[340px] sm:p-7 ${
                   active
                     ? "bg-neutral-950 text-white shadow-[0_0_28px_rgba(0,0,0,0.14)] dark:bg-white dark:text-neutral-950 dark:shadow-[0_0_28px_rgba(0,0,0,0.28)]"
                     : "bg-white text-neutral-950 shadow-[0_0_24px_rgba(0,0,0,0.06)] dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
@@ -251,9 +249,7 @@ export function Features12DoctorPlatform() {
                             : "text-neutral-600 dark:text-neutral-300"
                         }`}
                       >
-                        <DoneIcon
-                          className="h-4 w-4 shrink-0 text-[#cdcdcd]"
-                        />
+                        <DoneIcon className="h-4 w-4 shrink-0 text-[#cdcdcd]" />
                         <span>{point}</span>
                       </li>
                     ))}
@@ -268,4 +264,4 @@ export function Features12DoctorPlatform() {
   );
 }
 
-export default Features12DoctorPlatform;
+export default Features12AiPreConsultation;
