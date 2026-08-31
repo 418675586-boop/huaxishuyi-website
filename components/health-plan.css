@@ -1,0 +1,345 @@
+.hp-stage,
+.hp-stage * {
+  box-sizing: border-box;
+}
+
+.hp-stage {
+  --ui-gradient: linear-gradient(90deg, #577fff 0%, #52a5ff 100%);
+  --ui-primary: #52a5ff;
+  --ui-assist: #edf3ff;
+  --ui-text-1: #081841;
+  --ui-text-2: #6c738c;
+  --ui-text-3: #aaaeba;
+  --ui-white: #ffffff;
+  --ui-bg-sub: #f3f5f7;
+  --ui-mask: rgb(1 1 1 / 50%);
+  --ui-warning: #ffaa5e;
+  --ui-disabled: #c7c9d1;
+  --ui-divider: #f0f0f0;
+  --ui-radius-m: 10px;
+  --ui-radius-l: 20px;
+  --ui-radius-pill: 100px;
+  --ui-shadow-card: 0 4px 20px 0 rgb(199 201 209 / 30%);
+  min-height: 100vh;
+  background: #e9edf1;
+  font-family: "PingFang SC", "苹方-简", "Microsoft YaHei", sans-serif;
+  color: var(--ui-text-1);
+}
+
+.hp-stage button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+}
+
+.hp-phone {
+  position: relative;
+  width: 375px;
+  height: 812px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--ui-bg-sub);
+}
+
+.hp-top {
+  width: 375px;
+  background: #ffffff;
+}
+
+.hp-statusbar {
+  display: block;
+  width: 375px;
+  height: 44px;
+  background: #ffffff;
+  object-fit: cover;
+}
+
+.hp-nav {
+  display: grid;
+  grid-template-columns: 44px 1fr 87px;
+  align-items: center;
+  width: 375px;
+  height: 44px;
+  padding: 0 10px 0 0;
+  background: #ffffff;
+}
+
+.hp-nav h1 {
+  margin: 0;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 44px;
+  text-align: center;
+  white-space: nowrap;
+  color: #010101;
+}
+
+.hp-nav-hit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+}
+
+.hp-actions button {
+  background: none;
+}
+
+.hp-back {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.hp-menu {
+  display: block;
+  width: 87px;
+  height: 32px;
+}
+
+.hp-body {
+  width: 375px;
+  height: 622px;
+  padding: 20px 14px 0;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.hp-body::-webkit-scrollbar {
+  display: none;
+}
+
+.hp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 347px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hp-card {
+  position: relative;
+  display: block;
+  width: 347px;
+  text-align: left;
+  border-radius: var(--ui-radius-m);
+  background: #ffffff;
+  box-shadow: var(--ui-shadow-card);
+}
+
+.hp-card-grid {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto 18px;
+  grid-template-areas:
+    "icon title tag tag"
+    "icon date  date chevron";
+  column-gap: 10px;
+  row-gap: 6px;
+  align-items: center;
+  width: 347px;
+  padding: 14px;
+}
+
+.hp-icon {
+  grid-area: icon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--ui-radius-m);
+  background: var(--ui-assist);
+}
+
+.hp-icon img {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.hp-title {
+  grid-area: title;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--ui-text-1);
+}
+
+.hp-date {
+  grid-area: date;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 16px;
+  font-style: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--ui-text-2);
+}
+
+.hp-tag {
+  grid-area: tag;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  padding: 4px;
+  border-radius: var(--ui-radius-pill);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.hp-tag.is-primary {
+  background: var(--ui-gradient);
+  color: #ffffff;
+}
+
+.hp-tag.is-soft {
+  background: var(--ui-assist);
+  color: #081841;
+}
+
+.hp-chevron {
+  grid-area: chevron;
+  display: block;
+  width: 18px;
+  height: 16px;
+}
+
+.hp-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--ui-radius-pill);
+  background: var(--ui-warning);
+  color: var(--ui-white);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.hp-foot {
+  display: flex;
+  justify-content: center;
+  width: 375px;
+  padding: 14px 14px 20px;
+  background: var(--ui-bg-sub);
+}
+
+.hp-stage button.hp-apply {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 347px;
+  height: 48px;
+  border-radius: var(--ui-radius-pill);
+  background: var(--ui-gradient);
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.hp-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 375px;
+  height: 20px;
+  background: var(--ui-bg-sub);
+}
+
+.hp-home i {
+  display: block;
+  width: 134px;
+  height: 5px;
+  border-radius: 100px;
+  background: #000;
+}
+
+.hp-mask {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ui-mask);
+}
+
+.hp-dialog {
+  width: 300px;
+  overflow: hidden;
+  background: var(--ui-white);
+  border-radius: var(--ui-radius-l);
+}
+
+.hp-dialog h2 {
+  margin: 0;
+  padding: 20px 20px 0;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.hp-dialog p {
+  margin: 10px 0 0;
+  padding: 0 20px 20px;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--ui-text-1);
+}
+
+.hp-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 50px;
+  border-top: 0.5px solid var(--ui-divider);
+}
+
+.hp-actions button {
+  height: 50px;
+  font-size: 16px;
+  color: var(--ui-text-2);
+}
+
+.hp-actions .is-primary {
+  border-left: 0.5px solid var(--ui-divider);
+  font-weight: 500;
+  color: var(--ui-primary);
+}
+
+.hp-toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 12;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 124px;
+  height: 50px;
+  padding: 0 16px;
+  border-radius: var(--ui-radius-m);
+  background: var(--ui-text-1);
+  color: var(--ui-white);
+  font-size: 14px;
+  transform: translate(-50%, -50%);
+}
