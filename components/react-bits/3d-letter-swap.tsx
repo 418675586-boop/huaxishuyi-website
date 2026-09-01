@@ -50,6 +50,8 @@ const extractTextFromChildren = (
 
     return "";
   }
+
+  return "";
 };
 
 interface SegmentedWord {

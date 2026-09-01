@@ -192,7 +192,7 @@ function SafariCard({ title, imageSrc, index, panorama }: BulgeCardProps): React
       >
         <div
           className={panorama ? "absolute top-0 h-full" : "absolute inset-0"}
-          style={panorama ? panoramaStyle(index) : undefined}
+          style={panorama ? panoramaStyle(index) : {}}
         >
           <NextImage
             src={imageSrc}
@@ -521,7 +521,7 @@ function BulgeCard({ title, imageSrc, index, panorama }: BulgeCardProps): ReactN
         {/* Fallback image when WebGL is unavailable or still loading */}
         <div
           className={panorama ? "absolute top-0 h-full" : "absolute inset-0"}
-          style={panorama ? panoramaStyle(index) : undefined}
+          style={panorama ? panoramaStyle(index) : {}}
           aria-hidden={webglReady}
         >
           <NextImage

@@ -1,25 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon, LucideProps } from "lucide-react";
 import {
   AlertTriangle,
   ArrowRight,
-  Baby,
-  BedDouble,
-  Building2,
-  CheckCircle2,
   ClipboardList,
-  Clock,
   Cloud,
+  DiamondPlus,
   FilePenLine,
-  Hospital,
-  Laptop,
+  HouseHeart,
   Link2,
   Puzzle,
-  RefreshCw,
   Server,
   ShieldCheck,
   Timer,
@@ -37,6 +31,225 @@ import { CountUp } from "@/components/blocks/stats-10";
 import GradientBlinds from "@/components/GradientBlinds/GradientBlinds";
 
 const CTA_GRADIENT_COLORS = ["#1496d9", "#3b82f6", "#9ec9ff"];
+
+/** 三根柱 + 上升趋势箭头，对齐参考图；24 格内留白与 Lucide 光学尺寸一致 */
+const ChartRisingIcon = forwardRef<SVGSVGElement, LucideProps>(
+  ({ className, strokeWidth = 1.5, absoluteStrokeWidth, ...props }, ref) => (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      preserveAspectRatio="xMidYMid meet"
+      className={className}
+      {...props}
+    >
+      <path d="M7 19V14" />
+      <path d="M12 19V11" />
+      <path d="M17 19V9" />
+      <path d="m4 12 3.5-3 3 2L18 5" />
+      <path d="M14 5h4v4" />
+    </svg>
+  ),
+);
+ChartRisingIcon.displayName = "ChartRisingIcon";
+
+/** 对话气泡 + 加号（用户图形，改描边以对齐同区 Lucide 1.5 粗细） */
+const MedicalMessagesIcon = forwardRef<SVGSVGElement, LucideProps>(
+  ({ className, strokeWidth = 1.5, absoluteStrokeWidth, ...props }, ref) => (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      preserveAspectRatio="xMidYMid meet"
+      className={className}
+      {...props}
+    >
+      <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+      <path d="M12 8v6" />
+      <path d="M9 11h6" />
+    </svg>
+  ),
+);
+MedicalMessagesIcon.displayName = "MedicalMessagesIcon";
+
+/** 几何沙漏（含底部沙粒），对齐参考图 */
+const HourglassSandIcon = forwardRef<SVGSVGElement, LucideProps>(
+  ({ className, strokeWidth = 1.5, absoluteStrokeWidth, ...props }, ref) => (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      preserveAspectRatio="xMidYMid meet"
+      className={className}
+      {...props}
+    >
+      <path d="M6 3h12" />
+      <path d="M6 21h12" />
+      <path d="M6 3v2l6 7 6-7V3" />
+      <path d="M6 21v-2l6-7 6 7v2" />
+      <path d="M9.5 17h5" />
+    </svg>
+  ),
+);
+HourglassSandIcon.displayName = "HourglassSandIcon";
+
+/** 显示器 + 加号（基于 Lucide Monitor，无变形） */
+const MonitorPlusIcon = forwardRef<SVGSVGElement, LucideProps>(
+  ({ className, strokeWidth = 1.5, absoluteStrokeWidth, ...props }, ref) => (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      preserveAspectRatio="xMidYMid meet"
+      className={className}
+      {...props}
+    >
+      <rect width="20" height="14" x="2" y="3" rx="2" />
+      <line x1="8" x2="16" y1="21" y2="21" />
+      <line x1="12" x2="12" y1="17" y2="21" />
+      <path d="M12 7v6" />
+      <path d="M9 10h6" />
+    </svg>
+  ),
+);
+MonitorPlusIcon.displayName = "MonitorPlusIcon";
+
+/** 对话气泡 + AI（气泡用 Lucide 路径，文字不拉伸） */
+const AiBubbleIcon = forwardRef<SVGSVGElement, LucideProps>(
+  ({ className, strokeWidth = 1.5, absoluteStrokeWidth, ...props }, ref) => (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      preserveAspectRatio="xMidYMid meet"
+      className={className}
+      {...props}
+    >
+      <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+      <text
+        x="12"
+        y="12"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fill="currentColor"
+        stroke="none"
+        fontSize="7.5"
+        fontWeight="700"
+        fontFamily="ui-sans-serif, system-ui, sans-serif"
+      >
+        AI
+      </text>
+    </svg>
+  ),
+);
+AiBubbleIcon.displayName = "AiBubbleIcon";
+
+/** 病床 + 医疗加号（按 Lucide 网格，无拉伸） */
+const MedicalBedIcon = forwardRef<SVGSVGElement, LucideProps>(
+  ({ className, strokeWidth = 1.5, absoluteStrokeWidth, ...props }, ref) => (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      preserveAspectRatio="xMidYMid meet"
+      className={className}
+      {...props}
+    >
+      <path d="M12 3v3" />
+      <path d="M10.5 4.5h3" />
+      <path d="M5 10v10" />
+      <path d="M19 10v10" />
+      <path d="M5 14h14" />
+      <path d="M5 18h14" />
+      <path d="M8 14a2 2 0 0 1 4 0" />
+    </svg>
+  ),
+);
+MedicalBedIcon.displayName = "MedicalBedIcon";
+
+/** 笑脸星星魔法棒（图一图形，图二黑底白描边样式；星形用 Lucide 路径防变形） */
+const SmileWandIcon = forwardRef<SVGSVGElement, LucideProps>(
+  ({ className, strokeWidth = 1.5, absoluteStrokeWidth, ...props }, ref) => (
+    <svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      preserveAspectRatio="xMidYMid meet"
+      className={className}
+      {...props}
+    >
+      <g transform="translate(1.1 0.2) scale(0.76) rotate(-14 12 12)">
+        <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
+        <circle
+          cx="10.2"
+          cy="11"
+          r="0.7"
+          fill="currentColor"
+          stroke="none"
+        />
+        <circle
+          cx="13.8"
+          cy="11"
+          r="0.7"
+          fill="currentColor"
+          stroke="none"
+        />
+        <path d="M10.2 13.1c.7.75 1.55 1.1 2.3 1.1s1.6-.35 2.3-1.1" />
+      </g>
+      <path d="M14.9 14.6 18.7 19.3" />
+    </svg>
+  ),
+);
+SmileWandIcon.displayName = "SmileWandIcon";
 
 const stats = [
   {
@@ -70,6 +283,13 @@ const painHoverStyles = [
     shadow: "0 18px 40px rgba(37, 99, 235, 0.28)",
   },
 ] as const;
+
+function pickPainHoverStyle() {
+  return (
+    painHoverStyles[Math.floor(Math.random() * painHoverStyles.length)] ??
+    painHoverStyles[0]
+  );
+}
 
 const pains: {
   title: string;
@@ -181,42 +401,42 @@ const applicationScenarios: {
     title: "线下门诊诊前预问诊",
     description:
       "医院公众号或小程序在患者挂号后触发AI预问诊待办，患者在候诊期间完成前置表单和AI病情采集，预问诊结果同步至HIS医生端，供接诊医生查看、复制或引用。",
-    icon: Building2,
+    icon: DiamondPlus,
   },
   {
     category: "高频场景",
     title: "互联网医院线上问诊前置",
     description:
       "患者选择线上问诊医生后进入AI预问诊，通过前置表单和AI多轮问诊提前梳理病情并同步接诊医生，改善线上患者描述零散、信息不完整的问题。",
-    icon: Laptop,
+    icon: MonitorPlusIcon as LucideIcon,
   },
   {
     category: "分级诊疗",
     title: "基层医联体/社区卫生服务中心",
     description:
       "AI按照标准化框架采集患者病史，为基层医生提供接诊前信息参考，推动规范化问诊能力向基层延伸，缩小诊疗能力差距。",
-    icon: Hospital,
+    icon: HouseHeart,
   },
   {
     category: "专科定制",
     title: "专科门诊个性化预问诊",
     description:
       "根据儿科、妇科、盆底等不同专科的业务需求，配置专科前置表单、问诊策略和结构化输出内容，满足专科病情采集需要。",
-    icon: Baby,
+    icon: SmileWandIcon as LucideIcon,
   },
   {
     category: "连续医疗",
     title: "复诊患者诊前预问诊",
     description:
       "针对复诊患者，结合本次就诊诉求采集症状变化、检查、用药及治疗反馈等信息，自动形成复诊前病情摘要并同步接诊医生。",
-    icon: RefreshCw,
+    icon: AiBubbleIcon as LucideIcon,
   },
   {
     category: "入院前置",
     title: "住院入院问诊信息采集",
     description:
       "面向已开具入院证的患者，提前采集基础信息、专科病史、量表及相关资料，形成入院问诊记录，供医生和护士查看使用。",
-    icon: BedDouble,
+    icon: MedicalBedIcon as LucideIcon,
   },
 ];
 
@@ -224,6 +444,7 @@ const values: {
   title: string;
   description: string;
   icon: LucideIcon;
+  iconClassName?: string;
 }[] = [
   {
     title: "医生接诊效率提升40%",
@@ -241,13 +462,13 @@ const values: {
     title: "病史采集完整性显著提升",
     description:
       "AI遵循临床标准化问诊逻辑，递进式采集主诉、既往史、用药史、过敏史等全维度信息，不漏关键病史，保障诊疗质量。",
-    icon: CheckCircle2,
+    icon: ChartRisingIcon as LucideIcon,
   },
   {
     title: "患者候诊等待缩减60%",
     description:
       "患者在候诊期间完成预问诊，有效利用等待时间；医生提前获取病情信息，接诊更高效，患者感知等待时间缩短60%以上。",
-    icon: Clock,
+    icon: HourglassSandIcon as LucideIcon,
   },
   {
     title: "病历质量与规范性保障",
@@ -259,7 +480,8 @@ const values: {
     title: "基层问诊能力同质化提升",
     description:
       "AI按照三甲医院标准化框架采集病史，为基层医生提供规范问诊模板和信息参考，推动优质问诊能力向基层延伸。",
-    icon: Hospital,
+    icon: MedicalMessagesIcon as LucideIcon,
+    iconClassName: "size-8",
   },
 ];
 
@@ -338,7 +560,9 @@ function PainCard({
   index: number;
 }) {
   const Icon = item.icon;
-  const [hoverStyle, setHoverStyle] = useState(painHoverStyles[0]);
+  const [hoverStyle, setHoverStyle] = useState<(typeof painHoverStyles)[number]>(
+    painHoverStyles[0],
+  );
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -348,17 +572,13 @@ function PainCard({
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       onMouseEnter={() => {
-        setHoverStyle(
-          painHoverStyles[Math.floor(Math.random() * painHoverStyles.length)],
-        );
+        setHoverStyle(pickPainHoverStyle());
         setIsHovered(true);
       }}
       onMouseLeave={() => setIsHovered(false)}
       className="group relative flex min-h-[320px] flex-col justify-between overflow-hidden rounded-[24px] bg-white p-7 text-neutral-950 shadow-[0_10px_30px_rgba(15,23,42,0.06)] transition-[box-shadow,color] duration-300 sm:p-8 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
       style={
-        isHovered
-          ? { boxShadow: hoverStyle.shadow, color: "#fff" }
-          : undefined
+        isHovered ? { boxShadow: hoverStyle.shadow, color: "#fff" } : {}
       }
     >
       <div
@@ -418,7 +638,9 @@ function ApplicationScenarioCard({
   index: number;
 }) {
   const Icon = item.icon;
-  const [hoverStyle, setHoverStyle] = useState(painHoverStyles[0]);
+  const [hoverStyle, setHoverStyle] = useState<(typeof painHoverStyles)[number]>(
+    painHoverStyles[0],
+  );
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -428,9 +650,7 @@ function ApplicationScenarioCard({
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       onMouseEnter={() => {
-        setHoverStyle(
-          painHoverStyles[Math.floor(Math.random() * painHoverStyles.length)],
-        );
+        setHoverStyle(pickPainHoverStyle());
         setIsHovered(true);
       }}
       onMouseLeave={() => setIsHovered(false)}
@@ -438,9 +658,7 @@ function ApplicationScenarioCard({
         isHovered ? "border-l-white/40" : "border-l-neutral-950"
       }`}
       style={
-        isHovered
-          ? { boxShadow: hoverStyle.shadow, color: "#fff" }
-          : undefined
+        isHovered ? { boxShadow: hoverStyle.shadow, color: "#fff" } : {}
       }
     >
       <div
@@ -463,13 +681,17 @@ function ApplicationScenarioCard({
       />
 
       <div
-        className={`relative z-[1] flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300 ${
+        className={`relative z-[1] flex size-11 shrink-0 items-center justify-center rounded-full transition-colors duration-300 ${
           isHovered
             ? "bg-black/25 text-white"
             : "bg-neutral-950 text-white dark:bg-white/15"
         }`}
       >
-        <Icon className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
+        <Icon
+          className="size-5 shrink-0 !transform-none"
+          strokeWidth={1.5}
+          aria-hidden="true"
+        />
       </div>
 
       <div className="relative z-[1] flex flex-col gap-2">
@@ -732,11 +954,13 @@ export default function AiPreConsultationPage() {
                     viewport={{ once: true }}
                     className="group relative z-0 flex origin-center items-start gap-5 rounded-3xl bg-white p-8 shadow-[0_0_24px_rgba(0,0,0,0.06)] dark:border dark:border-white/10 dark:bg-white/[0.06] dark:shadow-none dark:backdrop-blur-xl sm:gap-6"
                   >
-                    <Icon
-                      className="icon-flip-once h-10 w-10 shrink-0 text-neutral-900 dark:text-white"
-                      strokeWidth={1.5}
-                      aria-hidden="true"
-                    />
+                    <span className="inline-flex size-10 shrink-0 items-center justify-center">
+                      <Icon
+                        className={`icon-flip-once text-neutral-900 dark:text-white ${item.iconClassName ?? "size-10"}`}
+                        strokeWidth={1.5}
+                        aria-hidden="true"
+                      />
+                    </span>
                     <div className="min-w-0 flex-1 pt-0.5">
                       <h3 className="mb-2 text-[18px] font-semibold tracking-tight text-neutral-950 dark:text-white sm:text-[20px]">
                         {item.title}
