@@ -1,0 +1,267 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import {
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "motion/react";
+import * as THREE from "three";
+
+const rippleVertexShader = `
+  varying vec2 vUv;
+
+  void main() {
+    vUv = uv;
+    gl_Position = vec4(position.xy, 0.0, 1.0);
+  }
+`;
+
+const rippleFragmentShader = `
+  precision highp float;
+
+  varying vec2 vUv;
+  uniform vec2 uResolution;
+  uniform float uTime;
+  uniform float uTheme;
+
+  float ring(vec2 p, float radius, float width) {
+    float d = abs(length(p) - radius);
+    return 1.0 - smoothstep(0.0, width, d);
+  }
+
+  float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+  }
+
+  void main() {
+    vec2 aspect = vec2(uResolution.x / max(uResolution.y, 1.0), 1.0);
+    vec2 p = (vUv - 0.5) * aspect;
+    float dist = length(p);
+
+    float waves = 0.0;
+    for (int i = 0; i < 6; i++) {
+      float phase = fract(uTime * 0.05 + float(i) / 6.0);
+      float radius = phase * 1.35;
+      float fade = smoothstep(0.02, 0.2, radius) * (1.0 - smoothstep(0.5, 1.3, radius));
+      float width = 0.014 + radius * 0.055;
+      waves += ring(p, radius, width) * fade;
+    }
+    waves = min(waves, 1.0);
+
+    float glow = exp(-dist * 3.2);
+    float grain = hash(gl_FragCoord.xy) - 0.5;
+
+    vec3 lightColor = vec3(1.0)
+      - vec3(0.085, 0.083, 0.075) * waves
+      - vec3(0.030, 0.028, 0.020) * glow;
+    vec3 darkColor = vec3(0.039, 0.039, 0.043)
+      + vec3(0.62, 0.66, 0.74) * waves * 0.17
+      + vec3(0.25, 0.36, 0.52) * waves * 0.09
+      + vec3(0.10, 0.12, 0.18) * glow * 0.4;
+
+    vec3 color = mix(lightColor, darkColor, clamp(uTheme, 0.0, 1.0));
+    color += grain * 0.012;
+
+    gl_FragColor = vec4(color, 1.0);
+  }
+`;
+
+const tags = [
+  "统一平台",
+  "统一标准",
+  "统一数据",
+  "统一协同",
+  "统一安全",
+  "一个底座",
+  "五类应用",
+  "三大保障",
+];
+
+const container: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const isDarkTheme = () => {
+  const classes = document.documentElement.classList;
+  if (classes.contains("dark")) return true;
+  if (classes.contains("light")) return false;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+};
+
+function RippleField() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const host = containerRef.current;
+    if (!host) return;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    const material = new THREE.ShaderMaterial({
+      vertexShader: rippleVertexShader,
+      fragmentShader: rippleFragmentShader,
+      uniforms: {
+        uResolution: { value: new THREE.Vector2(1, 1) },
+        uTime: { value: 0 },
+        uTheme: { value: isDarkTheme() ? 1 : 0 },
+      },
+      depthWrite: false,
+      depthTest: false,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: false,
+        powerPreference: "high-performance",
+      });
+    } catch {
+      geometry.dispose();
+      material.dispose();
+      return;
+    }
+
+    Object.assign(renderer.domElement.style, {
+      position: "absolute",
+      inset: "0",
+      width: "100%",
+      height: "100%",
+    });
+    host.appendChild(renderer.domElement);
+
+    const clock = new THREE.Clock();
+    let themeTarget = material.uniforms.uTheme.value as number;
+    let frame = 0;
+
+    const renderScene = () => renderer.render(scene, camera);
+
+    const resize = () => {
+      const rect = host.getBoundingClientRect();
+      const width = Math.max(1, rect.width);
+      const height = Math.max(1, rect.height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(width, height, false);
+      material.uniforms.uResolution.value.set(width, height);
+      renderScene();
+    };
+
+    const tick = () => {
+      material.uniforms.uTime.value = clock.getElapsedTime();
+      const current = material.uniforms.uTheme.value as number;
+      material.uniforms.uTheme.value = current + (themeTarget - current) * 0.08;
+      renderScene();
+      frame = requestAnimationFrame(tick);
+    };
+
+    const syncTheme = () => {
+      themeTarget = isDarkTheme() ? 1 : 0;
+      if (reduceMotion) {
+        material.uniforms.uTheme.value = themeTarget;
+        renderScene();
+      }
+    };
+
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    media.addEventListener("change", syncTheme);
+
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(host);
+    resize();
+
+    if (reduceMotion) {
+      material.uniforms.uTime.value = 5.2;
+      renderScene();
+    } else {
+      frame = requestAnimationFrame(tick);
+    }
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      media.removeEventListener("change", syncTheme);
+      resizeObserver.disconnect();
+      scene.remove(mesh);
+      geometry.dispose();
+      material.dispose();
+      renderer.dispose();
+      if (renderer.domElement.parentElement === host) {
+        host.removeChild(renderer.domElement);
+      }
+    };
+  }, [reduceMotion]);
+
+  return (
+    <div
+      ref={containerRef}
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0"
+    />
+  );
+}
+
+export default function Waitlist6() {
+  return (
+    <section className="relative flex h-[400px] w-full items-center overflow-hidden bg-white px-4 py-16 dark:bg-neutral-950 sm:px-6 lg:px-8">
+      <RippleField />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_50%_50%,rgba(255,255,255,0.85),transparent_72%)] dark:bg-[radial-gradient(ellipse_65%_55%_at_50%_50%,rgba(10,10,10,0.85),transparent_72%)]" />
+
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        className="relative z-10 mx-auto w-full max-w-[1200px]"
+      >
+        <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
+          <motion.h2
+            variants={item}
+            className="text-[32px] font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-[40px]"
+          >
+            数智医共体 · 健康共同体
+          </motion.h2>
+
+          <motion.p
+            variants={item}
+            className="mt-4 max-w-xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400"
+          >
+            以统一数智底座赋能区域医共体高质量发展
+          </motion.p>
+
+          <motion.div
+            variants={item}
+            className="mt-8 flex w-full flex-nowrap items-center justify-center gap-2"
+          >
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="shrink-0 rounded-full border border-neutral-300/80 bg-white/70 px-3.5 py-1.5 text-[13px] text-neutral-700 backdrop-blur-md dark:border-white/20 dark:bg-white/10 dark:text-neutral-200"
+              >
+                {tag}
+              </span>
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}

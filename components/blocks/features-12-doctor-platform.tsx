@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import type { LucideIcon } from "lucide-react";
@@ -14,12 +13,14 @@ import {
   Mic,
   ShieldCheck,
 } from "lucide-react";
+import { FeatureCardGlow } from "@/components/blocks/feature-card-glow";
 
 type FeatureCard = {
   icon: LucideIcon;
   statement: string;
   description: string;
   points: [string, string, string];
+  glow: string;
 };
 
 function DoneIcon({ className }: { className?: string }) {
@@ -53,6 +54,7 @@ const cards: FeatureCard[] = [
       "医学术语自动识别纠错",
       "录入时间14.7→2.3分钟",
     ],
+    glow: "#d7c8f4",
   },
   {
     icon: FilePenLine,
@@ -64,6 +66,7 @@ const cards: FeatureCard[] = [
       "入院/病程/出院记录一键生成",
       "书写效率提升60%，日省2小时",
     ],
+    glow: "#f3cbb8",
   },
   {
     icon: ShieldCheck,
@@ -75,6 +78,7 @@ const cards: FeatureCard[] = [
       "缺陷自动检测与一键纠错",
       "当日完成率68%→99.2%",
     ],
+    glow: "#c5d8f6",
   },
   {
     icon: AlertTriangle,
@@ -86,6 +90,7 @@ const cards: FeatureCard[] = [
       "药物相互作用智能拦截",
       "病情恶化趋势预测预警",
     ],
+    glow: "#f0cfd6",
   },
   {
     icon: CalendarDays,
@@ -93,6 +98,7 @@ const cards: FeatureCard[] = [
     description:
       "工作日程、门诊排班、会诊通知、随访任务、行政事务统一管理，智能提醒确保任务不遗漏。",
     points: ["多来源任务统一汇聚", "智能优先级排序提醒", "全流程任务闭环跟踪"],
+    glow: "#c9e6dc",
   },
   {
     icon: Gem,
@@ -104,6 +110,7 @@ const cards: FeatureCard[] = [
       "循证辅助诊断决策建议",
       "接诊-病历-质控全流程闭环",
     ],
+    glow: "#d0d6f6",
   },
   {
     icon: BedDouble,
@@ -111,6 +118,7 @@ const cards: FeatureCard[] = [
     description:
       "查房前自动生成患者病情摘要与重点关注项，查房中语音记录查房意见，查房后自动生成查房记录。",
     points: ["病情摘要自动生成", "查房语音实时转写", "查房记录自动成文"],
+    glow: "#c6e3ee",
   },
   {
     icon: FolderCheck,
@@ -122,6 +130,7 @@ const cards: FeatureCard[] = [
       "病情变化趋势自动分析",
       "报告解读与辅助建议",
     ],
+    glow: "#e6d4f0",
   },
 ];
 
@@ -140,8 +149,6 @@ const fadeUp: Variants = {
 };
 
 export function Features12DoctorPlatform() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
   return (
     <section
       id="capabilities"
@@ -183,60 +190,27 @@ export function Features12DoctorPlatform() {
         >
           {cards.map((card, index) => {
             const Icon = card.icon;
-            const active = activeIndex === index;
 
             return (
               <motion.article
                 key={card.statement}
                 variants={fadeUp}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                role="button"
-                tabIndex={0}
-                aria-pressed={active}
-                onClick={() =>
-                  setActiveIndex((current) => (current === index ? null : index))
-                }
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setActiveIndex((current) =>
-                      current === index ? null : index,
-                    );
-                  }
-                }}
-                className={`group relative z-0 flex origin-center min-h-[320px] cursor-pointer flex-col rounded-3xl p-6 transition-[background-color,color] duration-300 ease-out sm:min-h-[340px] sm:p-7 ${
-                  active
-                    ? "bg-neutral-950 text-white shadow-[0_0_28px_rgba(0,0,0,0.14)] dark:bg-white dark:text-neutral-950 dark:shadow-[0_0_28px_rgba(0,0,0,0.28)]"
-                    : "bg-white text-neutral-950 shadow-[0_0_24px_rgba(0,0,0,0.06)] dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
-                }`}
+                className="group relative z-0 flex min-h-[320px] origin-center flex-col overflow-hidden rounded-3xl bg-white p-6 text-neutral-950 shadow-[0_0_24px_rgba(0,0,0,0.06)] sm:min-h-[340px] sm:p-7 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
               >
+                <FeatureCardGlow color={card.glow} delayMs={index * 700} />
+
                 <Icon
-                  className={`icon-flip-once h-8 w-8 shrink-0 ${
-                    active
-                      ? "text-white dark:text-neutral-950"
-                      : "text-neutral-900 dark:text-white"
-                  }`}
+                  className="icon-flip-once relative z-[1] h-8 w-8 shrink-0 text-neutral-900 dark:text-white"
                   strokeWidth={1.5}
                 />
 
-                <div className="mt-auto flex flex-col gap-4">
+                <div className="relative z-[1] mt-auto flex flex-col gap-4">
                   <div>
-                    <h3
-                      className={`text-[20px] font-medium leading-snug tracking-tight sm:text-[22px] ${
-                        active
-                          ? "text-white dark:text-neutral-950"
-                          : "text-neutral-900 dark:text-white"
-                      }`}
-                    >
+                    <h3 className="text-[20px] font-medium leading-snug tracking-tight text-neutral-900 sm:text-[22px] dark:text-white">
                       {card.statement}
                     </h3>
-                    <p
-                      className={`mt-3 line-clamp-3 min-h-[calc(1.625em*3)] text-[13px] leading-relaxed sm:text-[14px] ${
-                        active
-                          ? "text-neutral-400 dark:text-neutral-600"
-                          : "text-neutral-600 dark:text-neutral-400"
-                      }`}
-                    >
+                    <p className="mt-3 line-clamp-3 min-h-[calc(1.625em*3)] text-[13px] leading-relaxed text-neutral-600 sm:text-[14px] dark:text-neutral-400">
                       {card.description}
                     </p>
                   </div>
@@ -245,11 +219,7 @@ export function Features12DoctorPlatform() {
                     {card.points.map((point) => (
                       <li
                         key={point}
-                        className={`flex items-center gap-2 text-[12px] leading-snug sm:text-[13px] ${
-                          active
-                            ? "text-neutral-300 dark:text-neutral-700"
-                            : "text-neutral-600 dark:text-neutral-300"
-                        }`}
+                        className="flex items-center gap-2 text-[12px] leading-snug text-neutral-600 sm:text-[13px] dark:text-neutral-300"
                       >
                         <DoneIcon
                           className="h-4 w-4 shrink-0 text-[#cdcdcd]"

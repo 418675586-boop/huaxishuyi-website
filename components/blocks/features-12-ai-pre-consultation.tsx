@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import type { LucideIcon } from "lucide-react";
@@ -14,12 +13,14 @@ import {
   Tags,
   Workflow,
 } from "lucide-react";
+import { FeatureCardGlow } from "@/components/blocks/feature-card-glow";
 
 type FeatureCard = {
   icon: LucideIcon;
   statement: string;
   description: string;
   points: [string, string, string];
+  glow: string;
 };
 
 function DoneIcon({ className }: { className?: string }) {
@@ -53,6 +54,7 @@ const cards: FeatureCard[] = [
       "AI动态递进式追问",
       "自然语言+点选双模式",
     ],
+    glow: "#d7c8f4",
   },
   {
     icon: Stethoscope,
@@ -64,6 +66,7 @@ const cards: FeatureCard[] = [
       "覆盖100+科室标准化问诊路径",
       "递进式采集，模拟医生思维链",
     ],
+    glow: "#f3cbb8",
   },
   {
     icon: FileText,
@@ -75,6 +78,7 @@ const cards: FeatureCard[] = [
       "病历书写时长缩短50%",
       "医生一键引用，支持编辑修改",
     ],
+    glow: "#c5d8f6",
   },
   {
     icon: Tags,
@@ -82,6 +86,7 @@ const cards: FeatureCard[] = [
     description:
       "为医生提供病情摘要、智能标签、重点标注，前置完成患者全维度病史收集，接诊时一目了然。",
     points: ["病情摘要自动凝练", "关键风险标签高亮", "疑似诊断方向提示"],
+    glow: "#f0cfd6",
   },
   {
     icon: GitBranch,
@@ -89,6 +94,7 @@ const cards: FeatureCard[] = [
     description:
       "预问诊病历直推HIS医生工作站和护士工作站，支持直接复用编辑，实现「患者未到，信息先到」。",
     points: ["HIS/EMR深度对接", "医生端同步查阅", "护士端入院信息同步"],
+    glow: "#c9e6dc",
   },
   {
     icon: Network,
@@ -100,6 +106,7 @@ const cards: FeatureCard[] = [
       "互联网医院/远程问诊",
       "基层社区/医联体终端",
     ],
+    glow: "#d0d6f6",
   },
   {
     icon: Layers,
@@ -111,6 +118,7 @@ const cards: FeatureCard[] = [
       "专科量表嵌入（如盆底量表）",
       "专科病历结构定制",
     ],
+    glow: "#c6e3ee",
   },
   {
     icon: Bot,
@@ -122,6 +130,7 @@ const cards: FeatureCard[] = [
       "鉴别诊断方向提示",
       "进一步检查检验建议",
     ],
+    glow: "#e6d4f0",
   },
 ];
 
@@ -140,8 +149,6 @@ const fadeUp: Variants = {
 };
 
 export function Features12AiPreConsultation() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
   return (
     <section
       id="capabilities"
@@ -183,62 +190,27 @@ export function Features12AiPreConsultation() {
         >
           {cards.map((card, index) => {
             const Icon = card.icon;
-            const active = activeIndex === index;
 
             return (
               <motion.article
                 key={card.statement}
                 variants={fadeUp}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                role="button"
-                tabIndex={0}
-                aria-pressed={active}
-                onClick={() =>
-                  setActiveIndex((current) =>
-                    current === index ? null : index,
-                  )
-                }
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setActiveIndex((current) =>
-                      current === index ? null : index,
-                    );
-                  }
-                }}
-                className={`group relative z-0 flex min-h-[320px] origin-center cursor-pointer flex-col rounded-3xl p-6 transition-[background-color,color] duration-300 ease-out sm:min-h-[340px] sm:p-7 ${
-                  active
-                    ? "bg-neutral-950 text-white shadow-[0_0_28px_rgba(0,0,0,0.14)] dark:bg-white dark:text-neutral-950 dark:shadow-[0_0_28px_rgba(0,0,0,0.28)]"
-                    : "bg-white text-neutral-950 shadow-[0_0_24px_rgba(0,0,0,0.06)] dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
-                }`}
+                className="group relative z-0 flex min-h-[320px] origin-center flex-col overflow-hidden rounded-3xl bg-white p-6 text-neutral-950 shadow-[0_0_24px_rgba(0,0,0,0.06)] sm:min-h-[340px] sm:p-7 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
               >
+                <FeatureCardGlow color={card.glow} delayMs={index * 700} />
+
                 <Icon
-                  className={`icon-flip-once h-8 w-8 shrink-0 ${
-                    active
-                      ? "text-white dark:text-neutral-950"
-                      : "text-neutral-900 dark:text-white"
-                  }`}
+                  className="icon-flip-once relative z-[1] h-8 w-8 shrink-0 text-neutral-900 dark:text-white"
                   strokeWidth={1.5}
                 />
 
-                <div className="mt-auto flex flex-col gap-4">
+                <div className="relative z-[1] mt-auto flex flex-col gap-4">
                   <div>
-                    <h3
-                      className={`text-[20px] font-medium leading-snug tracking-tight sm:text-[22px] ${
-                        active
-                          ? "text-white dark:text-neutral-950"
-                          : "text-neutral-900 dark:text-white"
-                      }`}
-                    >
+                    <h3 className="text-[20px] font-medium leading-snug tracking-tight text-neutral-900 sm:text-[22px] dark:text-white">
                       {card.statement}
                     </h3>
-                    <p
-                      className={`mt-3 line-clamp-3 min-h-[calc(1.625em*3)] text-[13px] leading-relaxed sm:text-[14px] ${
-                        active
-                          ? "text-neutral-400 dark:text-neutral-600"
-                          : "text-neutral-600 dark:text-neutral-400"
-                      }`}
-                    >
+                    <p className="mt-3 line-clamp-3 min-h-[calc(1.625em*3)] text-[13px] leading-relaxed text-neutral-600 sm:text-[14px] dark:text-neutral-400">
                       {card.description}
                     </p>
                   </div>
@@ -247,11 +219,7 @@ export function Features12AiPreConsultation() {
                     {card.points.map((point) => (
                       <li
                         key={point}
-                        className={`flex min-w-0 items-center gap-1.5 text-[11px] leading-none sm:text-[12px] ${
-                          active
-                            ? "text-neutral-300 dark:text-neutral-700"
-                            : "text-neutral-600 dark:text-neutral-300"
-                        }`}
+                        className="flex min-w-0 items-center gap-1.5 text-[11px] leading-none text-neutral-600 sm:text-[12px] dark:text-neutral-300"
                       >
                         <DoneIcon className="h-3.5 w-3.5 shrink-0 text-[#cdcdcd]" />
                         <span className="truncate whitespace-nowrap">

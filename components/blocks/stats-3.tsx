@@ -5,16 +5,16 @@ import { useEffect, useRef } from "react";
 
 const stats = [
   {
-    value: "12x",
-    label: "更快部署率",
+    value: "87.6%",
+    label: "双向转诊协同效率",
   },
   {
-    value: "99.99",
-    label: "系统可用性",
+    value: "91.2%",
+    label: "风险预警准确率",
   },
 ];
 
-export default function Stats3() {
+export default function Stats3({ embedded = false }: { embedded?: boolean }) {
   const marquee1Ref = useRef<HTMLDivElement>(null);
   const marquee2Ref = useRef<HTMLDivElement>(null);
 
@@ -53,135 +53,126 @@ export default function Stats3() {
     };
   }, []);
 
-  return (
-    <section className="w-full py-12 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-950">
-      <div className="max-w-[1400px] mx-auto w-full">
-        {/* Stats Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="bg-black rounded-2xl sm:rounded-3xl overflow-hidden border dark:border-neutral-900"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            {/* Left Column - Content */}
-            <div className="p-8 sm:p-10 md:p-12 lg:p-16 flex flex-col justify-center">
-              <motion.h2
+  const card = (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      className="overflow-hidden rounded-2xl border bg-black sm:rounded-3xl dark:border-neutral-900"
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="flex flex-col justify-center p-8 sm:p-10 md:p-12 lg:p-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mb-6 text-3xl font-medium leading-tight text-white sm:mb-8 sm:text-4xl md:text-4xl"
+          >
+            四维成效协同提升
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="mb-8 text-[14px] leading-relaxed tracking-tight text-neutral-300 sm:mb-12"
+          >
+            围绕医院管理、基层赋能、群众服务与数智支撑四个维度，全面提升医共体统筹运营、资源下沉、协同服务与智能化能力，推动区域医疗服务更加高效、便捷、连续。
+          </motion.p>
+
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-12">
+            {stats.map((stat, index) => (
+              <motion.div
+                key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="text-3xl sm:text-4xl md:text-4xl font-medium text-white leading-tight mb-6 sm:mb-8"
+                transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                className="flex flex-col gap-2"
               >
-                华西数字医医疗大模型
-              </motion.h2>
+                <span className="text-4xl font-medium tracking-tight text-white sm:text-5xl md:text-6xl">
+                  {stat.value}
+                </span>
+                <span className="whitespace-nowrap text-base text-neutral-400">
+                  {stat.label}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="text-base sm:text-lg text-neutral-300 tracking-tight leading-relaxed mb-8 sm:mb-12"
-              >
-                面相医疗机构全域的医疗垂直模型
-              </motion.p>
+        <div className="relative h-[400px] overflow-hidden bg-black sm:h-[500px] lg:h-auto">
+          <div className="pointer-events-none absolute inset-0 z-20 bg-linear-to-b from-black via-black/60 via-30% to-transparent lg:bg-linear-to-r" />
 
-              {/* Stats Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12">
-                {stats.map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                    className="flex flex-col gap-2"
-                  >
-                    <span className="text-4xl sm:text-5xl md:text-6xl font-medium text-white tracking-tight">
-                      {stat.value}
-                    </span>
-                    <span className="text-base text-neutral-400 whitespace-nowrap">
-                      {stat.label}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
+          <div className="absolute inset-0" style={{ isolation: "isolate" }}>
+            <div className="absolute inset-0 bg-white" />
+
+            <div className="absolute inset-0">
+              <img
+                src="/img/solutions/stats-banner.png"
+                alt=""
+                className="h-full w-full scale-[1.15] object-cover"
+              />
             </div>
 
-            {/* Right Column - Masked Image with Marquee */}
-            <div className="relative h-[400px] sm:h-[500px] lg:h-auto overflow-hidden bg-black">
-              {/* Gradient overlay - fades from top on mobile, from left on desktop */}
-              <div className="absolute inset-0 bg-linear-to-b lg:bg-linear-to-r from-black via-black/60 to-transparent via-30% z-20 pointer-events-none" />
-
-              {/* Isolation wrapper for blend modes */}
+            <div
+              className="absolute inset-0 bg-black"
+              style={{ mixBlendMode: "multiply" }}
+            >
               <div
                 className="absolute inset-0"
-                style={{ isolation: "isolate" }}
+                style={{
+                  transform: "rotate(45deg) scale(2.2)",
+                  transformOrigin: "center center",
+                }}
               >
-                {/* White background */}
-                <div className="absolute inset-0 bg-white" />
-
-                {/* Image layer */}
-                <div className="absolute inset-0">
-                  <img
-                    src="/img/ai-healthcare-doctor.jpg"
-                    alt="AI healthcare doctor visualization"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                {/* Black overlay with white squares (cutouts) using multiply blend mode */}
-                <div
-                  className="absolute inset-0 bg-black"
-                  style={{ mixBlendMode: "multiply" }}
-                >
-                  {/* Rotated Marquee Container */}
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      transform: "rotate(45deg) scale(2.2)",
-                      transformOrigin: "center center",
-                    }}
-                  >
-                    <div className="flex gap-2 sm:gap-3 md:gap-4 h-full items-center justify-center">
-                      {/* Marquee 1 - Scrolling Down */}
-                      <div className="relative overflow-hidden">
+                <div className="flex h-full items-center justify-center gap-2 sm:gap-3 md:gap-4">
+                  <div className="relative overflow-hidden">
+                    <div
+                      ref={marquee1Ref}
+                      className="flex flex-col gap-3 sm:gap-4"
+                    >
+                      {[...squares, ...squares].map((_, index) => (
                         <div
-                          ref={marquee1Ref}
-                          className="flex flex-col gap-3 sm:gap-4"
-                        >
-                          {[...squares, ...squares].map((_, index) => (
-                            <div
-                              key={`marquee1-${index}`}
-                              className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-md sm:rounded-lg bg-white shrink-0"
-                            />
-                          ))}
-                        </div>
-                      </div>
+                          key={`marquee1-${index}`}
+                          className="h-16 w-16 shrink-0 rounded-md bg-white sm:h-20 sm:w-20 sm:rounded-lg md:h-24 md:w-24"
+                        />
+                      ))}
+                    </div>
+                  </div>
 
-                      {/* Marquee 2 - Scrolling Up */}
-                      <div className="relative overflow-hidden">
+                  <div className="relative overflow-hidden">
+                    <div
+                      ref={marquee2Ref}
+                      className="flex flex-col gap-3 sm:gap-4"
+                    >
+                      {[...squares, ...squares].map((_, index) => (
                         <div
-                          ref={marquee2Ref}
-                          className="flex flex-col gap-3 sm:gap-4"
-                        >
-                          {[...squares, ...squares].map((_, index) => (
-                            <div
-                              key={`marquee2-${index}`}
-                              className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-md sm:rounded-lg bg-white shrink-0"
-                            />
-                          ))}
-                        </div>
-                      </div>
+                          key={`marquee2-${index}`}
+                          className="h-16 w-16 shrink-0 rounded-md bg-white sm:h-20 sm:w-20 sm:rounded-lg md:h-24 md:w-24"
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
+    </motion.div>
+  );
+
+  if (embedded) {
+    return <div className="mx-auto w-full max-w-[1200px]">{card}</div>;
+  }
+
+  return (
+    <section className="w-full bg-white px-4 py-12 sm:px-6 lg:px-8 dark:bg-neutral-950">
+      <div className="mx-auto w-full max-w-[1200px]">{card}</div>
     </section>
   );
 }

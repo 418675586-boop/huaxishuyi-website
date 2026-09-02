@@ -55,7 +55,7 @@ function Swatch({
       style={
         swatch.startsWith("#")
           ? { background: swatch, color: invert ? "#fff" : "#081841" }
-          : undefined
+          : {}
       }
     >
       <strong>

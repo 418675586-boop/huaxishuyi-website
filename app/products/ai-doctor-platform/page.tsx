@@ -74,6 +74,13 @@ const painHoverStyles = [
   },
 ] as const;
 
+function pickPainHoverStyle() {
+  return (
+    painHoverStyles[Math.floor(Math.random() * painHoverStyles.length)] ??
+    painHoverStyles[0]
+  );
+}
+
 const pains: {
   title: string;
   description: string;
@@ -310,7 +317,9 @@ function PainCard({
   index: number;
 }) {
   const Icon = item.icon;
-  const [hoverStyle, setHoverStyle] = useState(painHoverStyles[0]);
+  const [hoverStyle, setHoverStyle] = useState<(typeof painHoverStyles)[number]>(
+    painHoverStyles[0],
+  );
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -320,17 +329,13 @@ function PainCard({
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       onMouseEnter={() => {
-        setHoverStyle(
-          painHoverStyles[Math.floor(Math.random() * painHoverStyles.length)],
-        );
+        setHoverStyle(pickPainHoverStyle());
         setIsHovered(true);
       }}
       onMouseLeave={() => setIsHovered(false)}
       className="group relative flex h-[320px] flex-col justify-between overflow-hidden rounded-[24px] bg-white p-7 text-neutral-950 shadow-[0_10px_30px_rgba(15,23,42,0.06)] transition-[box-shadow,color] duration-300 sm:p-8 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
       style={
-        isHovered
-          ? { boxShadow: hoverStyle.shadow, color: "#fff" }
-          : undefined
+        isHovered ? { boxShadow: hoverStyle.shadow, color: "#fff" } : {}
       }
     >
       <div
@@ -390,7 +395,9 @@ function ApplicationScenarioCard({
   index: number;
 }) {
   const Icon = item.icon;
-  const [hoverStyle, setHoverStyle] = useState(painHoverStyles[0]);
+  const [hoverStyle, setHoverStyle] = useState<(typeof painHoverStyles)[number]>(
+    painHoverStyles[0],
+  );
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -400,9 +407,7 @@ function ApplicationScenarioCard({
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       onMouseEnter={() => {
-        setHoverStyle(
-          painHoverStyles[Math.floor(Math.random() * painHoverStyles.length)],
-        );
+        setHoverStyle(pickPainHoverStyle());
         setIsHovered(true);
       }}
       onMouseLeave={() => setIsHovered(false)}
@@ -410,9 +415,7 @@ function ApplicationScenarioCard({
         isHovered ? "border-l-white/40" : "border-l-neutral-950"
       }`}
       style={
-        isHovered
-          ? { boxShadow: hoverStyle.shadow, color: "#fff" }
-          : undefined
+        isHovered ? { boxShadow: hoverStyle.shadow, color: "#fff" } : {}
       }
     >
       <div

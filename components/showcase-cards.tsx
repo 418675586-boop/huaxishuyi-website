@@ -3,6 +3,7 @@
 import { useRef, useEffect, useCallback, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { motion } from "motion/react";
 import NextImage from "next/image";
+import Link from "next/link";
 import SpotlightCard from "@/components/SpotlightCard";
 import StaggeredText from "@/components/react-bits/staggered-text";
 import { OutlineCtaLink } from "@/components/outline-cta";
@@ -39,6 +40,7 @@ function useIsThreeCol(): boolean {
 
 interface CardData {
   title: string;
+  href?: string;
 }
 
 /** Shared panorama image spanning all three cards */
@@ -50,7 +52,10 @@ const CARD_COUNT = 3;
 const cards: CardData[] = [
   { title: "智慧医院/系统集成" },
   { title: "区域医疗数智化转型" },
-  { title: "医疗数智化转型" },
+  {
+    title: "医疗数智化转型",
+    href: "/solutions/hospital-digital-transformation",
+  },
 ];
 
 const VERTEX_SHADER = `
@@ -192,7 +197,7 @@ function SafariCard({ title, imageSrc, index, panorama }: BulgeCardProps): React
       >
         <div
           className={panorama ? "absolute top-0 h-full" : "absolute inset-0"}
-          style={panorama ? panoramaStyle(index) : undefined}
+          style={panorama ? panoramaStyle(index) : {}}
         >
           <NextImage
             src={imageSrc}
@@ -521,7 +526,7 @@ function BulgeCard({ title, imageSrc, index, panorama }: BulgeCardProps): ReactN
         {/* Fallback image when WebGL is unavailable or still loading */}
         <div
           className={panorama ? "absolute top-0 h-full" : "absolute inset-0"}
-          style={panorama ? panoramaStyle(index) : undefined}
+          style={panorama ? panoramaStyle(index) : {}}
           aria-hidden={webglReady}
         >
           <NextImage
@@ -605,20 +610,36 @@ export function ShowcaseCards(): ReactNode {
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {cards.map((card, index) => (
-            <SpotlightCard
-              key={card.title}
-              className="rounded-xl"
-              spotlightColor="rgba(255, 255, 255, 0.3)"
-            >
-              <CardComponent
-                title={card.title}
-                imageSrc={PANORAMA_IMAGE}
-                index={index}
-                panorama={panorama}
-              />
-            </SpotlightCard>
-          ))}
+          {cards.map((card, index) => {
+            const cardNode = (
+              <SpotlightCard
+                className="rounded-xl"
+                spotlightColor="rgba(255, 255, 255, 0.3)"
+              >
+                <CardComponent
+                  title={card.title}
+                  imageSrc={PANORAMA_IMAGE}
+                  index={index}
+                  panorama={panorama}
+                />
+              </SpotlightCard>
+            );
+
+            if (!card.href) {
+              return <div key={card.title}>{cardNode}</div>;
+            }
+
+            return (
+              <Link
+                key={card.title}
+                href={card.href}
+                className="block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 dark:focus-visible:ring-white"
+                aria-label={`${card.title}解决方案`}
+              >
+                {cardNode}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

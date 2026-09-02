@@ -23,6 +23,10 @@ export interface LenticularCarouselItem {
   title?: string;
   /** Small line set above the headline */
   meta?: string;
+  /** Optional body / rich text under the headline */
+  description?: string;
+  /** Optional tag chips drawn under the headline */
+  tags?: string[];
   /** Alt text, defaults to the title */
   alt?: string;
 }
@@ -234,6 +238,7 @@ void main() {
 
   float veil = (1.0 - smoothstep(0.0, 0.5, vUv.y)) * uVeil;
   turn = mix(turn, turn * 0.06, veil);
+  rest = mix(rest, rest * 0.06, veil);
 
   float axis = vUv.x + vUv.y * 0.35;
   float travel = axis * 1.15 - uTurnAngle * 3.4;
@@ -243,7 +248,9 @@ void main() {
   turn += spectrum(fine * 0.5 + travel * 0.5) * band * (0.4 + 0.6 * shimmer) * uFoil * 0.8;
 
   vec4 tag = texture2D(uTag, vUv);
-  turn = mix(turn, tag.rgb, tag.a * uTag0);
+  float tagMix = tag.a * uTag0;
+  turn = mix(turn, tag.rgb, tagMix);
+  rest = mix(rest, tag.rgb, tagMix);
 
   vec3 col = mix(rest, turn, sel);
 
@@ -276,47 +283,112 @@ void main() {
 }
 `;
 
+/** Characters that must not start a line (CJK punctuation hanging) */
+const NO_LINE_START =
+  /^[、，。；：！？…‥）》」』】〉〕〗"'%\])\}．·—～]$/;
+
 const fold = (
   ctx: CanvasRenderingContext2D,
   text: string,
   limit: number,
   rows: number,
 ) => {
-  const words = text.split(/\s+/).filter(Boolean);
   const lines: string[] = [];
   let run = "";
 
-  for (const word of words) {
-    const next = run ? `${run} ${word}` : word;
-    if (ctx.measureText(next).width <= limit || !run) {
+  const ellipsize = (value: string) => {
+    let tail = value;
+    // Guard against pathological measureText results
+    let guard = 0;
+    while (
+      tail.length > 1 &&
+      guard < 512 &&
+      ctx.measureText(`${tail}…`).width > limit
+    ) {
+      tail = tail.slice(0, -1);
+      guard += 1;
+    }
+    return `${tail}…`;
+  };
+
+  const flush = (line: string, more: boolean) => {
+    if (lines.length >= rows) return;
+    if (more && lines.length === rows - 1) {
+      lines.push(ellipsize(line));
+      return;
+    }
+    lines.push(line);
+  };
+
+  // Always wrap grapheme-by-grapheme so mixed CJK + Latin (e.g. "AI")
+  // never treats a long Chinese run as a single unbreakable token.
+  for (const ch of Array.from(text)) {
+    if (lines.length >= rows) break;
+    const next = run + ch;
+    if (!run || ctx.measureText(next).width <= limit) {
       run = next;
       continue;
     }
-    lines.push(run);
-    run = word;
-    if (lines.length === rows) break;
-  }
-
-  if (lines.length < rows && run) lines.push(run);
-  if (lines.length === rows && run && lines[rows - 1] !== run) {
-    let tail = lines[rows - 1];
-    while (tail.length > 1 && ctx.measureText(`${tail}…`).width > limit) {
-      tail = tail.slice(0, -1);
+    // Avoid starting the next line with punctuation — keep it on this line
+    if (NO_LINE_START.test(ch)) {
+      flush(run + ch, lines.length === rows - 1);
+      run = "";
+      continue;
     }
-    lines[rows - 1] = `${tail}…`;
+    flush(run, lines.length === rows - 1);
+    run = lines.length >= rows ? "" : ch;
   }
 
-  return lines;
+  if (run && lines.length < rows) {
+    if (ctx.measureText(run).width > limit && lines.length === rows - 1) {
+      lines.push(ellipsize(run));
+    } else {
+      lines.push(run);
+    }
+  }
+
+  // Safety: never leave a line starting with hanging punctuation
+  for (let i = 1; i < lines.length; i += 1) {
+    while (lines[i] && NO_LINE_START.test(lines[i]![0] ?? "")) {
+      lines[i - 1] = `${lines[i - 1]}${lines[i]![0]}`;
+      lines[i] = lines[i]!.slice(1);
+    }
+  }
+
+  return lines.filter(Boolean);
+};
+
+/** Card is ~375px wide; label canvas is 512 — scale CSS px to canvas px */
+const labelPx = (cssPx: number) => Math.round((cssPx * LABEL_WIDTH) / 375);
+
+const paintRoundRect = (
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number,
+) => {
+  const radius = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + w, y, x + w, y + h, radius);
+  ctx.arcTo(x + w, y + h, x, y + h, radius);
+  ctx.arcTo(x, y + h, x, y, radius);
+  ctx.arcTo(x, y, x + w, y, radius);
+  ctx.closePath();
 };
 
 const paintLabel = (
   title: string,
   meta: string,
+  description: string,
+  tags: string[],
   ratio: number,
   tint: string,
 ) => {
   const width = LABEL_WIDTH;
-  const height = Math.max(96, Math.round(LABEL_WIDTH / ratio));
+  const height = Math.max(128, Math.round(LABEL_WIDTH / ratio));
   const sheet = document.createElement("canvas");
   sheet.width = width;
   sheet.height = height;
@@ -325,27 +397,64 @@ const paintLabel = (
   if (!ctx || !title) return sheet;
 
   const inset = Math.round(width * 0.088);
-  const body = Math.round(width * 0.079);
-  const stack = "ui-sans-serif, system-ui, -apple-system, Helvetica, Arial";
+  const titleSize = labelPx(20);
+  const bodySize = labelPx(14);
+  const pillSize = labelPx(12);
+  const stack =
+    '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif';
 
   ctx.textBaseline = "alphabetic";
   ctx.fillStyle = tint;
-  ctx.font = `500 ${body}px ${stack}`;
 
-  const lines = fold(ctx, title, width - inset * 2, 2);
   let baseline = height - inset;
+  const contentWidth = width - inset * 2;
 
-  for (let i = lines.length - 1; i >= 0; i -= 1) {
-    ctx.fillText(lines[i], inset, baseline);
-    baseline -= body * 1.2;
+  // Row 3: rich text / 副标题 — 14px, regular weight
+  const bodyText =
+    description.trim() ||
+    (tags.length > 0 ? tags.join("  ·  ") : "");
+  if (bodyText) {
+    ctx.globalAlpha = 0.78;
+    ctx.font = `400 ${bodySize}px ${stack}`;
+    const bodyLines = fold(ctx, bodyText, contentWidth, 3);
+    for (let i = bodyLines.length - 1; i >= 0; i -= 1) {
+      ctx.fillText(bodyLines[i]!, inset, baseline);
+      baseline -= bodySize * 1.35;
+    }
+    baseline -= bodySize * 0.25;
+    ctx.globalAlpha = 1;
   }
 
+  // Row 2: 大标题 — 20px
+  ctx.font = `600 ${titleSize}px ${stack}`;
+  const lines = fold(ctx, title, contentWidth, 2);
+  for (let i = lines.length - 1; i >= 0; i -= 1) {
+    ctx.fillText(lines[i]!, inset, baseline);
+    baseline -= titleSize * 1.22;
+  }
+
+  // Row 1: pill tag — regular weight, not bold
   if (meta) {
-    const typo = ctx as CanvasRenderingContext2D & { letterSpacing?: string };
-    if (typeof typo.letterSpacing === "string") typo.letterSpacing = "0.18em";
-    ctx.globalAlpha = 0.66;
-    ctx.font = `500 ${Math.round(body * 0.52)}px ${stack}`;
-    ctx.fillText(meta.toUpperCase(), inset, baseline - body * 0.24);
+    ctx.font = `400 ${pillSize}px ${stack}`;
+    const padX = Math.round(pillSize * 0.95);
+    const padY = Math.round(pillSize * 0.42);
+    const textW = ctx.measureText(meta).width;
+    const pillW = textW + padX * 2;
+    const pillH = pillSize + padY * 2;
+    const gap = Math.round(titleSize * 0.45);
+    const pillX = inset;
+    const pillY = baseline - gap - pillH;
+
+    paintRoundRect(ctx, pillX, pillY, pillW, pillH, pillH / 2);
+    ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(212, 212, 212, 0.95)";
+    ctx.lineWidth = Math.max(1, labelPx(1));
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(82, 82, 82, 0.95)";
+    ctx.textBaseline = "middle";
+    ctx.fillText(meta, pillX + padX, pillY + pillH / 2);
   }
 
   return sheet;
@@ -421,14 +530,21 @@ const useLabelSheets = (
   tint: string,
 ) => {
   const stamp = JSON.stringify(
-    items.map((entry) => [entry.title ?? "", entry.meta ?? ""]),
+    items.map((entry) => [
+      entry.title ?? "",
+      entry.meta ?? "",
+      entry.description ?? "",
+      entry.tags ?? [],
+    ]),
   );
 
   return useMemo(() => {
     if (typeof document === "undefined") return [] as THREE.Texture[];
-    const rows = JSON.parse(stamp) as [string, string][];
-    return rows.map(([title, meta]) => {
-      const map = new THREE.CanvasTexture(paintLabel(title, meta, ratio, tint));
+    const rows = JSON.parse(stamp) as [string, string, string, string[]][];
+    return rows.map(([title, meta, description, tags]) => {
+      const map = new THREE.CanvasTexture(
+        paintLabel(title, meta, description ?? "", tags ?? [], ratio, tint),
+      );
       map.colorSpace = THREE.SRGBColorSpace;
       map.anisotropy = 4;
       map.minFilter = THREE.LinearMipmapLinearFilter;

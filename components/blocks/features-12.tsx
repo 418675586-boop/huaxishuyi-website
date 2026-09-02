@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import type { LucideIcon } from "lucide-react";
@@ -14,12 +13,14 @@ import {
   Share2,
   ShieldCheck,
 } from "lucide-react";
+import { FeatureCardGlow } from "@/components/blocks/feature-card-glow";
 
 type FeatureCard = {
   icon: LucideIcon;
   statement: string;
   description: string;
   points: [string, string, string];
+  glow: string;
 };
 
 function DoneIcon({ className }: { className?: string }) {
@@ -49,6 +50,7 @@ const cards: FeatureCard[] = [
     description:
       "支持远程会诊、数字MDT、跨院诊疗对接、联合信息查询，实现上下级医院联动诊疗，打破信息壁垒。",
     points: ["远程会诊与远程查房", "数字MDT多学科协作", "跨院诊疗信息联合查询"],
+    glow: "#d7c8f4",
   },
   {
     icon: ArrowDownToLine,
@@ -56,6 +58,7 @@ const cards: FeatureCard[] = [
     description:
       "上级专家知识库、数字分身赋能基层，辅助基层查房、病情评估、出院研判与专业咨询，提升基层诊疗能力。",
     points: ["专家知识库基层共享", "专家数字分身远程指导", "基层AI辅助诊断决策"],
+    glow: "#f3cbb8",
   },
   {
     icon: CalendarCheck2,
@@ -63,6 +66,7 @@ const cards: FeatureCard[] = [
     description:
       "实现多院区、医联体统筹排班、统一排床、号源与诊疗资源智能调配，集团化运营效率显著提升。",
     points: ["跨院区统筹排班排床", "号源智能调配", "诊疗资源全域调度"],
+    glow: "#c5d8f6",
   },
   {
     icon: Layers,
@@ -70,6 +74,7 @@ const cards: FeatureCard[] = [
     description:
       "统一管理专科联盟资源，沉淀专科诊疗数据，支撑专科标准化建设与能力输出，推动专科同质化发展。",
     points: ["专科资源统一管理", "专科诊疗数据沉淀", "专科标准化建设输出"],
+    glow: "#f0cfd6",
   },
   {
     icon: ArrowLeftRight,
@@ -77,6 +82,7 @@ const cards: FeatureCard[] = [
     description:
       "实现患者双向转诊、诊疗信息同步流转，上转患者享受优先诊疗、检查、住院，转诊响应率达100%。",
     points: ["线上智能转诊模块", "转诊信息同步流转", "绿色通道优先服务"],
+    glow: "#c9e6dc",
   },
   {
     icon: Share2,
@@ -84,6 +90,7 @@ const cards: FeatureCard[] = [
     description:
       "打造检验、影像、心电、病理等资源共享中心，全面落实检验检查结果互认，互认项目达888项，减轻就医负担。",
     points: ["检验检查结果互认", "影像/心电/病理共享中心", "一次检查、全域互认"],
+    glow: "#d0d6f6",
   },
   {
     icon: FlaskConical,
@@ -91,6 +98,7 @@ const cards: FeatureCard[] = [
     description:
       "依托患者360全景数据，开展规范化院后随访、临床科研数据沉淀与分析，支撑连续医疗与科研协同。",
     points: ["患者360全景数据驱动", "规范化院后随访管理", "临床科研数据沉淀"],
+    glow: "#c6e3ee",
   },
   {
     icon: ShieldCheck,
@@ -98,6 +106,7 @@ const cards: FeatureCard[] = [
     description:
       "实现机构人员、AI模型、知识库、内容安全的统一管理与全流程运营监控，保障跨机构业务合规高效运行。",
     points: ["统一权限与内容审计", "AI模型与知识库统一管理", "运营监控与风险稽核"],
+    glow: "#e6d4f0",
   },
 ];
 
@@ -116,8 +125,6 @@ const fadeUp: Variants = {
 };
 
 export function Features12() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
   return (
     <section
       id="capabilities"
@@ -159,60 +166,27 @@ export function Features12() {
         >
           {cards.map((card, index) => {
             const Icon = card.icon;
-            const active = activeIndex === index;
 
             return (
               <motion.article
                 key={card.statement}
                 variants={fadeUp}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                role="button"
-                tabIndex={0}
-                aria-pressed={active}
-                onClick={() =>
-                  setActiveIndex((current) => (current === index ? null : index))
-                }
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setActiveIndex((current) =>
-                      current === index ? null : index
-                    );
-                  }
-                }}
-                className={`group relative z-0 flex origin-center min-h-[320px] cursor-pointer flex-col rounded-3xl p-6 transition-[background-color,color] duration-300 ease-out sm:min-h-[340px] sm:p-7 ${
-                  active
-                    ? "bg-neutral-950 text-white shadow-[0_0_28px_rgba(0,0,0,0.14)] dark:bg-white dark:text-neutral-950 dark:shadow-[0_0_28px_rgba(0,0,0,0.28)]"
-                    : "bg-white text-neutral-950 shadow-[0_0_24px_rgba(0,0,0,0.06)] dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
-                }`}
+                className="group relative z-0 flex min-h-[320px] origin-center flex-col overflow-hidden rounded-3xl bg-white p-6 text-neutral-950 shadow-[0_0_24px_rgba(0,0,0,0.06)] sm:min-h-[340px] sm:p-7 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
               >
+                <FeatureCardGlow color={card.glow} delayMs={index * 700} />
+
                 <Icon
-                  className={`icon-flip-once h-8 w-8 shrink-0 ${
-                    active
-                      ? "text-white dark:text-neutral-950"
-                      : "text-neutral-900 dark:text-white"
-                  }`}
+                  className="icon-flip-once relative z-[1] h-8 w-8 shrink-0 text-neutral-900 dark:text-white"
                   strokeWidth={1.5}
                 />
 
-                <div className="mt-auto flex flex-col gap-4">
+                <div className="relative z-[1] mt-auto flex flex-col gap-4">
                   <div>
-                    <h3
-                      className={`text-[20px] font-medium leading-snug tracking-tight sm:text-[22px] ${
-                        active
-                          ? "text-white dark:text-neutral-950"
-                          : "text-neutral-900 dark:text-white"
-                      }`}
-                    >
+                    <h3 className="text-[20px] font-medium leading-snug tracking-tight text-neutral-900 sm:text-[22px] dark:text-white">
                       {card.statement}
                     </h3>
-                    <p
-                      className={`mt-3 line-clamp-3 min-h-[calc(1.625em*3)] text-[13px] leading-relaxed sm:text-[14px] ${
-                        active
-                          ? "text-neutral-400 dark:text-neutral-600"
-                          : "text-neutral-600 dark:text-neutral-400"
-                      }`}
-                    >
+                    <p className="mt-3 line-clamp-3 min-h-[calc(1.625em*3)] text-[13px] leading-relaxed text-neutral-600 sm:text-[14px] dark:text-neutral-400">
                       {card.description}
                     </p>
                   </div>
@@ -221,11 +195,7 @@ export function Features12() {
                     {card.points.map((point) => (
                       <li
                         key={point}
-                        className={`flex items-center gap-2 text-[12px] leading-snug sm:text-[13px] ${
-                          active
-                            ? "text-neutral-300 dark:text-neutral-700"
-                            : "text-neutral-600 dark:text-neutral-300"
-                        }`}
+                        className="flex items-center gap-2 text-[12px] leading-snug text-neutral-600 sm:text-[13px] dark:text-neutral-300"
                       >
                         <DoneIcon
                           className="h-4 w-4 shrink-0 text-[#cdcdcd]"

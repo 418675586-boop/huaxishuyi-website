@@ -3,7 +3,6 @@ import NotFound4 from "@/components/blocks/404-4";
 import Footer2 from "@/components/blocks/footer-2";
 import SocialProof12 from "@/components/blocks/social-proof-12";
 import { AiProductsSection } from "@/components/ai-products-section";
-import { LenticularCarouselSection } from "@/components/lenticular-carousel-section";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { ShowcaseCards } from "@/components/showcase-cards";
@@ -32,7 +31,6 @@ export default function HomePage(): ReactNode {
         <ShowcaseCards />
         <Hero6 />
         <NotFound4 />
-        <LenticularCarouselSection />
       </main>
 
       <Footer2 />

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import type { LucideIcon } from "lucide-react";
@@ -14,12 +13,14 @@ import {
   Save,
   Target,
 } from "lucide-react";
+import { FeatureCardGlow } from "@/components/blocks/feature-card-glow";
 
 type FeatureCard = {
   icon: LucideIcon;
   statement: string;
   description: string;
   points: [string, string, string];
+  glow: string;
 };
 
 function DoneIcon({ className }: { className?: string }) {
@@ -53,6 +54,7 @@ const cards: FeatureCard[] = [
       "纳入排除标准自动提取",
       "随访模板智能生成",
     ],
+    glow: "#d7c8f4",
   },
   {
     icon: Target,
@@ -64,6 +66,7 @@ const cards: FeatureCard[] = [
       "Top3 项目智能推荐",
       "入排标准逐条匹配（92.1% 准确率）",
     ],
+    glow: "#f3cbb8",
   },
   {
     icon: CircleCheck,
@@ -71,6 +74,7 @@ const cards: FeatureCard[] = [
     description:
       "患者画像与入组标准自动逐条对比（通过/不通过/待确认），AI 给出初审、终审决策建议，审核效率倍增。",
     points: ["逐条标准自动比对", "初审/终审决策建议", "审核依据可回溯"],
+    glow: "#c5d8f6",
   },
   {
     icon: CalendarDays,
@@ -78,6 +82,7 @@ const cards: FeatureCard[] = [
     description:
       "入组后任务日历驱动每日待办，病历库与对话历史可回溯，建立长期健康管理与随访照护。",
     points: ["随访计划自动生成", "任务日历驱动执行", "随访数据实时采集"],
+    glow: "#f0cfd6",
   },
   {
     icon: Link2,
@@ -89,6 +94,7 @@ const cards: FeatureCard[] = [
       "审核 → 推理依据可回溯",
       "签署 → 签名轨迹可重放",
     ],
+    glow: "#c9e6dc",
   },
   {
     icon: Bot,
@@ -96,6 +102,7 @@ const cards: FeatureCard[] = [
     description:
       "搭载问诊、匹配、随访、结构化抽取、审核等多类专属智能体，精准适配科研全场景细分业务需求。",
     points: ["专属智能体各司其职", "智能体间协同编排", "场景化精细分工"],
+    glow: "#d0d6f6",
   },
   {
     icon: Save,
@@ -107,6 +114,7 @@ const cards: FeatureCard[] = [
       "随访方案标准化复用",
       "科研能力持续迭代",
     ],
+    glow: "#c6e3ee",
   },
   {
     icon: RefreshCw,
@@ -114,6 +122,7 @@ const cards: FeatureCard[] = [
     description:
       "依托标准化研究知识库，保障医患两端字段、标准、流程一致性，规避业务偏差，确保科研数据质量。",
     points: ["医患两端字段统一", "标准与流程一致性", "业务偏差自动检测"],
+    glow: "#e6d4f0",
   },
 ];
 
@@ -132,8 +141,6 @@ const fadeUp: Variants = {
 };
 
 export function Features12ResearchDigitalDoctor() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
   return (
     <section
       id="capabilities"
@@ -175,62 +182,27 @@ export function Features12ResearchDigitalDoctor() {
         >
           {cards.map((card, index) => {
             const Icon = card.icon;
-            const active = activeIndex === index;
 
             return (
               <motion.article
                 key={card.statement}
                 variants={fadeUp}
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                role="button"
-                tabIndex={0}
-                aria-pressed={active}
-                onClick={() =>
-                  setActiveIndex((current) =>
-                    current === index ? null : index,
-                  )
-                }
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setActiveIndex((current) =>
-                      current === index ? null : index,
-                    );
-                  }
-                }}
-                className={`group relative z-0 flex origin-center min-h-[320px] cursor-pointer flex-col rounded-3xl p-6 transition-[background-color,color] duration-300 ease-out sm:min-h-[340px] sm:p-7 ${
-                  active
-                    ? "bg-neutral-950 text-white shadow-[0_0_28px_rgba(0,0,0,0.14)] dark:bg-white dark:text-neutral-950 dark:shadow-[0_0_28px_rgba(0,0,0,0.28)]"
-                    : "bg-white text-neutral-950 shadow-[0_0_24px_rgba(0,0,0,0.06)] dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
-                }`}
+                className="group relative z-0 flex min-h-[320px] origin-center flex-col overflow-hidden rounded-3xl bg-white p-6 text-neutral-950 shadow-[0_0_24px_rgba(0,0,0,0.06)] sm:min-h-[340px] sm:p-7 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:text-white dark:shadow-none dark:backdrop-blur-xl"
               >
+                <FeatureCardGlow color={card.glow} delayMs={index * 700} />
+
                 <Icon
-                  className={`icon-flip-once h-8 w-8 shrink-0 ${
-                    active
-                      ? "text-white dark:text-neutral-950"
-                      : "text-neutral-900 dark:text-white"
-                  }`}
+                  className="icon-flip-once relative z-[1] h-8 w-8 shrink-0 text-neutral-900 dark:text-white"
                   strokeWidth={1.5}
                 />
 
-                <div className="mt-auto flex flex-col gap-4">
+                <div className="relative z-[1] mt-auto flex flex-col gap-4">
                   <div>
-                    <h3
-                      className={`text-[20px] font-medium leading-snug tracking-tight sm:text-[22px] ${
-                        active
-                          ? "text-white dark:text-neutral-950"
-                          : "text-neutral-900 dark:text-white"
-                      }`}
-                    >
+                    <h3 className="text-[20px] font-medium leading-snug tracking-tight text-neutral-900 sm:text-[22px] dark:text-white">
                       {card.statement}
                     </h3>
-                    <p
-                      className={`mt-3 line-clamp-3 min-h-[calc(1.625em*3)] text-[13px] leading-relaxed sm:text-[14px] ${
-                        active
-                          ? "text-neutral-400 dark:text-neutral-600"
-                          : "text-neutral-600 dark:text-neutral-400"
-                      }`}
-                    >
+                    <p className="mt-3 line-clamp-3 min-h-[calc(1.625em*3)] text-[13px] leading-relaxed text-neutral-600 sm:text-[14px] dark:text-neutral-400">
                       {card.description}
                     </p>
                   </div>
@@ -239,11 +211,7 @@ export function Features12ResearchDigitalDoctor() {
                     {card.points.map((point) => (
                       <li
                         key={point}
-                        className={`flex items-center gap-2 text-[12px] leading-snug sm:text-[13px] ${
-                          active
-                            ? "text-neutral-300 dark:text-neutral-700"
-                            : "text-neutral-600 dark:text-neutral-300"
-                        }`}
+                        className="flex items-center gap-2 text-[12px] leading-snug text-neutral-600 sm:text-[13px] dark:text-neutral-300"
                       >
                         <DoneIcon className="h-4 w-4 shrink-0 text-[#cdcdcd]" />
                         <span>{point}</span>

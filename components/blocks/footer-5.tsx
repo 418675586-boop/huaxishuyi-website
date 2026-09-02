@@ -15,8 +15,14 @@ const footerGroups = [
   {
     title: "解决方案",
     links: [
-      { text: "医疗数智化转型解决方案", href: "#" },
-      { text: "区域医疗数智化转型解决方案", href: "#" },
+      {
+        text: "医院数智化转型解决方案",
+        href: "/solutions/hospital-digital-transformation",
+      },
+      {
+        text: "区域医疗数智化转型解决方案",
+        href: "#",
+      },
       {
         text: "医疗系统集成行业解决方案",
         href: "#",
