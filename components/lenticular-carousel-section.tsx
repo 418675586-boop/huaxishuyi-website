@@ -8,7 +8,15 @@ const CARD_HEIGHT = Math.round(CARD_WIDTH / (3 / 4));
 /** WebGL 舞台需明确高度；预留底部控件与卡片抬升空间 */
 const STAGE_HEIGHT = CARD_HEIGHT + 72;
 
-const items = [
+export type ValueCarouselItem = {
+  src: string;
+  meta: string;
+  title: string;
+  description: string;
+  alt: string;
+};
+
+const DEFAULT_ITEMS: ValueCarouselItem[] = [
   {
     src: "/img/lenticular/value-hospital.png",
     meta: "医院层面",
@@ -43,16 +51,95 @@ const items = [
   },
 ];
 
-export function LenticularCarouselSection() {
+export const HOSPITAL_VALUE_ITEMS: ValueCarouselItem[] = [
+  {
+    src: "/img/lenticular/value-hospital.png",
+    meta: "医院层面",
+    title: "提升运营管理效能",
+    description:
+      "强化统一监管、运营分析与辅助决策，推动医院管理从经验驱动向数据驱动转变，提升整体运营效率。",
+    alt: "医院层面",
+  },
+  {
+    src: "/img/lenticular/value-digital.png",
+    meta: "诊疗层面",
+    title: "提升医疗服务能力",
+    description:
+      "以AI辅助诊断、临床决策及智能工作流赋能诊疗全流程，提升医疗质量、效率与服务能力。",
+    alt: "诊疗层面",
+  },
+  {
+    src: "/img/lenticular/value-patient.png",
+    meta: "患者层面",
+    title: "优化就医服务体验",
+    description:
+      "贯通诊前、诊中、诊后服务流程，减少重复操作与等待时间，为患者提供便捷、连续、个性化的医疗服务。",
+    alt: "患者层面",
+  },
+  {
+    src: "/img/lenticular/value-primary.png",
+    meta: "科研层面",
+    title: "加速临床科研创新",
+    description:
+      "整合高质量医疗数据与AI分析能力，赋能科研分析、课题管理及成果转化，提升临床科研创新效率。",
+    alt: "科研层面",
+  },
+];
+
+/** 智慧医院/系统集成：四大核心能力卡片 */
+export const SMART_HOSPITAL_VALUE_ITEMS: ValueCarouselItem[] = [
+  {
+    src: "/img/lenticular/smart-hospital-value-app.png",
+    meta: "应用层面",
+    title: "让系统集成更高效",
+    description:
+      "通过低代码可视化编排，快速打通医院业务系统，简化复杂对接，降低开发门槛，提升集成效率。",
+    alt: "应用层面",
+  },
+  {
+    src: "/img/lenticular/smart-hospital-value-data.png",
+    meta: "数据层面",
+    title: "让数据流转更顺畅",
+    description:
+      "依托 ELT / ETL 数据管道，实现多源数据自动采集、清洗与同步，构建统一数据底座。",
+    alt: "数据层面",
+  },
+  {
+    src: "/img/lenticular/smart-hospital-value-message.png",
+    meta: "消息层面",
+    title: "让核心链路更稳定",
+    description:
+      "统一管理 MQ 消息，支持订阅、发布与桥接，保障医嘱、事务等核心业务稳定可靠运行。",
+    alt: "消息层面",
+  },
+  {
+    src: "/img/lenticular/smart-hospital-value-api.png",
+    meta: "管理层面",
+    title: "让 API 治理更规范",
+    description:
+      "构建 API 全生命周期管理体系，统一发布、监控与权限管理，提升接口复用与资产价值。",
+    alt: "管理层面",
+  },
+];
+
+export function LenticularCarouselSection({
+  title = "方案优势及价值",
+  description = "覆盖医院、基层、群众与数智化四个维度，全面提升医共体运行效能",
+  items = DEFAULT_ITEMS,
+}: {
+  title?: string;
+  description?: string;
+  items?: ValueCarouselItem[];
+}) {
   return (
     <section className="flex w-full items-start bg-[#F8F8F8] px-4 py-[100px] dark:bg-neutral-950 sm:px-6 lg:px-8">
       <div className="mx-auto w-full min-w-0 max-w-[1200px]">
         <div className="mb-8 flex flex-col gap-2 sm:mb-10">
           <h2 className="text-[36px] font-semibold leading-tight tracking-tight text-neutral-950 dark:text-white">
-            方案优势及价值
+            {title}
           </h2>
           <p className="text-[16px] leading-tight text-neutral-600 dark:text-neutral-400">
-            覆盖医院、基层、群众与数智化四个维度，全面提升医共体运行效能
+            {description}
           </p>
         </div>
 

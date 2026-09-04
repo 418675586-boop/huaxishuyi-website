@@ -5,7 +5,14 @@ import { motion, AnimatePresence } from "motion/react";
 
 const AUTO_PLAY_MS = 10_000;
 
-const items = [
+export type HowItWorks3Item = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+};
+
+const defaultItems: HowItWorks3Item[] = [
   {
     id: 1,
     title: "第一阶段·筑牢底座，统一基础能力",
@@ -27,12 +34,57 @@ const items = [
       "逐步完善重点业务协同与统一运营管理，推动数据、业务与智能能力深度融合，形成持续演进的医共体数智化体系。",
     image: "/img/solutions/how-it-works/phase-3-synergy.png",
   },
-] as const;
+];
 
-export function HowItWorks3({ embedded = false }: { embedded?: boolean }) {
-  const [activeItem, setActiveItem] = useState(1);
+/** 医院数智化转型：演进路径四阶段 */
+export const HOSPITAL_HOW_IT_WORKS_ITEMS: HowItWorks3Item[] = [
+  {
+    id: 1,
+    title: "第一阶段·夯实基座，信息化基础建设",
+    description:
+      "完成电子病历（达六级）、集成平台与数据中心建设，打通医院信息系统，实现临床数据标准化、结构化。",
+    image: "/img/solutions/how-it-works/phase-1-foundation.png",
+  },
+  {
+    id: 2,
+    title: "第二阶段·模型驱动，大模型训练与部署",
+    description:
+      "基于院内高质量数据训练医疗大模型，引入 RSI 递归自进化与强化学习，实现模型持续进化。",
+    image: "/img/solutions/how-it-works/phase-2-scenarios.png",
+  },
+  {
+    id: 3,
+    title: "第三阶段·智能应用，三大产品全面落地",
+    description:
+      "部署数字医生、AI 患者服务助手与医生智能工作台，三线并进推动患者服务与临床辅助智能化。",
+    image: "/img/solutions/how-it-works/phase-3-synergy.png",
+  },
+  {
+    id: 4,
+    title: "第四阶段·智慧生态，智慧医疗新生态",
+    description:
+      "拓展更多场景 AI 智能体，向医联体/区域输出能力，推动人机协同从辅助走向协作，持续共赢。",
+    image: "/img/solutions/how-it-works/phase-3-synergy.png",
+  },
+];
+
+type HowItWorks3Props = {
+  embedded?: boolean;
+  items?: HowItWorks3Item[];
+  title?: string;
+  description?: string;
+};
+
+export function HowItWorks3({
+  embedded = false,
+  items = defaultItems,
+  title = "落地场景与实施路径",
+  description = "“先底座，后重点，再深化”三步走，确保项目有序推进",
+}: HowItWorks3Props) {
+  const [activeItem, setActiveItem] = useState(items[0]?.id ?? 1);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const currentItem = items.find((item) => item.id === activeItem)!;
+  const currentItem =
+    items.find((item) => item.id === activeItem) ?? items[0]!;
 
   const startAutoPlay = useCallback(() => {
     if (intervalRef.current) {
@@ -46,7 +98,11 @@ export function HowItWorks3({ embedded = false }: { embedded?: boolean }) {
         return items[nextIndex]!.id;
       });
     }, AUTO_PLAY_MS);
-  }, []);
+  }, [items]);
+
+  useEffect(() => {
+    setActiveItem(items[0]?.id ?? 1);
+  }, [items]);
 
   useEffect(() => {
     startAutoPlay();
@@ -63,7 +119,7 @@ export function HowItWorks3({ embedded = false }: { embedded?: boolean }) {
       const img = new window.Image();
       img.src = item.image;
     });
-  }, []);
+  }, [items]);
 
   const handleItemClick = (id: number) => {
     setActiveItem(id);
@@ -79,10 +135,10 @@ export function HowItWorks3({ embedded = false }: { embedded?: boolean }) {
             transition={{ duration: 0.5 }}
           >
             <h2 className="mb-4 text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
-              落地场景与实施路径
+              {title}
             </h2>
             <p className="mb-6 max-w-xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400">
-              “先底座，后重点，再深化”三步走，确保项目有序推进
+              {description}
             </p>
 
             <div className="relative border-l-2 border-dashed border-neutral-200 dark:border-neutral-800">
@@ -145,7 +201,7 @@ export function HowItWorks3({ embedded = false }: { embedded?: boolean }) {
             style={{ perspective: "600px" }}
           >
             <div
-              className="relative h-auto w-[480px] max-w-full overflow-hidden rounded-2xl border border-white/10 bg-[#05070A] p-3 sm:p-4 dark:border-white/10"
+              className="relative h-auto w-[384px] max-w-full overflow-hidden rounded-2xl border border-white/10 bg-[#05070A] p-3 sm:p-4 dark:border-white/10"
               style={{
                 transform: "rotateY(-20deg) rotateX(8deg)",
                 transformStyle: "preserve-3d",
@@ -195,7 +251,7 @@ export function HowItWorks3({ embedded = false }: { embedded?: boolean }) {
   return (
     <section
       className="w-full bg-white px-4 py-12 sm:px-6 lg:px-8 dark:bg-neutral-950"
-      aria-label="落地场景与实施路径"
+      aria-label={title}
     >
       <div className="mx-auto w-full max-w-[1200px]">{content}</div>
     </section>

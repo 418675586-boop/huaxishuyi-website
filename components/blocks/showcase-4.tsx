@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const filters = ["All", "Identity", "Campaign", "Product"] as const;
 
@@ -154,7 +154,7 @@ export default function Showcase4() {
                     transition={{ duration: 0.3 }}
                     className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white text-neutral-900 grid place-items-center shadow-md"
                   >
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4" />
                   </motion.div>
                   <div className="absolute bottom-3 left-3 flex flex-wrap gap-1.5">
                     {p.tags.map((t) => (

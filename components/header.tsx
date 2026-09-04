@@ -16,7 +16,7 @@ const navLinks = [
   { href: "#solutions", label: "解决方案" },
   { href: "#technology", label: "技术创新" },
   { href: "#news", label: "新闻动态" },
-  { href: "#cases", label: "客户案例" },
+  { href: "/cases", label: "客户案例" },
   { href: "#about", label: "关于我们" },
 ];
 

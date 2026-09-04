@@ -103,7 +103,7 @@ export function Hero1() {
                       className="flex h-full w-full cursor-pointer items-center justify-center rounded-[1.2em] border-none bg-black transition-opacity hover:opacity-90 dark:bg-white"
                       aria-label="查看方案能力"
                     >
-                      <ArrowRight className="h-6 w-6 -rotate-45 text-white dark:text-neutral-950" />
+                      <ArrowRight className="h-6 w-6 text-white dark:text-neutral-950" />
                     </a>
                   </div>
 

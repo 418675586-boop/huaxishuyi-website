@@ -5,6 +5,7 @@ import { useTexture } from "@react-three/drei";
 import { useMemo, useRef, Suspense, useEffect } from "react";
 import * as THREE from "three";
 import { motion } from "motion/react";
+import { cn } from "@/lib/utils";
 
 const carouselVertexShader = `
   varying vec2 vUv;
@@ -481,12 +482,40 @@ function LoadingFallback() {
   );
 }
 
-const HERO_TAGS = ["一个底座", "五类应用", "三大保障", "五个统一"];
+const HOSPITAL_HERO_TAGS = [
+  "四大数智支柱",
+  "六大核心能力",
+  "三大智能应用",
+  "四大应用场景",
+];
 
-export function Hero7() {
+type Hero7Props = {
+  badgeLabel?: string;
+  /** 黑色胶囊文案；传 null 则隐藏 */
+  badgePrefix?: string | null;
+  title?: string;
+  description?: string;
+  tags?: string[];
+  badgePrefixClassName?: string;
+  badgeLabelClassName?: string;
+  titleClassName?: string;
+  descriptionClassName?: string;
+};
+
+export function Hero7({
+  badgeLabel = "医院数智化转型解决方案",
+  badgePrefix = "解决方案",
+  title = "数智驱动医疗·智慧引领未来",
+  description = "以AI赋能为核心引擎，构建以患者为中心的智慧医疗服务体系，推动医院高质量发展",
+  tags = HOSPITAL_HERO_TAGS,
+  badgePrefixClassName,
+  badgeLabelClassName,
+  titleClassName,
+  descriptionClassName,
+}: Hero7Props) {
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-white dark:bg-[#05070A]">
-      {/* 首屏弥散光晕：浅色淡蓝紫 / 深色参考深空底 + 中心白光穹顶 */}
+    <section className="relative z-[1] w-full min-h-screen overflow-hidden bg-white dark:bg-transparent">
+      {/* 首屏弥散光晕：浅色淡蓝紫 / 深色透出页面暗紫底色，与方案概述一致 */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-[1] select-none"
@@ -497,10 +526,7 @@ export function Hero7() {
         <div className="absolute bottom-[-15%] left-[10%] h-[60%] w-[60%] rounded-full bg-[#8EBCE8]/55 blur-[130px] dark:hidden" />
         <div className="absolute bottom-[-10%] right-[5%] h-[55%] w-[55%] rounded-full bg-[#C4C0F2]/50 blur-[120px] dark:hidden" />
         <div className="absolute top-[35%] left-[35%] h-[40%] w-[40%] rounded-full bg-[#B0D4F5]/40 blur-[100px] dark:hidden" />
-        {/* dark：深空底色 + 中部白色穹顶光晕 */}
-        <div className="absolute inset-0 hidden bg-[radial-gradient(ellipse_80%_55%_at_50%_118%,rgba(255,255,255,0.22)_0%,rgba(180,200,230,0.08)_28%,transparent_62%)] dark:block" />
-        <div className="absolute bottom-[-35%] left-1/2 hidden h-[70%] w-[95%] -translate-x-1/2 rounded-[100%] bg-white/[0.14] blur-[90px] dark:block" />
-        <div className="absolute bottom-[-20%] left-1/2 hidden h-[45%] w-[70%] -translate-x-1/2 rounded-[100%] bg-[#DCE6F5]/20 blur-[70px] dark:block" />
+        {/* dark：仅保留星点，底色交给页面暗紫氛围层，与方案概述衔接 */}
         <div className="absolute top-[12%] left-[18%] hidden h-1.5 w-1.5 rounded-full bg-white/50 blur-[1px] dark:block" />
         <div className="absolute top-[22%] right-[24%] hidden h-1 w-1 rounded-full bg-white/40 blur-[1px] dark:block" />
         <div className="absolute top-[30%] left-[42%] hidden h-1 w-1 rounded-full bg-white/35 blur-[0.5px] dark:block" />
@@ -516,11 +542,23 @@ export function Hero7() {
           transition={{ duration: 0.6, delay: 0.05 }}
           className="flex w-fit items-center gap-2 rounded-full border border-neutral-300 p-1 sm:gap-3 dark:border-neutral-800"
         >
-          <span className="inline-flex items-center rounded-full bg-black px-3 py-1 text-xs font-medium text-white sm:text-sm dark:bg-white dark:text-black">
-            解决方案
-          </span>
-          <span className="mr-2 text-sm text-neutral-900 sm:text-base dark:text-neutral-100">
-            区域型医共体数智化解决方案
+          {badgePrefix ? (
+            <span
+              className={cn(
+                "inline-flex items-center rounded-full bg-black px-3 py-1 font-medium text-white dark:bg-white dark:text-black",
+                badgePrefixClassName ?? "text-xs sm:text-sm",
+              )}
+            >
+              {badgePrefix}
+            </span>
+          ) : null}
+          <span
+            className={cn(
+              "mr-2 text-neutral-900 dark:text-neutral-100",
+              badgeLabelClassName ?? "text-sm sm:text-base",
+            )}
+          >
+            {badgeLabel}
           </span>
         </motion.div>
 
@@ -528,18 +566,26 @@ export function Hero7() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-6 max-w-4xl text-3xl font-medium leading-[1.1] tracking-tight text-neutral-900 sm:text-4xl md:text-5xl lg:text-6xl dark:text-white"
+          className={cn(
+            "mt-6 max-w-4xl font-medium leading-[1.1] tracking-tight text-neutral-900 dark:text-white",
+            titleClassName ??
+              "text-3xl sm:text-4xl md:text-5xl lg:text-6xl",
+          )}
         >
-          数智医共体 · 健康共同体
+          {title}
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-4 max-w-xl text-sm leading-relaxed text-neutral-600 sm:mt-6 sm:text-base md:text-lg dark:text-neutral-400"
+          className={cn(
+            "mt-4 leading-relaxed text-neutral-600 dark:text-neutral-400 sm:mt-6",
+            descriptionClassName ??
+              "max-w-xl text-sm sm:text-base md:text-lg",
+          )}
         >
-          以统一数智底座，赋能区域医共体高质量发展
+          {description}
         </motion.p>
 
         <motion.div
@@ -548,10 +594,10 @@ export function Hero7() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-6 flex flex-wrap justify-start gap-2 sm:mt-8 sm:justify-center sm:gap-3"
         >
-          {HERO_TAGS.map((tag) => (
+          {tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-neutral-700 sm:text-sm dark:bg-white/10 dark:text-neutral-200"
+              className="rounded-full bg-white px-3 py-1.5 text-[12px] font-normal text-neutral-700 dark:bg-white/10 dark:text-neutral-200"
             >
               {tag}
             </span>

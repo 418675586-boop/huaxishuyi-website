@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Scanner from "@/components/Scanner";
 
@@ -148,7 +148,7 @@ export default function Footer2() {
                       className="inline-flex items-center gap-1 transition-colors hover:text-neutral-600 dark:hover:text-neutral-300"
                     >
                       <span>{link.text}</span>
-                      <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
+                      <ArrowRight className="h-3.5 w-3.5 shrink-0" />
                     </a>
                   </span>
                 ))}

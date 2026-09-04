@@ -6,6 +6,7 @@ import {
   useReducedMotion,
   type Variants,
 } from "motion/react";
+import { ArrowRight } from "lucide-react";
 import * as THREE from "three";
 
 const rippleVertexShader = `
@@ -66,17 +67,6 @@ const rippleFragmentShader = `
     gl_FragColor = vec4(color, 1.0);
   }
 `;
-
-const tags = [
-  "统一平台",
-  "统一标准",
-  "统一数据",
-  "统一协同",
-  "统一安全",
-  "一个底座",
-  "五类应用",
-  "三大保障",
-];
 
 const container: Variants = {
   hidden: {},
@@ -219,9 +209,26 @@ function RippleField() {
   );
 }
 
-export default function Waitlist6() {
+type Waitlist6Props = {
+  title?: string;
+  description?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
+export default function Waitlist6({
+  title = "开始建立合作吧",
+  description = "为你提供更加专业的产品服务和解决方案",
+  ctaLabel = "立即联系",
+  ctaHref = "tel:02860198639",
+}: Waitlist6Props) {
+  const reduce = useReducedMotion();
+
   return (
-    <section className="relative flex h-[400px] w-full items-center overflow-hidden bg-white px-4 py-16 dark:bg-neutral-950 sm:px-6 lg:px-8">
+    <section
+      id="waitlist"
+      className="relative flex h-[400px] w-full items-center overflow-hidden bg-white px-4 py-16 dark:bg-neutral-950 sm:px-6 lg:px-8"
+    >
       <RippleField />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_50%_50%,rgba(255,255,255,0.85),transparent_72%)] dark:bg-[radial-gradient(ellipse_65%_55%_at_50%_50%,rgba(10,10,10,0.85),transparent_72%)]" />
 
@@ -237,29 +244,26 @@ export default function Waitlist6() {
             variants={item}
             className="text-[32px] font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-[40px]"
           >
-            数智医共体 · 健康共同体
+            {title}
           </motion.h2>
 
           <motion.p
             variants={item}
             className="mt-4 max-w-xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400"
           >
-            以统一数智底座赋能区域医共体高质量发展
+            {description}
           </motion.p>
 
-          <motion.div
+          <motion.a
             variants={item}
-            className="mt-8 flex w-full flex-nowrap items-center justify-center gap-2"
+            href={ctaHref}
+            whileHover={reduce ? undefined : { y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            className="mt-8 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-black px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 dark:focus-visible:ring-white dark:focus-visible:ring-offset-neutral-950"
           >
-            {tags.map((tag) => (
-              <span
-                key={tag}
-                className="shrink-0 rounded-full border border-neutral-300/80 bg-white/70 px-3.5 py-1.5 text-[13px] text-neutral-700 backdrop-blur-md dark:border-white/20 dark:bg-white/10 dark:text-neutral-200"
-              >
-                {tag}
-              </span>
-            ))}
-          </motion.div>
+            {ctaLabel}
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </motion.a>
         </div>
       </motion.div>
     </section>

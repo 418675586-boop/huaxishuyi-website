@@ -345,7 +345,7 @@ function PainCard({
   );
 }
 
-export function HospitalDigitalTransformation() {
+export function HospitalDigitalTransformationCase() {
   return (
     <>
       <Header />
@@ -510,4 +510,4 @@ export function HospitalDigitalTransformation() {
   );
 }
 
-export default HospitalDigitalTransformation;
+export default HospitalDigitalTransformationCase;

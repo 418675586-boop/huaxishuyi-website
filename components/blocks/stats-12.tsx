@@ -39,6 +39,31 @@ const coverage = [
   },
 ];
 
+const hospitalRatings = [
+  { value: "六级", label: "电子病历功能应用水平", featured: true },
+  { value: "六星", label: "智慧医院评价等级", featured: false },
+  { value: "3+", label: "核心智能应用产品", featured: false },
+  { value: "全场景", label: "医教研管AI覆盖", featured: false },
+];
+
+const hospitalBusinessLines = [
+  {
+    label: "患者服务线",
+    description: "智能咨询、导诊分诊、随访提醒、健康管理",
+    featured: true,
+  },
+  {
+    label: "临床辅助线",
+    description: "病历质控、辅助决策、知识检索、科研支持",
+    featured: false,
+  },
+  {
+    label: "平台基建线",
+    description: "模型开发、工具调用、流程编排、安全治理",
+    featured: false,
+  },
+];
+
 const gridVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
@@ -103,7 +128,17 @@ function CountUp({
   return <span ref={ref}>{(0).toFixed(decimals)}</span>;
 }
 
-export default function Stats12({ embedded = false }: { embedded?: boolean }) {
+type Stats12Props = {
+  embedded?: boolean;
+  /** 医院数智化转型页：右上 / 左下 / 右下使用医院文案 */
+  variant?: "default" | "hospital";
+};
+
+export default function Stats12({
+  embedded = false,
+  variant = "default",
+}: Stats12Props) {
+  const isHospital = variant === "hospital";
   const shouldReduceMotion = useReducedMotion();
   const growXVariants = shouldReduceMotion ? undefined : growX;
   const growYVariants = shouldReduceMotion ? undefined : growY;
@@ -127,18 +162,22 @@ export default function Stats12({ embedded = false }: { embedded?: boolean }) {
             aria-hidden="true"
           />
           <span className="text-xs font-medium tracking-wide text-neutral-500 dark:text-neutral-400">
-            量化指标体系
+            {isHospital ? "量化运营表现" : "量化指标体系"}
           </span>
         </div>
         <h2 className="mt-8 max-w-md text-3xl font-medium leading-[1.15] tracking-tight text-neutral-900 sm:text-4xl dark:text-white">
-          用关键指标看见医共体建设成效
+          {isHospital
+            ? "用核心指标看见应用成效"
+            : "用关键指标看见医共体建设成效"}
         </h2>
         <p className="mt-8 max-w-md text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400">
-          围绕平台覆盖、协同成效、服务能力、数智能力四个维度，全面评估医共体建设成果。
+          {isHospital
+            ? "日均AI会话发起数达 2,045 次，患者助手累计会话 42万+，AI服务累计用户 21万+，智能导诊累计次数 11万+，持续验证AI应用的活跃度与服务价值。"
+            : "围绕平台覆盖、协同成效、服务能力、数智能力四个维度，全面评估医共体建设成果。"}
         </p>
       </motion.div>
 
-      {/* 右上：横向对比卡 */}
+      {/* 右上 */}
       <motion.div
         variants={cellVariants}
         className="flex min-h-[340px] flex-col rounded-3xl bg-white p-8 shadow-[0_0_24px_rgba(0,0,0,0.06)] sm:p-10 lg:p-12 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:shadow-none"
@@ -149,61 +188,94 @@ export default function Stats12({ embedded = false }: { embedded?: boolean }) {
             aria-hidden="true"
           />
           <span className="text-xs font-medium tracking-wide text-neutral-500 dark:text-neutral-400">
-            关键协同指标表现
+            {isHospital ? "建设目标与评级" : "关键协同指标表现"}
           </span>
         </div>
-        <div className="flex flex-1 flex-col justify-center gap-8 sm:gap-9">
-          {rates.map((rate) => (
-            <div key={rate.label}>
-              <div className="flex items-baseline justify-between gap-6">
-                <span
-                  className={
-                    rate.featured
-                      ? "text-sm font-semibold text-neutral-900 sm:text-base dark:text-white"
-                      : "text-sm font-medium text-neutral-500 sm:text-base dark:text-neutral-400"
-                  }
-                >
-                  {rate.label}
-                </span>
+        {isHospital ? (
+          <div className="flex flex-1 flex-col justify-center gap-6 sm:gap-7">
+            <p className="text-[20px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+              建设等级与应用覆盖持续提升
+            </p>
+            {hospitalRatings.map((item) => (
+              <div
+                key={item.label}
+                className="flex items-baseline justify-between gap-4"
+              >
                 <span
                   className={`shrink-0 tracking-tight tabular-nums ${
-                    rate.featured
-                      ? "text-4xl font-semibold text-neutral-900 sm:text-5xl dark:text-white"
-                      : "text-2xl font-medium text-neutral-400 sm:text-3xl dark:text-neutral-500"
+                    item.featured
+                      ? "text-3xl font-semibold text-neutral-900 sm:text-4xl dark:text-white"
+                      : "text-xl font-medium text-neutral-400 sm:text-2xl dark:text-neutral-500"
                   }`}
                 >
-                  <CountUp value={rate.value} decimals={1} />
+                  {item.value}
+                </span>
+                <span
+                  className={
+                    item.featured
+                      ? "text-right text-sm font-semibold text-neutral-900 sm:text-base dark:text-white"
+                      : "text-right text-sm font-medium text-neutral-500 sm:text-base dark:text-neutral-400"
+                  }
+                >
+                  {item.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-1 flex-col justify-center gap-8 sm:gap-9">
+            {rates.map((rate) => (
+              <div key={rate.label}>
+                <div className="flex items-baseline justify-between gap-6">
                   <span
                     className={
                       rate.featured
-                        ? "ml-1 text-xl font-medium text-neutral-400 sm:text-2xl dark:text-neutral-500"
-                        : "ml-1 text-base text-neutral-400 sm:text-lg dark:text-neutral-600"
+                        ? "text-sm font-semibold text-neutral-900 sm:text-base dark:text-white"
+                        : "text-sm font-medium text-neutral-500 sm:text-base dark:text-neutral-400"
                     }
                   >
-                    %
+                    {rate.label}
                   </span>
-                </span>
+                  <span
+                    className={`shrink-0 tracking-tight tabular-nums ${
+                      rate.featured
+                        ? "text-4xl font-semibold text-neutral-900 sm:text-5xl dark:text-white"
+                        : "text-2xl font-medium text-neutral-400 sm:text-3xl dark:text-neutral-500"
+                    }`}
+                  >
+                    <CountUp value={rate.value} decimals={1} />
+                    <span
+                      className={
+                        rate.featured
+                          ? "ml-1 text-xl font-medium text-neutral-400 sm:text-2xl dark:text-neutral-500"
+                          : "ml-1 text-base text-neutral-400 sm:text-lg dark:text-neutral-600"
+                      }
+                    >
+                      %
+                    </span>
+                  </span>
+                </div>
+                <div className="mt-3">
+                  <motion.div
+                    variants={growXVariants}
+                    style={{
+                      transformOrigin: "left",
+                      width: `${rate.width}%`,
+                    }}
+                    className={`h-2.5 rounded-full ${
+                      rate.featured
+                        ? "bg-neutral-900 dark:bg-white"
+                        : "bg-neutral-300 dark:bg-neutral-700"
+                    }`}
+                  />
+                </div>
               </div>
-              <div className="mt-3">
-                <motion.div
-                  variants={growXVariants}
-                  style={{
-                    transformOrigin: "left",
-                    width: `${rate.width}%`,
-                  }}
-                  className={`h-2.5 rounded-full ${
-                    rate.featured
-                      ? "bg-neutral-900 dark:bg-white"
-                      : "bg-neutral-300 dark:bg-neutral-700"
-                  }`}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </motion.div>
 
-      {/* 左下：柱图卡 */}
+      {/* 左下 */}
       <motion.div
         variants={cellVariants}
         className="flex min-h-[340px] flex-col rounded-3xl bg-white p-8 shadow-[0_0_24px_rgba(0,0,0,0.06)] sm:p-10 lg:p-12 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:shadow-none"
@@ -214,45 +286,69 @@ export default function Stats12({ embedded = false }: { embedded?: boolean }) {
             aria-hidden="true"
           />
           <span className="text-xs font-medium tracking-wide text-neutral-500 dark:text-neutral-400">
-            核心服务能力提升
+            {isHospital ? "三线业务成效" : "核心服务能力提升"}
           </span>
         </div>
-        <div className="flex flex-1 items-end justify-center gap-5 sm:gap-8">
-          {coverage.map((col) => (
-            <div
-              key={col.label}
-              className="flex w-full max-w-[7.5rem] flex-col items-center sm:max-w-[8.5rem]"
-            >
-              <motion.span
-                variants={fade}
-                className={`mb-4 text-center text-2xl font-semibold tracking-tight tabular-nums sm:text-3xl ${
-                  col.featured
-                    ? "text-neutral-900 dark:text-white"
-                    : "text-neutral-400 dark:text-neutral-500"
-                }`}
-              >
-                <CountUp value={col.value} decimals={col.decimals} />
-                <span className="ml-0.5 text-base font-medium sm:text-lg">
-                  {col.suffix}
+        {isHospital ? (
+          <div className="flex flex-1 flex-col justify-center gap-6">
+            <p className="text-[20px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+              患者、临床、平台三线协同推进
+            </p>
+            {hospitalBusinessLines.map((line) => (
+              <div key={line.label} className="flex flex-col gap-1.5">
+                <span
+                  className={
+                    line.featured
+                      ? "text-base font-semibold text-neutral-900 dark:text-white"
+                      : "text-base font-medium text-neutral-700 dark:text-neutral-300"
+                  }
+                >
+                  {line.label}
                 </span>
-              </motion.span>
-              <div className={`w-full ${col.barClass}`}>
-                <motion.div
-                  variants={growYVariants}
-                  style={{ transformOrigin: "bottom" }}
-                  className={`h-full w-full rounded-2xl ${
-                    col.featured
-                      ? "bg-neutral-900 dark:bg-white"
-                      : "bg-neutral-300 dark:bg-neutral-700"
-                  }`}
-                />
+                <span className="text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+                  {line.description}
+                </span>
               </div>
-              <span className="mt-4 text-center text-sm font-medium text-neutral-600 dark:text-neutral-400">
-                {col.label}
-              </span>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-1 items-end justify-center gap-5 sm:gap-8">
+            {coverage.map((col) => (
+              <div
+                key={col.label}
+                className="flex w-full max-w-[7.5rem] flex-col items-center sm:max-w-[8.5rem]"
+              >
+                <motion.span
+                  variants={fade}
+                  className={`mb-4 text-center text-2xl font-semibold tracking-tight tabular-nums sm:text-3xl ${
+                    col.featured
+                      ? "text-neutral-900 dark:text-white"
+                      : "text-neutral-400 dark:text-neutral-500"
+                  }`}
+                >
+                  <CountUp value={col.value} decimals={col.decimals} />
+                  <span className="ml-0.5 text-base font-medium sm:text-lg">
+                    {col.suffix}
+                  </span>
+                </motion.span>
+                <div className={`w-full ${col.barClass}`}>
+                  <motion.div
+                    variants={growYVariants}
+                    style={{ transformOrigin: "bottom" }}
+                    className={`h-full w-full rounded-2xl ${
+                      col.featured
+                        ? "bg-neutral-900 dark:bg-white"
+                        : "bg-neutral-300 dark:bg-neutral-700"
+                    }`}
+                  />
+                </div>
+                <span className="mt-4 text-center text-sm font-medium text-neutral-600 dark:text-neutral-400">
+                  {col.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </motion.div>
 
       {/* 右下：说明卡 */}
@@ -270,10 +366,12 @@ export default function Stats12({ embedded = false }: { embedded?: boolean }) {
           </span>
         </div>
         <h3 className="mt-8 max-w-md text-3xl font-medium leading-[1.15] tracking-tight text-neutral-900 sm:text-4xl dark:text-white">
-          从覆盖建设走向持续运营
+          {isHospital ? "从建设覆盖走向持续运营" : "从覆盖建设走向持续运营"}
         </h3>
         <p className="mt-8 max-w-md text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400">
-          通过统一平台、协同服务与智能应用建设，逐步形成可量化、可跟踪、可优化的医共体成效评估体系。
+          {isHospital
+            ? "以统一平台为底座，推动患者服务、临床辅助与平台能力协同发展，逐步形成可量化、可追踪、可持续优化的数智化运营体系。"
+            : "通过统一平台、协同服务与智能应用建设，逐步形成可量化、可跟踪、可优化的医共体成效评估体系。"}
         </p>
         <div className="relative mt-auto overflow-hidden rounded-2xl pt-8">
           <img

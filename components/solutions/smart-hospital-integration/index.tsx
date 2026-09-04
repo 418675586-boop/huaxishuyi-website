@@ -24,123 +24,131 @@ import {
   type Features4Tab,
 } from "@/components/blocks/features-4";
 import {
-  Features2,
-  HOSPITAL_ARCHITECTURE_FEATURES,
-} from "@/components/blocks/features-2";
-import {
-  HowItWorks3,
-  HOSPITAL_HOW_IT_WORKS_ITEMS,
-} from "@/components/blocks/how-it-works-3";
+  ArchitectureLayersSection,
+  SMART_HOSPITAL_ARCHITECTURE_LAYERS,
+} from "@/components/blocks/architecture-layers";
 import Features12, {
-  HOSPITAL_FEATURES12_CARDS,
+  SMART_HOSPITAL_FEATURES12_CARDS,
 } from "@/components/blocks/features-12";
+import ScrollStack from "@/components/react-bits/scroll-stack";
+import type { ScrollStackItem } from "@/components/react-bits/scroll-stack";
 import Stats12 from "@/components/blocks/stats-12";
 import Stats3 from "@/components/blocks/stats-3";
 import Waitlist6 from "@/components/blocks/waitlist-6";
 import { Hero7 } from "@/components/blocks/hero-7";
 import {
   LenticularCarouselSection,
-  HOSPITAL_VALUE_ITEMS,
+  SMART_HOSPITAL_VALUE_ITEMS,
 } from "@/components/lenticular-carousel-section";
+
+const SCROLL_STACK_ITEMS: ScrollStackItem[] = SMART_HOSPITAL_VALUE_ITEMS.map(
+  (item, index) => ({
+    eyebrow: item.meta,
+    title: item.title,
+    body: item.description,
+    image: item.src,
+    accent: ["#9bd1ff", "#a8c8ec", "#b8b8f0", "#8ebce8"][index] ?? "#9bd1ff",
+  }),
+);
 
 const overviewTabs: Features4Tab[] = [
   {
     icon: ClipboardList,
-    title: "建设背景与必要性",
-    description: "数智化转型是智慧医院建设的关键支撑",
+    title: "方案必要性",
+    description: "信息孤岛与合规要求倒逼集成升级",
     detail:
-      "以 AI 驱动信息化建设，提供个性化、智能化的医疗服务，是对医院治理、服务与运营体系的全面重构，推动医院高质量发展。",
+      "大型医疗机构通常运行 80—150 套业务系统，来自 30+ 厂商，烟囱式建设导致信息孤岛；约 85% 医院难以实现跨院数据互通。国家卫健委要求公立医院于 2026 年 1 月 1 日前完成 HL7 FHIR R4+ 接口适配，系统集成已成为数智化转型刚需。",
     features: [
       {
-        title: "关键支撑",
-        description: "数智化转型支撑智慧医院体系建设",
+        title: "系统高度复杂",
+        description: "单院普遍运行 80—150 套业务系统",
       },
       {
-        title: "AI 驱动",
-        description: "以人工智能驱动医院信息化升级",
+        title: "厂商高度分散",
+        description: "业务系统来自 30+ 家厂商，对接成本高",
       },
       {
-        title: "个性智能服务",
-        description: "提供个性化、智能化的医疗服务能力",
+        title: "数据互通受阻",
+        description: "约 85% 医院难以实现跨院数据互通",
       },
       {
-        title: "体系重构",
-        description: "全面重构医院治理、服务与运营体系",
+        title: "标准合规倒逼",
+        description: "2026 年前需完成 HL7 FHIR R4+ 接口适配",
       },
     ],
   },
   {
     icon: Crosshair,
-    title: "建设定位",
-    description: "以电子病历为核心，以 AI 为驱动",
+    title: "方案定位",
+    description: "从点对点对接迈向总线式集成平台",
     detail:
-      "围绕电子病历核心，以 AI 为驱动，覆盖数智化基建、AI 智能应用、医疗物联网与数据治理四大领域，构建医院数智化能力底座。",
+      "面向大型医疗机构的领先集成平台，以「应用集成可视化、数据集成自动化、MQ 消息统一化、API 管理标准化」为核心能力，推动从点对点接口对接迈向总线式集成平台架构。",
     features: [
       {
-        title: "数智化基建",
-        description: "信息系统、数据中心、网络架构、智能硬件",
+        title: "应用集成可视化",
+        description: "统一应用接入与集成过程可视化管理",
       },
       {
-        title: "AI 智能应用",
-        description: "大数据、AI、云计算、智能工作流",
+        title: "数据集成自动化",
+        description: "自动化数据汇聚、转换与同步",
       },
       {
-        title: "医疗物联网",
-        description: "IoT 监测、AI 预警、可视化平台",
+        title: "MQ 消息统一化",
+        description: "统一消息总线，保障业务事件可靠流转",
       },
       {
-        title: "数据治理",
-        description: "全生命周期管理、数据资产化",
+        title: "API 管理标准化",
+        description: "标准化 API 发布、治理与复用",
       },
     ],
   },
   {
     icon: Flag,
-    title: "总体目标",
-    description: "数据驱动、AI 赋能、安全可控",
+    title: "方案目标",
+    description: "四个统一，降本增效可量化",
     detail:
-      "以数据驱动、AI 赋能、安全可控为支柱，构建「基础平台 → 数据中台 → AI 能力层 → 智能应用层」四层技术架构，形成智慧医院新生态。",
+      "建设医院统一集成中枢，实现「四个统一」：统一应用集成入口、统一数据集成底座、统一消息管控中枢、统一 API 运营平台；接口对接成本降低 60% 以上，API 复用率提升至 80% 以上。",
     features: [
       {
-        title: "数据驱动",
-        description: "数据汇聚、治理沉淀",
+        title: "统一应用集成入口",
+        description: "收敛多系统接入，形成统一集成入口",
       },
       {
-        title: "AI 赋能",
-        description: "模型驱动、能力增强",
+        title: "统一数据集成底座",
+        description: "夯实跨系统数据汇聚与共享底座",
       },
       {
-        title: "智能协同与新生态",
-        description: "人机协同提效，创新服务持续共赢",
+        title: "统一消息管控中枢",
+        description: "构建可靠、可观测的消息流转中枢",
       },
       {
-        title: "安全可控",
-        description: "数据安全、隐私保护",
+        title: "统一 API 运营平台",
+        description: "提升 API 复用率，降低对接成本",
       },
     ],
   },
   {
     icon: Scale,
-    title: "建设原则",
-    description: "统一标准、数据互通、安全合规、支撑 AI",
+    title: "方案原则",
+    description: "标准化、松耦合、安全可控、高性能",
     detail:
-      "坚持统一标准、数据互通、安全合规与支撑 AI 应用四项原则，夯实医院数智化底座，保障建设可持续演进。",
+      "坚持标准化、松耦合、安全可控与高性能四项原则，保障集成平台可扩展、可治理、可持续演进。",
     features: [
       {
-        title: "统一标准",
-        description: "建立统一数据与接口标准",
+        title: "标准化",
+        description: "遵循 HL7 FHIR、CDA、DICOM 等医疗互操作标准",
       },
       {
-        title: "数据互通",
-        description: "打通异构系统互联互通",
+        title: "松耦合",
+        description: "总线架构支撑业务系统即插即用",
       },
       {
-        title: "安全合规",
-        description: "严格落实等级保护要求",
+        title: "安全可控",
+        description: "精细化权限管理与全链路审计留痕",
       },
       {
-        title: "支撑 AI 应用",
-        description: "为 AI 训练提供高质量数据",
+        title: "高性能",
+        description: "支持万级 TPS 并发，保障医嘱等关键数据一致性",
       },
     ],
   },
@@ -215,39 +223,6 @@ const pains: {
     icon: Lock,
   },
 ];
-
-const riskControls = [
-  {
-    step: "01",
-    title: "数据安全管控",
-    points: [
-      "数据权限精细化管理",
-      "患者隐私保护与数据脱敏",
-      "数据分类分级管控",
-      "数据访问审计留痕",
-    ],
-  },
-  {
-    step: "02",
-    title: "全链路过程管控",
-    points: [
-      "全链路追踪与审计",
-      "AI决策可追溯、可解释",
-      "模型行为监测与评估",
-      "审计留痕与合规检查",
-    ],
-  },
-  {
-    step: "03",
-    title: "渐进式上线策略",
-    points: [
-      "“逐步试点→验证评估→逐步放开”",
-      "风险可控前提下的快速迭代",
-      "灰度发布与A/B测试",
-      "应急回滚机制",
-    ],
-  },
-] as const;
 
 function PainCard({
   item,
@@ -345,7 +320,7 @@ function PainCard({
   );
 }
 
-export function HospitalDigitalTransformation() {
+export function SmartHospitalIntegration() {
   return (
     <>
       <Header />
@@ -361,14 +336,13 @@ export function HospitalDigitalTransformation() {
         </div>
 
         <Hero7
-          badgeLabel="医院数智化转型解决方案"
-          title="数智驱动医疗·智慧引领未来"
-          description="以AI赋能为核心引擎，构建以患者为中心的智慧医疗服务体系，推动医院高质量发展"
+          badgeLabel="智慧医院/系统集成解决方案"
+          title="集成无界 · 数智连通"
+          description="打破医疗信息壁垒，构建统一集成底座，实现应用、数据、消息与API高效协同，赋能数智医院高质量转型。"
           tags={[
-            "四大数智支柱",
-            "六大核心能力",
-            "三大智能应用",
-            "四大应用场景",
+            "451亿｜市场规模持续增长",
+            "80–150套｜系统高度复杂",
+            "85%｜数据互通受阻",
           ]}
           badgePrefixClassName="text-[12px]"
           badgeLabelClassName="text-[14px]"
@@ -377,22 +351,43 @@ export function HospitalDigitalTransformation() {
         />
 
         <Features4
-          description="通过数智化技术提升医疗服务质量和效率，构建以患者为中心的医疗服务体系"
+          description="打破医疗信息烟囱，构建统一集成底座"
           tabs={overviewTabs}
         />
 
         <LenticularCarouselSection
-          description="四大支柱夯实数智化转型基础，多维赋能医院高质量发展"
-          items={HOSPITAL_VALUE_ITEMS}
+          title="领先的医疗行业服务集成"
+          description="四大核心能力，构建医院集成新范式"
+          items={SMART_HOSPITAL_VALUE_ITEMS}
         />
 
-        <Features2
-          features={HOSPITAL_ARCHITECTURE_FEATURES}
-          description="四层技术架构 + 数据飞轮驱动，构建医院数智化转型完整体系"
+        <ArchitectureLayersSection
+          label={null}
+          title="四层技术架构 · 医疗系统集成平台"
+          description="以应用集成、集成总线、数据集成、基础设施四层贯通，打造医疗系统一站式混合集成平台"
+          layers={SMART_HOSPITAL_ARCHITECTURE_LAYERS}
+          variant="diagram"
+          className="bg-white"
+        />
+
+        <Features12
+          badgeLabel={null}
+          title="核心功能"
+          description="六大核心模块，覆盖医疗集成全场景"
+          cards={SMART_HOSPITAL_FEATURES12_CARDS}
+          columns={3}
+          className="bg-[#F8F8F8]"
+        />
+
+        <ScrollStack
+          items={SCROLL_STACK_ITEMS}
+          variant="stack"
+          showCounter={false}
+          className="bg-white dark:bg-transparent"
         />
 
         {/* Main features */}
-        <section className="relative z-[1] bg-[#F8F8F8] px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">
+        <section className="relative z-[1] bg-white px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
@@ -406,71 +401,6 @@ export function HospitalDigitalTransformation() {
             <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {pains.map((item, index) => (
                 <PainCard key={item.title} item={item} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <Features12
-          badgeLabel={null}
-          title="落地场景·全流程智慧医疗服务"
-          description="覆盖各级医疗机构、区域协同、专业领域及公共卫生体系，全面覆盖医疗细分场景"
-          cards={HOSPITAL_FEATURES12_CARDS}
-        />
-
-        <section
-          className="relative z-[1] bg-[#F8F8F8] px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8"
-          aria-label="落地场景与实施路径"
-        >
-          <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[50px]">
-            <HowItWorks3
-              embedded
-              items={HOSPITAL_HOW_IT_WORKS_ITEMS}
-              title="实施路径：四步走战略"
-              description="从数字化基础到智慧医疗新生态的阶梯式发展"
-            />
-          </div>
-        </section>
-
-        {/* AI risk control */}
-        <section className="relative z-[1] bg-white px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">
-          <div className="mx-auto w-full max-w-[1200px]">
-            <div className="mb-10 flex max-w-3xl flex-col gap-3">
-              <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
-                AI风险管控体系
-              </h2>
-              <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
-                三维度风险管控框架，确保AI应用安全可控
-              </p>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {riskControls.map((item, index) => (
-                <motion.article
-                  key={item.step}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="relative flex flex-col gap-4 rounded-[20px] bg-white p-6 shadow-[0_0_24px_rgba(0,0,0,0.06)] dark:border dark:border-white/10 dark:bg-white/[0.06] dark:shadow-none dark:backdrop-blur-xl"
-                >
-                  <span className="text-[28px] font-semibold tracking-tight text-neutral-300 dark:text-neutral-600">
-                    {item.step}
-                  </span>
-                  <h3 className="text-[18px] font-semibold text-neutral-950 dark:text-white">
-                    {item.title}
-                  </h3>
-                  <ul className="flex flex-col gap-2">
-                    {item.points.map((point) => (
-                      <li
-                        key={point}
-                        className="text-[14px] leading-relaxed text-neutral-600 dark:text-neutral-400"
-                      >
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.article>
               ))}
             </div>
           </div>
@@ -510,4 +440,4 @@ export function HospitalDigitalTransformation() {
   );
 }
 
-export default HospitalDigitalTransformation;
+export default SmartHospitalIntegration;

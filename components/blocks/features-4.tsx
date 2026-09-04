@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import type { LucideIcon } from "lucide-react";
-import { Building2, House, Users, Bot } from "lucide-react";
+import { ClipboardList, Crosshair, Flag, Scale } from "lucide-react";
 
 export interface Features4Tab {
   icon: LucideIcon;
@@ -26,102 +26,102 @@ export interface Features4Props {
 
 const DEFAULT_TABS: Features4Tab[] = [
   {
-    icon: Building2,
-    title: "医院层面",
-    description: "提升统一监管与运营决策能力",
+    icon: ClipboardList,
+    title: "建设必要性",
+    description: "不止建系统，更是治理与服务能力工程",
     detail:
-      "提升医共体统一监管、统一决策、统一运营能力，增强牵头医院区域统筹能力与品牌影响力。",
+      "以牵头医院为核心，贯通成员单位，整合医疗、公卫、医保、药事、养老等协同服务，形成“基层检查、上级诊断、结果共享、同质服务”格局。",
     features: [
       {
-        title: "统一监管",
-        description: "从分散管理逐步转向实时监管与专题分析",
+        title: "能力工程",
+        description: "支撑牵头医院治理、服务与 AI 赋能能力建设",
       },
       {
-        title: "运营决策",
-        description: "通过数据统计、趋势分析辅助管理决策",
+        title: "上下贯通",
+        description: "以统一平台连接牵头医院与基层成员单位",
       },
       {
-        title: "资源统筹",
-        description: "强化牵头医院对区域医疗资源的统筹配置能力",
+        title: "业务整合",
+        description: "覆盖医疗、公卫、医保、药事、养老等协同服务",
       },
       {
-        title: "品牌提升",
-        description: "提升医共体整体服务能力与区域品牌影响力",
+        title: "服务同质",
+        description: "推动基层检查、上级诊断、结果共享与同质服务",
       },
     ],
   },
   {
-    icon: House,
-    title: "基层层面",
-    description: "促进资源下沉，提升基层诊疗能力",
+    icon: Crosshair,
+    title: "建设定位",
+    description: "统一数智底座，而非分散子系统堆叠",
     detail:
-      "提升基层检查、诊断、转诊、慢病及重点人群健康管理能力，推动优质医疗资源下沉。",
+      "面向医共体构建统一数智底座，覆盖管理、业务、协同与数智赋能四类平台，支撑区域统筹、资源共享与连续服务。",
     features: [
       {
-        title: "能力补齐",
-        description: "弥补基层医疗机构资源与专业能力短板",
+        title: "管理平台",
+        description: "支撑牵头医院对医共体整体运营的统筹管理",
       },
       {
-        title: "上下协同",
-        description: "形成“基层检查、上级诊断、结果共享”服务模式",
+        title: "业务平台",
+        description: "支撑优质医疗资源下沉与区域业务共享",
       },
       {
-        title: "慢病管理",
-        description: "强化慢病及重点人群连续健康管理",
+        title: "协同平台",
+        description: "支撑群众连续服务与基层能力提升",
       },
       {
-        title: "同质服务",
-        description: "推动基层医疗服务标准化与同质化",
+        title: "数智赋能平台",
+        description: "支撑数据治理、智能分析与 AI 能力落地",
       },
     ],
   },
   {
-    icon: Users,
-    title: "群众层面",
-    description: "优化跨院就医体验与连续服务",
+    icon: Flag,
+    title: "总体目标",
+    description: "实现“五个统一”，提升整体运行效能",
     detail:
-      "减少重复检查，优化预约转诊与连续服务体验，让群众跨院区就医更加顺畅、高效。",
+      "通过统一平台、标准、数据、协同与安全，提升牵头医院统筹力、基层服务力、资源利用效率与群众满意度。",
     features: [
       {
-        title: "减少重复检查",
-        description: "推进检查检验结果共享与互认",
+        title: "统一平台与标准",
+        description: "跨院区、跨机构支撑，统一身份、主数据、接口与规则",
       },
       {
-        title: "便捷转诊",
-        description: "改善预约、转诊和跨机构就医流程",
+        title: "统一数据",
+        description: "贯通诊疗、公卫、管理与运营数据链路",
       },
       {
-        title: "连续服务",
-        description: "强化连续用药、慢病及老幼健康服务",
+        title: "统一协同",
+        description: "形成共享中心、公共服务与协同管理闭环",
       },
       {
-        title: "体验提升",
-        description: "减少等待、重复和流程断点",
+        title: "统一安全",
+        description: "构建覆盖网络、应用、数据与运维的安全体系",
       },
     ],
   },
   {
-    icon: Bot,
-    title: "数智化层面",
-    description: "强化数据治理与 AI 辅助服务",
+    icon: Scale,
+    title: "建设原则",
+    description: "先底座、再见效、后深化",
     detail:
-      "以数据治理、智能分析和 AI 能力支撑医共体精细化管理及连续健康服务。",
+      "在继承发展基础上坚持集约共享、业务协同、分步实施，并确保建设过程安全可控、合规可管。",
     features: [
       {
-        title: "风险识别",
-        description: "逐步形成风险识别与质量预警能力",
+        title: "继承发展",
+        description: "最大限度利用既有系统与基础设施",
       },
       {
-        title: "运营分析",
-        description: "支撑医共体运营监测与管理分析",
+        title: "集约共享",
+        description: "避免重复建设与低水平堆叠",
       },
       {
-        title: "AI 辅助",
-        description: "强化影像、心电、病理、检验等场景辅助分析",
+        title: "业务协同",
+        description: "以业务驱动、管理导向推进落地",
       },
       {
-        title: "数字医生",
-        description: "构建 AI 服务与数字医生能力，支撑连续健康管理",
+        title: "分步实施与安全可控",
+        description: "优先底座与关键场景，满足网络安全与等保要求",
       },
     ],
   },
@@ -130,8 +130,8 @@ const DEFAULT_TABS: Features4Tab[] = [
 export function Features4({
   autoPlay = true,
   autoPlayDelay = 5000,
-  heading = "方案优势及价值",
-  description = "覆盖医院、基层、群众与数智化四个维度，全面提升医共体运行效能",
+  heading = "方案概述",
+  description = "以数字化手段推动医共体真正形成责任、服务、管理和发展共同体",
   tabs = DEFAULT_TABS,
 }: Features4Props) {
   const [activeTab, setActiveTab] = useState(0);

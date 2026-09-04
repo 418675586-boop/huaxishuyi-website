@@ -50,10 +50,16 @@ const CARD_GAP_PX = 24;
 const CARD_COUNT = 3;
 
 const cards: CardData[] = [
-  { title: "智慧医院/系统集成" },
-  { title: "区域医疗数智化转型" },
   {
-    title: "医疗数智化转型",
+    title: "智慧医院/系统集成",
+    href: "/solutions/smart-hospital-integration",
+  },
+  {
+    title: "区域型医共体数智化",
+    href: "/solutions/regional-medical-community",
+  },
+  {
+    title: "医院数智化转型",
     href: "/solutions/hospital-digital-transformation",
   },
 ];

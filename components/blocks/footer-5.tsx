@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 const footerGroups = [
@@ -20,13 +20,12 @@ const footerGroups = [
         href: "/solutions/hospital-digital-transformation",
       },
       {
-        text: "区域医疗数智化转型解决方案",
-        href: "#",
+        text: "区域型医共体数智化解决方案",
+        href: "/solutions/regional-medical-community",
       },
       {
-        text: "医疗系统集成行业解决方案",
-        href: "#",
-        external: true,
+        text: "智慧医院/系统集成解决方案",
+        href: "/solutions/smart-hospital-integration",
       },
     ],
   },
@@ -105,7 +104,7 @@ export function Footer5() {
                         >
                           <span>{link.text}</span>
                           {"external" in link && link.external ? (
-                            <ArrowUpRight className="mt-1 h-3.5 w-3.5 shrink-0 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                            <ArrowRight className="mt-1 h-3.5 w-3.5 shrink-0 transition-transform group-hover/link:translate-x-0.5" />
                           ) : null}
                         </a>
                       </li>

@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect, useRef } from "react";
 
-const stats = [
+const defaultStats = [
   {
     value: "87.6%",
     label: "双向转诊协同效率",
@@ -14,7 +14,24 @@ const stats = [
   },
 ];
 
-export default function Stats3({ embedded = false }: { embedded?: boolean }) {
+export type Stats3Stat = {
+  value: string;
+  label: string;
+};
+
+type Stats3Props = {
+  embedded?: boolean;
+  title?: string;
+  description?: string;
+  stats?: Stats3Stat[];
+};
+
+export default function Stats3({
+  embedded = false,
+  title = "四维成效协同提升",
+  description = "围绕医院管理、基层赋能、群众服务与数智支撑四个维度，全面提升医共体统筹运营、资源下沉、协同服务与智能化能力，推动区域医疗服务更加高效、便捷、连续。",
+  stats = defaultStats,
+}: Stats3Props) {
   const marquee1Ref = useRef<HTMLDivElement>(null);
   const marquee2Ref = useRef<HTMLDivElement>(null);
 
@@ -70,7 +87,7 @@ export default function Stats3({ embedded = false }: { embedded?: boolean }) {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="mb-6 text-3xl font-medium leading-tight text-white sm:mb-8 sm:text-4xl md:text-4xl"
           >
-            四维成效协同提升
+            {title}
           </motion.h2>
 
           <motion.p
@@ -80,7 +97,7 @@ export default function Stats3({ embedded = false }: { embedded?: boolean }) {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mb-8 text-[14px] leading-relaxed tracking-tight text-neutral-300 sm:mb-12"
           >
-            围绕医院管理、基层赋能、群众服务与数智支撑四个维度，全面提升医共体统筹运营、资源下沉、协同服务与智能化能力，推动区域医疗服务更加高效、便捷、连续。
+            {description}
           </motion.p>
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-12">

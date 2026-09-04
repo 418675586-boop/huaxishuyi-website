@@ -34,6 +34,10 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import { OutlineCtaLink } from "@/components/outline-cta";
 import Comparison8 from "@/components/blocks/comparison-8";
 import Features12 from "@/components/blocks/features-12";
+import {
+  ArchitectureLayersSection,
+  AI_MEDICAL_ALLIANCE_ARCHITECTURE_LAYERS,
+} from "@/components/blocks/architecture-layers";
 import { CountUp } from "@/components/blocks/stats-10";
 import GradientBlinds from "@/components/GradientBlinds/GradientBlinds";
 
@@ -115,66 +119,6 @@ const pains: {
     title: "协同管控缺失",
     description: "跨机构业务缺少统一权限、内容审计与运营监控，合规与效率难以保障。",
     icon: ShieldOff,
-  },
-];
-
-const architectureLayers = [
-  {
-    name: "场景层",
-    items: [
-      "远程会诊",
-      "数字MDT",
-      "双向转诊",
-      "资源调度",
-      "专科联盟",
-      "科研随访",
-      "平台运营",
-    ],
-  },
-  {
-    name: "协同层",
-    items: [
-      "跨院诊疗协同",
-      "集团资源调度",
-      "专科联盟管理",
-      "统筹排班排床",
-      "号源智能调配",
-      "跨院信息查询",
-      "全域协同",
-    ],
-  },
-  {
-    name: "引擎层",
-    items: [
-      "医疗大模型",
-      "多智能体协同",
-      "专家知识库",
-      "数字分身引擎",
-      "转诊决策引擎",
-      "资源调度算法",
-    ],
-  },
-  {
-    name: "底座层",
-    items: [
-      "患者360全景视图",
-      "跨机构数据中台",
-      "检验检查互认",
-      "影像共享中心",
-      "心电/病理共享",
-      "数据底座",
-    ],
-  },
-  {
-    name: "机构层",
-    items: [
-      "村卫生室",
-      "乡镇卫生院",
-      "县级医院",
-      "市级三甲",
-      "多院区",
-      "专科联盟",
-    ],
   },
 ];
 
@@ -544,47 +488,9 @@ export default function AiMedicalAlliancePage() {
           </div>
         </section>
 
-        {/* Architecture */}
-        <section className="relative z-[1] bg-[#F8F8F8] px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">
-          <div className="mx-auto w-full max-w-[1200px]">
-            <div className="mb-10 flex max-w-3xl flex-col gap-3">
-              <SectionLabel>产品架构</SectionLabel>
-              <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
-                五层架构 · 跨机构AI医疗协同底座
-              </h2>
-              <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
-                以患者360全景视图为核心底座，多智能体协同，构建从基层到专家的全链路协同生态
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              {architectureLayers.map((layer, index) => (
-                <motion.div
-                  key={layer.name}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: index * 0.04 }}
-                  className="grid gap-4 rounded-[16px] bg-white p-5 dark:border dark:border-white/10 dark:bg-white/[0.06] dark:backdrop-blur-xl sm:grid-cols-[140px_1fr] sm:items-center sm:p-6"
-                >
-                  <div className="text-[18px] font-semibold text-neutral-950 dark:text-white">
-                    {layer.name}
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {layer.items.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-full bg-[#F8F8F8] px-3 py-1.5 text-[13px] text-neutral-700 dark:bg-white/10 dark:text-neutral-300"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ArchitectureLayersSection
+          layers={AI_MEDICAL_ALLIANCE_ARCHITECTURE_LAYERS}
+        />
 
         <Features12 />
 

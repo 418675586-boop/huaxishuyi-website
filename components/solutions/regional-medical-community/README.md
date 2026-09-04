@@ -1,5 +1,4 @@
-# 区域型医共体数智化解决方案
+# 医院数智化转型解决方案
 
-对应页面：`app/solutions/regional-medical-community`
-
-组件内容待补充。
+组件入口：`components/solutions/regional-medical-community/index.tsx`  
+路由：`/solutions/regional-medical-community`

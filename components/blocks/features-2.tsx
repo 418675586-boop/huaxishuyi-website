@@ -3,14 +3,14 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import type { LucideIcon } from "lucide-react";
-import { Layers, Network, Boxes } from "lucide-react";
+import { Layers, Network, Boxes, RefreshCw, Bot } from "lucide-react";
 
-interface FeatureCardItem {
+export interface FeatureCardItem {
   label: string;
   description: string;
 }
 
-interface FeatureEntry {
+export interface FeatureEntry {
   title: string;
   icon: LucideIcon;
   image: string;
@@ -20,7 +20,7 @@ interface FeatureEntry {
   };
 }
 
-const features: FeatureEntry[] = [
+const DEFAULT_FEATURES: FeatureEntry[] = [
   {
     title: "总体架构",
     icon: Layers,
@@ -91,7 +91,94 @@ const features: FeatureEntry[] = [
   },
 ];
 
-export function Features2() {
+export const HOSPITAL_ARCHITECTURE_FEATURES: FeatureEntry[] = [
+  {
+    title: "总体架构",
+    icon: Layers,
+    image: "/img/solutions/architecture-overall.png",
+    card: {
+      title: "四层技术栈",
+      items: [
+        {
+          label: "第四层 · 智能应用层",
+          description: "临床应用、管理决策、患者服务、科研创新",
+        },
+        {
+          label: "第三层 · AI 能力层",
+          description: "算法服务、模型管理、算力调度、开放能力、智能体开发",
+        },
+        {
+          label: "第二层 · 数据中台",
+          description: "数据采集、数据治理、数据服务、数据资产、数据交换",
+        },
+        {
+          label: "第一层 · 基础平台",
+          description: "云基础设施、网络与安全、医院信息系统、智能硬件、集成平台",
+        },
+      ],
+    },
+  },
+  {
+    title: "数据飞轮",
+    icon: RefreshCw,
+    image: "/img/solutions/architecture-tech.png",
+    card: {
+      title: "持续进化闭环",
+      items: [
+        {
+          label: "院内数据与清洗标注",
+          description: "汇聚院内数据，完成清洗标注，形成高质量训练样本",
+        },
+        {
+          label: "模型训练",
+          description: "基于标注数据持续训练与优化模型能力",
+        },
+        {
+          label: "应用反馈与强化学习",
+          description: "应用产生反馈数据，通过强化学习反哺模型",
+        },
+        {
+          label: "模型迭代闭环",
+          description: "模型更强 → 应用更智能 → 产生更多优质反馈，形成良性循环",
+        },
+      ],
+    },
+  },
+  {
+    title: "AIOS 智能体平台",
+    icon: Bot,
+    image: "/img/solutions/architecture-base.png",
+    card: {
+      title: "医院级智能体开发与运行基座",
+      items: [
+        {
+          label: "智能应用发布",
+          description: "应用发布与运行管理，支撑业务系统深度对接",
+        },
+        {
+          label: "大模型接入",
+          description: "华西数医模型底层接入，连接大模型与上层智能应用",
+        },
+        {
+          label: "智能体构建运行",
+          description: "构建、运行、评估与监测一体化",
+        },
+        {
+          label: "Harness 工程",
+          description: "自然语言开发与低代码技能构建，能力复用",
+        },
+      ],
+    },
+  },
+];
+
+export function Features2({
+  features = DEFAULT_FEATURES,
+  description = "从总体、技术与核心底座三个维度，构建统一协同、数据贯通、智能赋能的数智化体系。",
+}: {
+  features?: FeatureEntry[];
+  description?: string;
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -109,7 +196,7 @@ export function Features2() {
         clearInterval(intervalRef.current);
       }
     };
-  }, []);
+  }, [features.length]);
 
   const handleFeatureClick = (index: number) => {
     setActiveIndex(index);
@@ -147,7 +234,7 @@ export function Features2() {
                 transition={{ duration: 0.4, delay: 0.1 }}
                 className="max-w-xl text-[16px] text-neutral-600 dark:text-neutral-400"
               >
-                从总体、技术与核心底座三个维度，构建统一协同、数据贯通、智能赋能的数智化体系。
+                {description}
               </motion.p>
             </div>
 
