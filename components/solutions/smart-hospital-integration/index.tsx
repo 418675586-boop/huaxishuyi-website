@@ -30,8 +30,7 @@ import {
 import Features12, {
   SMART_HOSPITAL_FEATURES12_CARDS,
 } from "@/components/blocks/features-12";
-import ScrollStack from "@/components/react-bits/scroll-stack";
-import type { ScrollStackItem } from "@/components/react-bits/scroll-stack";
+import Contact9 from "@/components/blocks/contact-9";
 import Stats12 from "@/components/blocks/stats-12";
 import Stats3 from "@/components/blocks/stats-3";
 import Waitlist6 from "@/components/blocks/waitlist-6";
@@ -40,16 +39,6 @@ import {
   LenticularCarouselSection,
   SMART_HOSPITAL_VALUE_ITEMS,
 } from "@/components/lenticular-carousel-section";
-
-const SCROLL_STACK_ITEMS: ScrollStackItem[] = SMART_HOSPITAL_VALUE_ITEMS.map(
-  (item, index) => ({
-    eyebrow: item.meta,
-    title: item.title,
-    body: item.description,
-    image: item.src,
-    accent: ["#9bd1ff", "#a8c8ec", "#b8b8f0", "#8ebce8"][index] ?? "#9bd1ff",
-  }),
-);
 
 const overviewTabs: Features4Tab[] = [
   {
@@ -379,12 +368,7 @@ export function SmartHospitalIntegration() {
           className="bg-[#F8F8F8]"
         />
 
-        <ScrollStack
-          items={SCROLL_STACK_ITEMS}
-          variant="stack"
-          showCounter={false}
-          className="bg-white dark:bg-transparent"
-        />
+        <Contact9 />
 
         {/* Main features */}
         <section className="relative z-[1] bg-white px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">

@@ -501,17 +501,14 @@ const Face = ({
     style={{ borderRadius: `${radius}px` }}
   >
     {item.image && (
-      <>
-        <img
-          src={item.image}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
-      </>
+      <img
+        src={item.image}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
     )}
 
     <span
