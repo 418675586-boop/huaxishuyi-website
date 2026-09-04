@@ -17,13 +17,28 @@ import { BackToTop } from "@/components/back-to-top";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Features4 } from "@/components/blocks/features-4";
 import { Features2 } from "@/components/blocks/features-2";
-import { HowItWorks3 } from "@/components/blocks/how-it-works-3";
+import { HowItWorks3, REGIONAL_HOW_IT_WORKS_ITEMS } from "@/components/blocks/how-it-works-3";
 import { Features1 } from "@/components/blocks/features-1";
 import Stats12 from "@/components/blocks/stats-12";
 import Stats3 from "@/components/blocks/stats-3";
 import Waitlist6 from "@/components/blocks/waitlist-6";
 import { Hero7 } from "@/components/blocks/hero-7";
 import { LenticularCarouselSection } from "@/components/lenticular-carousel-section";
+
+/** 区域医共体页专属首屏图（仅本页使用，保持 9 张轮播密度）
+ *  01 底座 与 02 统筹 构图偏近，故意隔开不相邻
+ */
+const REGIONAL_HERO_IMAGES = [
+  "/img/solutions/hero7-regional/hero-regional-01-base.png",
+  "/img/solutions/hero7-regional/hero-regional-03-primary.png",
+  "/img/solutions/hero7-regional/hero-regional-04-referral.png",
+  "/img/solutions/hero7-regional/hero-regional-05-patient.png",
+  "/img/solutions/hero7-regional/hero-regional-02-governance.png",
+  "/img/solutions/hero7-regional/hero-regional-06-sharing.png",
+  "/img/solutions/hero7-regional/hero-regional-07-operations.png",
+  "/img/solutions/hero7-regional/hero-regional-08-digital.png",
+  "/img/solutions/hero7-regional/hero-regional-09-community.png",
+];
 
 const painHoverStyles = [
   {
@@ -214,6 +229,7 @@ export function RegionalMedicalCommunity() {
           title="数智医共体 · 健康共同体"
           description="以统一数智底座，赋能区域医共体高质量发展"
           tags={["一个底座", "五类应用", "三大保障", "五个统一"]}
+          images={REGIONAL_HERO_IMAGES}
           badgePrefixClassName="text-[12px]"
           badgeLabelClassName="text-[14px]"
           titleClassName="text-[48px]"
@@ -251,7 +267,7 @@ export function RegionalMedicalCommunity() {
           aria-label="落地场景与实施路径"
         >
           <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[50px]">
-            <HowItWorks3 embedded />
+            <HowItWorks3 embedded items={REGIONAL_HOW_IT_WORKS_ITEMS} />
 
             <div
               aria-hidden

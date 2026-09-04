@@ -24,6 +24,7 @@ type Stats3Props = {
   title?: string;
   description?: string;
   stats?: Stats3Stat[];
+  imageSrc?: string;
 };
 
 export default function Stats3({
@@ -31,6 +32,7 @@ export default function Stats3({
   title = "四维成效协同提升",
   description = "围绕医院管理、基层赋能、群众服务与数智支撑四个维度，全面提升医共体统筹运营、资源下沉、协同服务与智能化能力，推动区域医疗服务更加高效、便捷、连续。",
   stats = defaultStats,
+  imageSrc = "/img/solutions/stats-banner.png",
 }: Stats3Props) {
   const marquee1Ref = useRef<HTMLDivElement>(null);
   const marquee2Ref = useRef<HTMLDivElement>(null);
@@ -129,7 +131,7 @@ export default function Stats3({
 
             <div className="absolute inset-0">
               <img
-                src="/img/solutions/stats-banner.png"
+                src={imageSrc}
                 alt=""
                 className="h-full w-full scale-[1.15] object-cover"
               />

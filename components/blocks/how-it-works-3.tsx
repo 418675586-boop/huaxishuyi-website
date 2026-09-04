@@ -43,28 +43,53 @@ export const HOSPITAL_HOW_IT_WORKS_ITEMS: HowItWorks3Item[] = [
     title: "第一阶段·夯实基座，信息化基础建设",
     description:
       "完成电子病历（达六级）、集成平台与数据中心建设，打通医院信息系统，实现临床数据标准化、结构化。",
-    image: "/img/solutions/how-it-works/phase-1-foundation.png",
+    image: "/img/solutions/how-it-works/hospital-path-01-foundation.png",
   },
   {
     id: 2,
     title: "第二阶段·模型驱动，大模型训练与部署",
     description:
       "基于院内高质量数据训练医疗大模型，引入 RSI 递归自进化与强化学习，实现模型持续进化。",
-    image: "/img/solutions/how-it-works/phase-2-scenarios.png",
+    image: "/img/solutions/how-it-works/hospital-path-02-model.png",
   },
   {
     id: 3,
     title: "第三阶段·智能应用，三大产品全面落地",
     description:
       "部署数字医生、AI 患者服务助手与医生智能工作台，三线并进推动患者服务与临床辅助智能化。",
-    image: "/img/solutions/how-it-works/phase-3-synergy.png",
+    image: "/img/solutions/how-it-works/hospital-path-03-apps.png",
   },
   {
     id: 4,
     title: "第四阶段·智慧生态，智慧医疗新生态",
     description:
       "拓展更多场景 AI 智能体，向医联体/区域输出能力，推动人机协同从辅助走向协作，持续共赢。",
-    image: "/img/solutions/how-it-works/phase-3-synergy.png",
+    image: "/img/solutions/how-it-works/hospital-path-04-ecosystem.png",
+  },
+];
+
+/** 区域医共体：三步走实施路径（专属配图） */
+export const REGIONAL_HOW_IT_WORKS_ITEMS: HowItWorks3Item[] = [
+  {
+    id: 1,
+    title: "第一阶段·筑牢底座，统一基础能力",
+    description:
+      "完成顶层设计、标准规范、统一认证、接口集成、数据交换及主数据管理，构建稳定统一的技术与数据底座。",
+    image: "/img/solutions/how-it-works/regional-path-01-foundation.png",
+  },
+  {
+    id: 2,
+    title: "第二阶段·聚焦场景，快速形成成效",
+    description:
+      "优先建设监管、共享、预约、转诊及结果互认等重点场景，同步推进 AI 辅助分析与数字医生试点，快速形成可感知成果。",
+    image: "/img/solutions/how-it-works/regional-path-02-scenarios.png",
+  },
+  {
+    id: 3,
+    title: "第三阶段·全面协同，持续数智升级",
+    description:
+      "逐步完善重点业务协同与统一运营管理，推动数据、业务与智能能力深度融合，形成持续演进的医共体数智化体系。",
+    image: "/img/solutions/how-it-works/regional-path-03-synergy.png",
   },
 ];
 
@@ -72,7 +97,8 @@ type HowItWorks3Props = {
   embedded?: boolean;
   items?: HowItWorks3Item[];
   title?: string;
-  description?: string;
+  /** 传 null 隐藏副标题 */
+  description?: string | null;
 };
 
 export function HowItWorks3({
@@ -134,12 +160,18 @@ export function HowItWorks3({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="mb-4 text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
+            <h2
+              className={`text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white ${
+                description ? "mb-4" : "mb-6"
+              }`}
+            >
               {title}
             </h2>
-            <p className="mb-6 max-w-xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400">
-              {description}
-            </p>
+            {description ? (
+              <p className="mb-6 max-w-xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+                {description}
+              </p>
+            ) : null}
 
             <div className="relative border-l-2 border-dashed border-neutral-200 dark:border-neutral-800">
               {items.map((item) => (

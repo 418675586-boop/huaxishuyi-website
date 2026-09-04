@@ -439,8 +439,8 @@ function ResizeHandler() {
   return null;
 }
 
-function CarouselScene() {
-  const textures = useTexture(CAROUSEL_IMAGES);
+function CarouselScene({ images }: { images: string[] }) {
+  const textures = useTexture(images);
   const rotationRef = useRef(0);
   const radius = 4.5;
 
@@ -452,7 +452,7 @@ function CarouselScene() {
     <group>
       {textures.map((texture, index) => (
         <CarouselItem
-          key={index}
+          key={`${images[index]}-${index}`}
           texture={texture}
           index={index}
           totalItems={textures.length}
@@ -465,10 +465,10 @@ function CarouselScene() {
   );
 }
 
-function Scene() {
+function Scene({ images }: { images: string[] }) {
   return (
     <group scale={1}>
-      <CarouselScene />
+      <CarouselScene images={images} />
     </group>
   );
 }
@@ -496,6 +496,8 @@ type Hero7Props = {
   title?: string;
   description?: string;
   tags?: string[];
+  /** 首屏轮播图；不传则用默认共用图集 */
+  images?: string[];
   badgePrefixClassName?: string;
   badgeLabelClassName?: string;
   titleClassName?: string;
@@ -508,6 +510,7 @@ export function Hero7({
   title = "数智驱动医疗·智慧引领未来",
   description = "以AI赋能为核心引擎，构建以患者为中心的智慧医疗服务体系，推动医院高质量发展",
   tags = HOSPITAL_HERO_TAGS,
+  images = CAROUSEL_IMAGES,
   badgePrefixClassName,
   badgeLabelClassName,
   titleClassName,
@@ -619,7 +622,7 @@ export function Hero7({
         >
           <ResizeHandler />
           <Suspense fallback={<LoadingFallback />}>
-            <Scene />
+            <Scene images={images} />
           </Suspense>
         </Canvas>
       </div>

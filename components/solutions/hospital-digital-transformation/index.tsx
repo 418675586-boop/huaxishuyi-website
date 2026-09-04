@@ -43,6 +43,19 @@ import {
   HOSPITAL_VALUE_ITEMS,
 } from "@/components/lenticular-carousel-section";
 
+/** 医院数智化页专属首屏图（按方案优势及价值配图质感重生成，共 9 张） */
+const HOSPITAL_HERO_IMAGES = [
+  "/img/solutions/hero7-hospital/hero-hospital-01-patient-care.png",
+  "/img/solutions/hero7-hospital/hero-hospital-02-digital-doctor.png",
+  "/img/solutions/hero7-hospital/hero-hospital-03-patient-assistant.png",
+  "/img/solutions/hero7-hospital/hero-hospital-04-clinical-ai.png",
+  "/img/solutions/hero7-hospital/hero-hospital-05-doctor-workbench.png",
+  "/img/solutions/hero7-hospital/hero-hospital-06-data-governance.png",
+  "/img/solutions/hero7-hospital/hero-hospital-07-collaboration.png",
+  "/img/solutions/hero7-hospital/hero-hospital-08-iot-ward.png",
+  "/img/solutions/hero7-hospital/hero-hospital-09-smart-future.png",
+];
+
 const overviewTabs: Features4Tab[] = [
   {
     icon: ClipboardList,
@@ -220,6 +233,7 @@ const riskControls = [
   {
     step: "01",
     title: "数据安全管控",
+    image: "/img/solutions/risk-control/risk-01-data-security.png",
     points: [
       "数据权限精细化管理",
       "患者隐私保护与数据脱敏",
@@ -230,6 +244,7 @@ const riskControls = [
   {
     step: "02",
     title: "全链路过程管控",
+    image: "/img/solutions/risk-control/risk-02-process.png",
     points: [
       "全链路追踪与审计",
       "AI决策可追溯、可解释",
@@ -240,6 +255,7 @@ const riskControls = [
   {
     step: "03",
     title: "渐进式上线策略",
+    image: "/img/solutions/risk-control/risk-03-rollout.png",
     points: [
       "“逐步试点→验证评估→逐步放开”",
       "风险可控前提下的快速迭代",
@@ -370,6 +386,7 @@ export function HospitalDigitalTransformation() {
             "三大智能应用",
             "四大应用场景",
           ]}
+          images={HOSPITAL_HERO_IMAGES}
           badgePrefixClassName="text-[12px]"
           badgeLabelClassName="text-[14px]"
           titleClassName="text-[48px]"
@@ -382,7 +399,7 @@ export function HospitalDigitalTransformation() {
         />
 
         <LenticularCarouselSection
-          description="四大支柱夯实数智化转型基础，多维赋能医院高质量发展"
+          description="四大支柱构建数智化转型基础，全面覆盖医院建设场景"
           items={HOSPITAL_VALUE_ITEMS}
         />
 
@@ -427,7 +444,7 @@ export function HospitalDigitalTransformation() {
               embedded
               items={HOSPITAL_HOW_IT_WORKS_ITEMS}
               title="实施路径：四步走战略"
-              description="从数字化基础到智慧医疗新生态的阶梯式发展"
+              description={null}
             />
           </div>
         </section>
@@ -460,13 +477,36 @@ export function HospitalDigitalTransformation() {
                   <h3 className="text-[18px] font-semibold text-neutral-950 dark:text-white">
                     {item.title}
                   </h3>
+                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-neutral-100 dark:bg-white/[0.06]">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
                   <ul className="flex flex-col gap-2">
                     {item.points.map((point) => (
                       <li
                         key={point}
-                        className="text-[14px] leading-relaxed text-neutral-600 dark:text-neutral-400"
+                        className="flex items-center gap-2 text-[14px] leading-relaxed text-neutral-600 dark:text-neutral-400"
                       >
-                        {point}
+                        <svg
+                          viewBox="0 0 1024 1024"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 shrink-0 text-[#cdcdcd]"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M486.4 630.4c-19.2 19.2-48 19.2-67.2 3.2l-137.6-131.2-32 35.2 137.6 131.2c38.4 35.2 96 35.2 134.4-3.2l281.6-297.6-35.2-32L486.4 630.4z"
+                          />
+                          <path
+                            fill="currentColor"
+                            d="M512 51.2c-252.8 0-460.8 204.8-460.8 460.8s204.8 460.8 460.8 460.8 460.8-204.8 460.8-460.8S764.8 51.2 512 51.2zM512 924.8c-227.2 0-412.8-185.6-412.8-412.8s185.6-412.8 412.8-412.8 412.8 185.6 412.8 412.8S739.2 924.8 512 924.8z"
+                          />
+                        </svg>
+                        <span>{point}</span>
                       </li>
                     ))}
                   </ul>

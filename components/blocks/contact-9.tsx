@@ -1,16 +1,15 @@
 "use client";
 
-import { useRef, useState, type MouseEvent } from "react";
+import { useEffect, useState } from "react";
 import {
   AnimatePresence,
   motion,
-  useMotionTemplate,
-  useMotionValue,
   useReducedMotion,
-  useSpring,
   type Variants,
 } from "motion/react";
 import { ArrowLeft, ArrowRight, Clock, Layers, Navigation } from "lucide-react";
+
+const AUTO_SWITCH_MS = 4000;
 
 const views = [
   {
@@ -19,18 +18,15 @@ const views = [
   },
   {
     label: "数据集成",
-    image:
-      "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1600&q=80",
+    image: "/img/solutions/contact9-data-integration.png",
   },
   {
     label: "API 管理",
-    image:
-      "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1600&q=80",
+    image: "/img/solutions/contact9-api-management.png",
   },
   {
     label: "生态连接",
-    image:
-      "https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1600&q=80",
+    image: "/img/solutions/contact9-eco-connection.png",
   },
 ];
 
@@ -57,42 +53,21 @@ export default function Contact9() {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
-  const mediaRef = useRef<HTMLDivElement>(null);
-
-  const rotateX = useMotionValue(0);
-  const rotateY = useMotionValue(0);
-  const glareX = useMotionValue(50);
-  const glareY = useMotionValue(50);
-  const springRotateX = useSpring(rotateX, { stiffness: 180, damping: 18 });
-  const springRotateY = useSpring(rotateY, { stiffness: 180, damping: 18 });
-  const springScale = useSpring(1, { stiffness: 220, damping: 20 });
-  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.08) 28%, transparent 58%)`;
-
-  const handleMediaMove = (event: MouseEvent<HTMLDivElement>) => {
-    if (reduce || !mediaRef.current) return;
-    const rect = mediaRef.current.getBoundingClientRect();
-    const px = (event.clientX - rect.left) / rect.width;
-    const py = (event.clientY - rect.top) / rect.height;
-    // 与 lenticular 类似：悬停时朝鼠标方向立体翻转（约 ±14°）
-    rotateX.set((0.5 - py) * 28);
-    rotateY.set((px - 0.5) * 28);
-    glareX.set(px * 100);
-    glareY.set(py * 100);
-    springScale.set(1.04);
-  };
-
-  const handleMediaLeave = () => {
-    rotateX.set(0);
-    rotateY.set(0);
-    glareX.set(50);
-    glareY.set(50);
-    springScale.set(1);
-  };
+  const [paused, setPaused] = useState(false);
 
   const paginate = (dir: number) => {
     setDirection(dir);
     setIndex((prev) => (prev + dir + views.length) % views.length);
   };
+
+  useEffect(() => {
+    if (paused) return;
+    const timer = window.setInterval(() => {
+      setDirection(1);
+      setIndex((prev) => (prev + 1) % views.length);
+    }, AUTO_SWITCH_MS);
+    return () => window.clearInterval(timer);
+  }, [index, paused]);
 
   const container: Variants = {
     hidden: {},
@@ -122,7 +97,7 @@ export default function Contact9() {
 
   return (
     <section className="w-full bg-white px-4 py-16 dark:bg-neutral-950 sm:px-6 lg:px-8">
-      <div className="mx-auto grid w-full max-w-[1200px] items-stretch gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-12">
+      <div className="mx-auto grid w-full max-w-[1200px] items-stretch gap-4 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-6">
         <motion.div
           variants={container}
           initial="hidden"
@@ -183,104 +158,87 @@ export default function Contact9() {
           </motion.div>
         </motion.div>
 
-        <div className="[perspective:1200px]">
-          <motion.div
-            ref={mediaRef}
-            initial={{ opacity: 0, scale: reduce ? 1 : 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            onMouseMove={handleMediaMove}
-            onMouseLeave={handleMediaLeave}
-            style={
-              reduce
-                ? undefined
-                : {
-                    rotateX: springRotateX,
-                    rotateY: springRotateY,
-                    scale: springScale,
-                    transformStyle: "preserve-3d",
-                  }
-            }
-            className="relative min-h-[460px] overflow-hidden rounded-3xl bg-neutral-100 will-change-transform dark:bg-neutral-900 lg:min-h-[680px]"
-          >
-            <AnimatePresence initial={false} custom={direction} mode="popLayout">
-              <motion.div
-                key={index}
-                custom={direction}
-                variants={slide}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                className="absolute inset-0"
-              >
-                <img
-                  src={views[index].image}
-                  alt={views[index].label}
-                  draggable={false}
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/30 via-neutral-950/0 to-neutral-950/30" />
-              </motion.div>
-            </AnimatePresence>
-
-            {!reduce ? (
-              <motion.div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 mix-blend-soft-light"
-                style={{ background: glareBackground }}
-              />
-            ) : null}
-
-            <div
-              aria-live="polite"
-              className="absolute left-4 top-4 z-[1] sm:left-6 sm:top-6"
+        <motion.div
+          initial={{ opacity: 0, scale: reduce ? 1 : 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={() => setPaused(false)}
+          className="group relative min-h-[460px] overflow-hidden rounded-3xl bg-neutral-100 dark:bg-neutral-900 lg:min-h-[680px]"
+        >
+          <AnimatePresence initial={false} custom={direction} mode="popLayout">
+            <motion.div
+              key={index}
+              custom={direction}
+              variants={slide}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="absolute inset-0"
             >
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={views[index].label}
-                  initial={{ opacity: 0, y: reduce ? 0 : 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: reduce ? 0 : -6 }}
-                  transition={{ duration: 0.25 }}
-                  className="inline-flex items-center rounded-full border border-white/40 bg-black/30 px-3 py-1 text-xs font-medium tracking-wide text-white backdrop-blur"
-                >
-                  {views[index].label}
-                </motion.span>
-              </AnimatePresence>
-            </div>
+              <img
+                src={views[index].image}
+                alt={views[index].label}
+                draggable={false}
+                className={`h-full w-full object-cover transition-transform duration-500 ease-out ${
+                  reduce ? "" : "group-hover:scale-110"
+                }`}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/30 via-neutral-950/0 to-neutral-950/30" />
+            </motion.div>
+          </AnimatePresence>
 
-            <div className="absolute inset-x-4 bottom-4 z-[1] flex items-center justify-between rounded-full border border-white/50 bg-white/85 px-4 py-2.5 backdrop-blur dark:border-neutral-700/70 dark:bg-neutral-950/85 sm:inset-x-6 sm:bottom-6">
-              <div className="flex items-center gap-3 text-sm font-medium tabular-nums text-neutral-900 dark:text-white">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <span className="h-px w-8 bg-neutral-300 dark:bg-neutral-700" />
-                <span className="text-neutral-500">
-                  {String(views.length).padStart(2, "0")}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <motion.button
-                  type="button"
-                  onClick={() => paginate(-1)}
-                  whileTap={{ scale: 0.94 }}
-                  aria-label="Previous view"
-                  className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-neutral-300 text-neutral-900 transition-colors hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus-visible:ring-white"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                </motion.button>
-                <motion.button
-                  type="button"
-                  onClick={() => paginate(1)}
-                  whileTap={{ scale: 0.94 }}
-                  aria-label="Next view"
-                  className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-black text-white transition-colors hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 dark:focus-visible:ring-white dark:focus-visible:ring-offset-neutral-950"
-                >
-                  <ArrowRight className="h-4 w-4" />
-                </motion.button>
-              </div>
+          <div
+            aria-live="polite"
+            className="absolute left-4 top-4 z-[1] sm:left-6 sm:top-6"
+          >
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={views[index].label}
+                initial={{ opacity: 0, y: reduce ? 0 : 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: reduce ? 0 : -6 }}
+                transition={{ duration: 0.25 }}
+                className="inline-flex items-center rounded-full border border-white/40 bg-black/30 px-3 py-1 text-xs font-medium tracking-wide text-white backdrop-blur"
+              >
+                {views[index].label}
+              </motion.span>
+            </AnimatePresence>
+          </div>
+
+          <div className="absolute inset-x-4 bottom-4 z-[1] flex items-center justify-between rounded-full border border-white/50 bg-white/80 px-4 py-2.5 backdrop-blur-xl dark:border-neutral-700/50 dark:bg-neutral-950/80 sm:inset-x-6 sm:bottom-6">
+            <div className="flex items-center gap-3 text-sm font-medium tabular-nums text-neutral-900 dark:text-white">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span className="h-px w-8 bg-neutral-300 dark:bg-neutral-700" />
+              <span className="text-neutral-500">
+                {String(views.length).padStart(2, "0")}
+              </span>
             </div>
-          </motion.div>
-        </div>
+            <div className="flex items-center gap-2">
+              <motion.button
+                type="button"
+                onClick={() => paginate(-1)}
+                whileTap={{ scale: 0.94 }}
+                aria-label="Previous view"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-neutral-300 text-neutral-900 transition-colors hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus-visible:ring-white"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </motion.button>
+              <motion.button
+                type="button"
+                onClick={() => paginate(1)}
+                whileTap={{ scale: 0.94 }}
+                aria-label="Next view"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-black text-white transition-colors hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 dark:focus-visible:ring-white dark:focus-visible:ring-offset-neutral-950"
+              >
+                <ArrowRight className="h-4 w-4" />
+              </motion.button>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

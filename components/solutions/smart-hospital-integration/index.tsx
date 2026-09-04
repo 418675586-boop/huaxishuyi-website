@@ -40,6 +40,19 @@ import {
   SMART_HOSPITAL_VALUE_ITEMS,
 } from "@/components/lenticular-carousel-section";
 
+/** 智慧医院集成页专属首屏图：5 张新核心 + 4 张原图暂留 */
+const SMART_HOSPITAL_HERO_IMAGES = [
+  "/img/solutions/hero7-integration/hero-integration-01-base.png",
+  "/img/solutions/hero7-integration/hero-integration-02-app.png",
+  "/img/solutions/hero7-integration/hero-integration-03-data.png",
+  "/img/solutions/hero7-integration/hero-integration-04-message-api.png",
+  "/img/solutions/hero7-integration/hero-integration-05-connected.png",
+  "/img/solutions/hero7/hero7-05-security.png",
+  "/img/solutions/hero7/hero7-02-foundation.png",
+  "/img/solutions/hero7/hero7-07-sharing.png",
+  "/img/solutions/hero7/hero7-09-unification.png",
+];
+
 const overviewTabs: Features4Tab[] = [
   {
     icon: ClipboardList,
@@ -333,6 +346,7 @@ export function SmartHospitalIntegration() {
             "80–150套｜系统高度复杂",
             "85%｜数据互通受阻",
           ]}
+          images={SMART_HOSPITAL_HERO_IMAGES}
           badgePrefixClassName="text-[12px]"
           badgeLabelClassName="text-[14px]"
           titleClassName="text-[48px]"
@@ -371,7 +385,7 @@ export function SmartHospitalIntegration() {
         <Contact9 />
 
         {/* Main features */}
-        <section className="relative z-[1] bg-white px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">
+        <section className="relative z-[1] bg-[#F8F8F8] px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
@@ -391,30 +405,31 @@ export function SmartHospitalIntegration() {
         </section>
 
         {/* Alliance values + stats */}
-        <section className="relative z-[1] bg-[#F8F8F8] px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">
+        <section className="relative z-[1] bg-white px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">
           <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-[50px]">
             <div>
               <div className="mb-10 flex max-w-3xl flex-col gap-3">
                 <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
-                  预期成效
+                  预期成效与核心指标
                 </h2>
                 <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
-                  以可量化的指标体系跟踪评估数智化转型成效
+                  通过统一集成底座与标准化治理，持续提升系统连接效率、数据流转能力与业务支撑水平。
                 </p>
               </div>
 
               <Stats3
                 embedded
-                title="建设成效与运营指标"
-                description="基于华西二院实践数据，从应用活跃、建设评级、能力覆盖与业务成效四个维度，展示数智化转型的阶段成果。"
+                title="对接成本与复用效率"
+                description="统一集成底座落地后，接口对接成本持续下降，API 复用能力显著提升。"
+                imageSrc="/img/solutions/stats-banner-integration.png"
                 stats={[
-                  { value: "42万+", label: "患者助手累计会话" },
-                  { value: "21万+", label: "AI服务累计用户" },
+                  { value: "60%+", label: "接口对接成本降低" },
+                  { value: "80%+", label: "API复用率提升" },
                 ]}
               />
             </div>
 
-            <Stats12 embedded variant="hospital" />
+            <Stats12 embedded variant="integration" />
           </div>
         </section>
 

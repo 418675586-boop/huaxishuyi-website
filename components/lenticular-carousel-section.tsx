@@ -53,35 +53,35 @@ const DEFAULT_ITEMS: ValueCarouselItem[] = [
 
 export const HOSPITAL_VALUE_ITEMS: ValueCarouselItem[] = [
   {
-    src: "/img/lenticular/value-hospital.png",
+    src: "/img/lenticular/hospital-value-ops.png",
     meta: "医院层面",
     title: "提升运营管理效能",
     description:
-      "强化统一监管、运营分析与辅助决策，推动医院管理从经验驱动向数据驱动转变，提升整体运营效率。",
+      "降低运营成本、提升管理效率，从子系统分散管理、人工统计，升级为实时监管、专题分析、趋势预警与决策支持。",
     alt: "医院层面",
   },
   {
-    src: "/img/lenticular/value-digital.png",
+    src: "/img/lenticular/hospital-value-clinical.png",
     meta: "诊疗层面",
     title: "提升医疗服务能力",
     description:
-      "以AI辅助诊断、临床决策及智能工作流赋能诊疗全流程，提升医疗质量、效率与服务能力。",
+      "以 AI 辅助诊断、病历质控与临床决策支持赋能诊疗全流程，提升医疗质量与效率，助力精准医疗落地。",
     alt: "诊疗层面",
   },
   {
-    src: "/img/lenticular/value-patient.png",
+    src: "/img/lenticular/hospital-value-patient.png",
     meta: "患者层面",
     title: "优化就医服务体验",
     description:
-      "贯通诊前、诊中、诊后服务流程，减少重复操作与等待时间，为患者提供便捷、连续、个性化的医疗服务。",
+      "诊前智能分诊、诊中智慧导诊、诊后健康管理，AI 全程陪伴，提供便捷、高效、个性化的连续就医服务。",
     alt: "患者层面",
   },
   {
-    src: "/img/lenticular/value-primary.png",
+    src: "/img/lenticular/hospital-value-research.png",
     meta: "科研层面",
     title: "加速临床科研创新",
     description:
-      "整合高质量医疗数据与AI分析能力，赋能科研分析、课题管理及成果转化，提升临床科研创新效率。",
+      "以数据驱动科研创新，AI 辅助科研分析，为临床研究、课题管理与成果转化提供智能化支撑。",
     alt: "科研层面",
   },
 ];
@@ -149,7 +149,7 @@ export function LenticularCarouselSection({
             initialIndex={0}
             cardWidth={CARD_WIDTH}
             aspectRatio="3 / 4"
-            gap={26}
+            gap={16}
             borderRadius={14}
             loop
             autoplay
