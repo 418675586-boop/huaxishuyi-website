@@ -12,12 +12,12 @@ import { useState, type ReactNode } from "react";
 
 const navLinks = [
   { href: "/", label: "首页" },
-  { href: "#products", label: "产品服务" },
-  { href: "#solutions", label: "解决方案" },
-  { href: "#technology", label: "技术创新" },
-  { href: "#news", label: "新闻动态" },
-  { href: "/cases", label: "客户案例" },
-  { href: "#about", label: "关于我们" },
+  { href: "/#products", label: "产品服务" },
+  { href: "/#solutions", label: "解决方案" },
+  { href: "/partner-hospitals", label: "合作医院" },
+  { href: "/#news", label: "新闻动态" },
+  { href: "/cases", label: "合作案例" },
+  { href: "/#about", label: "关于我们" },
 ];
 
 export function Header(): ReactNode {

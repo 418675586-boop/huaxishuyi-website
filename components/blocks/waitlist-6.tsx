@@ -9,6 +9,8 @@ import {
 import { ArrowRight } from "lucide-react";
 import * as THREE from "three";
 
+import { cn } from "@/lib/utils";
+
 const rippleVertexShader = `
   varying vec2 vUv;
 
@@ -89,7 +91,7 @@ const isDarkTheme = () => {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 
-function RippleField() {
+function RippleField({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
 
@@ -204,7 +206,10 @@ function RippleField() {
     <div
       ref={containerRef}
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0"
+      className={cn(
+        "pointer-events-none absolute inset-0",
+        className,
+      )}
     />
   );
 }
@@ -214,6 +219,8 @@ type Waitlist6Props = {
   description?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  className?: string;
+  darkTransparent?: boolean;
 };
 
 export default function Waitlist6({
@@ -221,16 +228,29 @@ export default function Waitlist6({
   description = "为你提供更加专业的产品服务和解决方案",
   ctaLabel = "立即联系",
   ctaHref = "tel:02860198639",
+  className,
+  darkTransparent = false,
 }: Waitlist6Props) {
   const reduce = useReducedMotion();
 
   return (
     <section
       id="waitlist"
-      className="relative flex h-[400px] w-full items-center overflow-hidden bg-white px-4 py-16 dark:bg-neutral-950 sm:px-6 lg:px-8"
+      className={cn(
+        "relative flex h-[400px] w-full scroll-mt-[90px] items-center overflow-hidden bg-white px-4 py-16 sm:px-6 lg:px-8",
+        darkTransparent ? "dark:bg-transparent" : "dark:bg-neutral-950",
+        className,
+      )}
     >
-      <RippleField />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_50%_50%,rgba(255,255,255,0.85),transparent_72%)] dark:bg-[radial-gradient(ellipse_65%_55%_at_50%_50%,rgba(10,10,10,0.85),transparent_72%)]" />
+      <RippleField className={darkTransparent ? "dark:opacity-35" : undefined} />
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_50%_50%,rgba(255,255,255,0.85),transparent_72%)]",
+          darkTransparent
+            ? "dark:bg-[radial-gradient(ellipse_65%_55%_at_50%_50%,rgba(10,10,10,0.22),transparent_72%)]"
+            : "dark:bg-[radial-gradient(ellipse_65%_55%_at_50%_50%,rgba(10,10,10,0.85),transparent_72%)]",
+        )}
+      />
 
       <motion.div
         variants={container}

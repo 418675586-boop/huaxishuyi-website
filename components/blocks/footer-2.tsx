@@ -9,7 +9,7 @@ const footerLinks = [
   { text: "AI医疗应用开发平台", href: "#" },
   { text: "AI患者应用平台", href: "#" },
   { text: "AI医生应用平台", href: "#" },
-  { text: "解决方案", href: "#" },
+  { text: "解决方案", href: "/#solutions" },
 ] as const;
 
 export default function Footer2() {

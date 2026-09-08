@@ -610,7 +610,7 @@ export function ShowcaseCards(): ReactNode {
             />
           </div>
 
-          <OutlineCtaLink href="#" className="self-start sm:self-auto">
+          <OutlineCtaLink href="/#solutions" className="self-start sm:self-auto">
             查看全部
           </OutlineCtaLink>
         </div>
