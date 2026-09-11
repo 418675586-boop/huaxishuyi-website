@@ -36,13 +36,16 @@ type Contact9Props = {
   className?: string;
   badge?: string;
   title?: string;
+  titleClassName?: string;
   description?: ReactNode;
+  descriptionClassName?: string;
   capabilities?: Contact9Capability[];
   capabilitiesLayout?: "list" | "stats";
   views?: Contact9View[];
   primaryCta?: Contact9Cta;
   secondaryCta?: Contact9Cta;
   showCtas?: boolean;
+  footer?: ReactNode;
 };
 
 const DEFAULT_VIEWS: Contact9View[] = [
@@ -88,13 +91,16 @@ export default function Contact9({
   className,
   badge = "应用场景",
   title = "一体化集成能力",
+  titleClassName,
   description = "覆盖应用、数据、API与生态连接，构建灵活、高效、稳定的医疗集成体系。",
+  descriptionClassName,
   capabilities = DEFAULT_CAPABILITIES,
   capabilitiesLayout = "list",
   views = DEFAULT_VIEWS,
   primaryCta = { label: "了解能力详情", href: "#" },
   secondaryCta = { label: "咨询解决方案", href: "#" },
   showCtas = true,
+  footer,
 }: Contact9Props) {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
@@ -148,7 +154,7 @@ export default function Contact9({
     <section
       id={id}
       className={cn(
-        "w-full bg-white px-4 py-16 dark:bg-neutral-950 sm:px-6 lg:px-8",
+        "w-full bg-white px-4 py-16 dark:bg-transparent sm:px-6 lg:px-8",
         className,
       )}
     >
@@ -159,8 +165,10 @@ export default function Contact9({
           whileInView="show"
           viewport={{ once: true, margin: "-80px" }}
           className={cn(
-            "flex flex-col rounded-3xl border border-neutral-200 bg-neutral-50 p-6 dark:border-white/10 dark:bg-white/[0.06] dark:backdrop-blur-xl sm:p-8 lg:p-10",
-            showCtas ? "h-full justify-between gap-12" : "h-fit lg:self-start",
+            "flex flex-col rounded-3xl border border-neutral-200 bg-neutral-50 p-6 dark:border-white/15 dark:bg-white/10 dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12)] dark:backdrop-blur-2xl sm:p-8 lg:p-10",
+            showCtas || footer
+              ? "h-full justify-between gap-12"
+              : "h-fit lg:self-start",
           )}
         >
           <div className="space-y-10">
@@ -169,10 +177,20 @@ export default function Contact9({
                 <Layers className="h-3.5 w-3.5" />
                 {badge}
               </span>
-              <h2 className="text-[44px] font-semibold leading-[1.15] tracking-tight text-neutral-900 dark:text-white">
+              <h2
+                className={cn(
+                  "text-[44px] font-semibold leading-[1.15] tracking-tight text-neutral-900 dark:text-white",
+                  titleClassName,
+                )}
+              >
                 {title}
               </h2>
-              <div className="max-w-md space-y-3 text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
+              <div
+                className={cn(
+                  "max-w-md space-y-3 text-base leading-relaxed text-neutral-600 dark:text-neutral-400",
+                  descriptionClassName,
+                )}
+              >
                 {typeof description === "string" ? <p>{description}</p> : description}
               </div>
             </motion.div>
@@ -215,7 +233,9 @@ export default function Contact9({
             </motion.div>
           </div>
 
-          {showCtas ? (
+          {footer ? (
+            <motion.div variants={item}>{footer}</motion.div>
+          ) : showCtas ? (
           <motion.div
             variants={item}
             className="flex flex-col gap-3 sm:flex-row"

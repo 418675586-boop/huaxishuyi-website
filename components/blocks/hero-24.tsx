@@ -5,6 +5,8 @@ import { motion, useReducedMotion, type Variants } from "motion/react";
 import Image from "next/image";
 import { type ReactNode } from "react";
 
+import { cn } from "@/lib/utils";
+
 const container: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.09, delayChildren: 0.08 } },
@@ -44,6 +46,7 @@ type Hero24Props = {
   partnersLabel?: string;
   partners?: string[];
   backgroundImage?: string;
+  backgroundImageClassName?: string;
   bottomContent?: ReactNode;
 };
 
@@ -58,13 +61,14 @@ export function Hero24({
   secondaryCta = { label: "View pricing", href: "#highlights" },
   partnersLabel = "Powering inference for",
   partners = DEFAULT_PARTNERS,
-  backgroundImage = "/img/partner-hospitals/xuanwu-hospital-hero-v3.jpg",
+  backgroundImage = "/img/partner-hospitals/xuanwu-hospital-hero-hd.jpg",
+  backgroundImageClassName,
   bottomContent,
 }: Hero24Props) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="relative z-[1] flex min-h-[800px] w-full flex-col overflow-hidden bg-[#E7F1F7] px-4 pt-[66px] pb-[30px] dark:bg-transparent sm:px-6 lg:h-[800px] lg:min-h-0 lg:px-8">
+    <section className="relative z-[1] flex min-h-[800px] w-full flex-col overflow-hidden bg-[#E7F1F7] px-4 pt-[66px] pb-[30px] dark:bg-[#0a0a0a] sm:px-6 lg:h-[800px] lg:min-h-0 lg:px-8">
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <Image
           src={backgroundImage}
@@ -74,7 +78,10 @@ export function Hero24({
           quality={100}
           unoptimized
           sizes="100vw"
-          className="origin-[center_right] scale-110 object-cover object-[center_right]"
+          className={cn(
+            "origin-[center_right] object-cover object-[center_right]",
+            backgroundImageClassName,
+          )}
         />
       </div>
 
@@ -84,15 +91,19 @@ export function Hero24({
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(to_right,rgba(12,8,20,0.78)_10%,rgba(10,12,28,0.40)_40%,rgba(8,14,36,0.10)_72%)] dark:block"
+        className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(to_right,rgba(10,10,10,0.94)_8%,rgba(10,10,10,0.62)_30%,rgba(12,13,20,0.22)_52%,rgba(16,21,44,0)_78%)] dark:block"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(ellipse_at_18%_90%,rgba(122,31,110,0.38)_0%,transparent_55%),radial-gradient(ellipse_at_50%_85%,rgba(107,91,149,0.28)_0%,transparent_50%),radial-gradient(ellipse_at_82%_90%,rgba(43,79,212,0.40)_0%,transparent_55%)] dark:block"
+        className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(to_bottom,rgba(10,10,10,0.55)_0%,rgba(10,10,10,0.12)_38%,rgba(14,18,33,0.42)_72%,rgba(16,21,44,0.78)_100%)] dark:block"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(231,241,247,0)_78%,rgba(255,255,255,0.55))] dark:bg-[linear-gradient(to_bottom,transparent_62%,rgba(12,8,22,0.42))]"
+        className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(ellipse_at_50%_100%,rgba(16,21,44,0.9)_0%,transparent_58%)] dark:block"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(231,241,247,0)_78%,rgba(255,255,255,0.55))] dark:hidden"
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 items-center">
@@ -165,7 +176,7 @@ export function Hero24({
               {partners.map((name) => (
                 <span
                   key={name}
-                  className="text-sm font-semibold tracking-tight text-neutral-950 dark:text-white"
+                  className="text-sm font-normal tracking-tight text-neutral-950 dark:text-white"
                 >
                   {name}
                 </span>

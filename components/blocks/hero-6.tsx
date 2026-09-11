@@ -188,7 +188,7 @@ export function Hero6() {
   return (
     <section
       ref={sectionRef}
-      className="flex w-full items-start overflow-hidden bg-[#F8F8F8] px-4 py-[150px] sm:px-6 lg:items-center lg:px-8 dark:bg-neutral-950"
+      className="relative z-[1] flex w-full items-start overflow-hidden bg-[#F8F8F8] px-4 py-[150px] sm:px-6 lg:items-center lg:px-8 dark:bg-transparent"
     >
       <div className="relative z-10 mx-auto w-full max-w-[1200px]">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-16 xl:gap-20">

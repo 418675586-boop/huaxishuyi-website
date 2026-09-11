@@ -19,7 +19,7 @@ export function ThemeSwitch(): ReactNode {
   if (!mounted) {
     return (
       <div className="fixed right-6 bottom-[50px] z-50">
-        <div className="h-11 w-[148px] animate-pulse rounded-full border border-border bg-muted" />
+        <div className="h-11 w-[148px] animate-pulse rounded-full border border-white/50 bg-white/40 backdrop-blur-xl dark:border-white/15 dark:bg-white/10" />
       </div>
     );
   }
@@ -28,7 +28,7 @@ export function ThemeSwitch(): ReactNode {
 
   return (
     <div
-      className="fixed right-6 bottom-[50px] z-50 flex items-center gap-1 rounded-full border border-border bg-background/90 p-1 shadow-lg backdrop-blur-md"
+      className="fixed right-6 bottom-[50px] z-50 flex items-center gap-1 rounded-full border border-white/50 bg-white/40 p-1 shadow-[0_8px_30px_rgba(15,23,42,0.08),inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur-xl dark:border-white/15 dark:bg-white/10 dark:shadow-[0_8px_30px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.12)]"
       aria-label="颜色模式"
       role="group"
     >

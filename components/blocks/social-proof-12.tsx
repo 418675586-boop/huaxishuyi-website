@@ -70,7 +70,7 @@ export default function SocialProof12() {
   }, [isVideoOpen]);
 
   return (
-    <section className="flex w-full items-start bg-white px-4 py-[150px] sm:px-6 lg:px-8 dark:bg-neutral-950">
+    <section className="relative z-[1] flex w-full items-start bg-white px-4 py-[150px] sm:px-6 lg:px-8 dark:bg-transparent">
       <div className="mx-auto w-full min-w-0 max-w-[1200px] overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 12 }}

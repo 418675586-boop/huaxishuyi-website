@@ -269,7 +269,7 @@ export default function Waitlist6({
 
           <motion.p
             variants={item}
-            className="mt-4 max-w-xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400"
+            className="mt-4 max-w-3xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400"
           >
             {description}
           </motion.p>

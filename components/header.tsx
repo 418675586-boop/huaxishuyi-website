@@ -6,19 +6,167 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
-const navLinks = [
+type NavMenuItem = { label: string; href?: string };
+
+const partnerHospitals: NavMenuItem[] = [
+  { label: "首都医科大学宣武医院", href: "/partner-hospitals/xuanwu-hospital" },
+  { label: "四川省儿童医院", href: "/partner-hospitals/sichuan-children-hospital" },
+  { label: "西藏自治区妇产儿童医院", href: "/partner-hospitals/tibet-maternity-children-hospital" },
+  { label: "成都高新区妇女儿童医院", href: "/partner-hospitals/chengdu-hightech-women-children-hospital" },
+  { label: "成都市郫都区妇幼保健院", href: "/partner-hospitals/chengdu-pidu-maternal-child-hospital" },
+];
+
+const solutions: NavMenuItem[] = [
+  {
+    label: "智慧医院/系统集成解决方案",
+    href: "/solutions/smart-hospital-integration",
+  },
+  {
+    label: "区域型医共体数智化解决方案",
+    href: "/solutions/regional-medical-community",
+  },
+  {
+    label: "医院数智化转型解决方案",
+    href: "/solutions/hospital-digital-transformation",
+  },
+];
+
+const navLinks: {
+  href: string;
+  label: string;
+  menu?: NavMenuItem[];
+}[] = [
   { href: "/", label: "首页" },
   { href: "/#products", label: "产品服务" },
-  { href: "/#solutions", label: "解决方案" },
-  { href: "/partner-hospitals", label: "合作医院" },
-  { href: "/#news", label: "新闻动态" },
+  {
+    href: "/#solutions",
+    label: "解决方案",
+    menu: solutions,
+  },
+  {
+    href: "/partner-hospitals",
+    label: "合作医院",
+    menu: partnerHospitals,
+  },
+  { href: "/news", label: "新闻动态" },
   { href: "/cases", label: "合作案例" },
-  { href: "/#about", label: "关于我们" },
+  { href: "/about", label: "关于我们" },
 ];
+
+const navItemClassName =
+  "focus-ring rounded-md px-2.5 py-1 text-sm font-normal text-neutral-950 transition-colors hover:bg-black/5 hover:text-black dark:text-white dark:hover:bg-white/10 dark:hover:text-white";
+
+function NavFlyoutMenu({
+  label,
+  items,
+  menuId,
+}: {
+  label: string;
+  items: NavMenuItem[];
+  menuId: string;
+}) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <div
+      ref={rootRef}
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        className={navItemClassName}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        aria-controls={menuId}
+        onClick={() => setOpen(true)}
+      >
+        {label}
+      </button>
+
+      {open ? (
+        <div className="absolute top-full left-0 z-50 pt-2">
+          <div
+            id={menuId}
+            role="menu"
+            aria-label={label}
+            className="min-w-[320px] rounded-2xl border border-neutral-200/80 bg-white p-2 shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:border-white/15 dark:bg-white/10 dark:shadow-none dark:backdrop-blur-xl"
+          >
+            {items.map((item) => {
+              const content = (
+                <>
+                  <span>{item.label}</span>
+                  <ArrowUpRight
+                    className="h-4 w-4 shrink-0 opacity-0 transition-opacity group-hover/item:opacity-100"
+                    aria-hidden="true"
+                  />
+                </>
+              );
+              const itemClassName =
+                "group/item flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm text-neutral-900 transition-colors hover:bg-neutral-100 dark:text-white dark:hover:bg-white/10";
+
+              if (item.href) {
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    role="menuitem"
+                    className={itemClassName}
+                    onClick={() => setOpen(false)}
+                  >
+                    {content}
+                  </Link>
+                );
+              }
+
+              return (
+                <div
+                  key={item.label}
+                  role="menuitem"
+                  aria-disabled="true"
+                  className={`${itemClassName} cursor-default`}
+                >
+                  {content}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 export function Header(): ReactNode {
   const [isOpen, setIsOpen] = useState(false);
@@ -88,7 +236,7 @@ export function Header(): ReactNode {
           >
             {navLinks.map((link, index) => (
               <motion.div
-                key={link.href}
+                key={link.label}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -97,12 +245,17 @@ export function Header(): ReactNode {
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
-                <Link
-                  href={link.href}
-                  className="focus-ring rounded-md px-2.5 py-1 text-sm font-normal text-neutral-950 transition-colors hover:bg-black/5 hover:text-black dark:text-white dark:hover:bg-white/10 dark:hover:text-white"
-                >
-                  {link.label}
-                </Link>
+                {link.menu ? (
+                  <NavFlyoutMenu
+                    label={link.label}
+                    items={link.menu}
+                    menuId={`${link.label}-menu`}
+                  />
+                ) : (
+                  <Link href={link.href} className={navItemClassName}>
+                    {link.label}
+                  </Link>
+                )}
               </motion.div>
             ))}
           </nav>
@@ -147,7 +300,7 @@ export function Header(): ReactNode {
             >
               {navLinks.map((link, index) => (
                 <motion.div
-                  key={link.href}
+                  key={link.label}
                   initial={{ opacity: 0, x: -40, filter: "blur(10px)" }}
                   animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                   transition={{

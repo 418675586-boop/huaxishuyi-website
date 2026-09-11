@@ -13,16 +13,18 @@ type Hero12Cta = {
 type Hero12Props = {
   id?: string;
   className?: string;
+  tone?: "white" | "muted";
   title?: string;
   titleLine2?: string;
   backgroundImage?: string;
   backgroundAlt?: string;
+  backgroundMirrored?: boolean;
   cta?: Hero12Cta;
   cardImage?: string;
   cardImageAlt?: string;
   cardTitle?: string;
   cardDescription?: string;
-  cardCta?: Hero12Cta;
+  cardCta?: Hero12Cta | null;
 };
 
 const DEFAULT_CTA = { label: "Book a Consultation", href: "#waitlist" };
@@ -49,10 +51,12 @@ function CornerMark({ className }: { className?: string }) {
 export function Hero12({
   id,
   className,
+  tone = "white",
   title = "Transforming Homes",
   titleLine2 = "Since 1995",
   backgroundImage = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2500&auto=format&fit=crop",
   backgroundAlt = "",
+  backgroundMirrored = false,
   cta = DEFAULT_CTA,
   cardImage = "https://images.unsplash.com/photo-1631679706909-1844bbd07221?q=80&w=1692&auto=format&fit=crop",
   cardImageAlt = "",
@@ -60,11 +64,15 @@ export function Hero12({
   cardDescription = "Personalized interiors crafted to reflect your vision.",
   cardCta = DEFAULT_CARD_CTA,
 }: Hero12Props) {
+  const surface = tone === "muted" ? "bg-[#F8F8F8]" : "bg-white";
+  const surfaceMark = tone === "muted" ? "text-[#F8F8F8]" : "text-white";
+
   return (
     <section
       id={id}
       className={cn(
-        "relative z-[1] w-full scroll-mt-[90px] overflow-hidden bg-white px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8",
+        "relative z-[1] w-full scroll-mt-[90px] overflow-hidden px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8",
+        surface,
         className,
       )}
     >
@@ -73,26 +81,54 @@ export function Hero12({
           <img
             src={backgroundImage}
             alt={backgroundAlt}
-            className="h-full w-full object-cover"
+            className={cn(
+              "h-full w-full object-cover",
+              backgroundMirrored && "-scale-x-100",
+            )}
           />
           <div className="absolute inset-0 bg-black/10 dark:bg-black/30 lg:bg-transparent" />
         </div>
 
         <div className="pointer-events-none absolute top-0 left-0 z-10 flex w-full max-w-2xl flex-col items-start">
-          <div className="pointer-events-auto relative w-fit rounded-br-4xl bg-white p-4 dark:bg-neutral-950">
+          <div
+            className={cn(
+              "pointer-events-auto relative w-fit rounded-br-4xl p-4 dark:bg-neutral-950",
+              surface,
+            )}
+          >
             <h2 className="text-2xl font-medium leading-[1.1] tracking-tight whitespace-nowrap text-neutral-900 sm:text-5xl lg:text-7xl dark:text-white">
               {title}
             </h2>
-            <CornerMark className="absolute top-0 -right-10 rotate-180 text-white dark:text-neutral-950" />
+            <CornerMark
+              className={cn(
+                "absolute top-0 -right-10 rotate-180 dark:text-neutral-950",
+                surfaceMark,
+              )}
+            />
           </div>
 
           {titleLine2 ? (
-            <div className="pointer-events-auto relative w-fit rounded-br-4xl bg-white p-4 dark:bg-neutral-950">
+            <div
+              className={cn(
+                "pointer-events-auto relative w-fit rounded-br-4xl p-4 dark:bg-neutral-950",
+                surface,
+              )}
+            >
               <p className="text-3xl font-medium leading-[1.1] tracking-tight whitespace-nowrap text-neutral-900 sm:text-5xl lg:text-7xl dark:text-white">
                 {titleLine2}
               </p>
-              <CornerMark className="absolute top-0 -right-10 rotate-180 text-white dark:text-neutral-950" />
-              <CornerMark className="absolute -bottom-10 left-0 rotate-180 text-white dark:text-neutral-950" />
+              <CornerMark
+                className={cn(
+                  "absolute top-0 -right-10 rotate-180 dark:text-neutral-950",
+                  surfaceMark,
+                )}
+              />
+              <CornerMark
+                className={cn(
+                  "absolute -bottom-10 left-0 rotate-180 dark:text-neutral-950",
+                  surfaceMark,
+                )}
+              />
             </div>
           ) : null}
 
@@ -129,7 +165,7 @@ export function Hero12({
 
         <div className="absolute right-4 bottom-4 left-4 z-20 lg:top-auto lg:right-8 lg:bottom-8 lg:left-auto lg:w-[420px]">
           <motion.div
-            className="space-y-4 rounded-2xl border border-neutral-100 bg-white/95 p-2 shadow-xl backdrop-blur-sm dark:border-neutral-800 dark:bg-neutral-950/95"
+            className="space-y-4 rounded-2xl border border-white/50 bg-white/40 p-2 shadow-xl backdrop-blur-xl dark:border-white/15 dark:bg-white/10 dark:shadow-none"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -147,18 +183,20 @@ export function Hero12({
               <h3 className="mb-1 text-xl font-medium text-neutral-900 dark:text-white">
                 {cardTitle}
               </h3>
-              <p className="text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+              <p className="text-sm leading-relaxed text-neutral-900 dark:text-white">
                 {cardDescription}
               </p>
             </div>
 
-            <a
-              href={cardCta.href}
-              className="group m-2 flex w-full cursor-pointer items-center justify-between gap-2 text-sm font-medium text-neutral-900 transition-opacity hover:opacity-70 dark:text-white"
-            >
-              {cardCta.label}{" "}
-              <ArrowRight className="mr-4 h-4 w-4 transform" />
-            </a>
+            {cardCta ? (
+              <a
+                href={cardCta.href}
+                className="group m-2 flex w-full cursor-pointer items-center justify-between gap-2 text-sm font-medium text-neutral-900 transition-opacity hover:opacity-70 dark:text-white"
+              >
+                {cardCta.label}{" "}
+                <ArrowRight className="mr-4 h-4 w-4 transform" />
+              </a>
+            ) : null}
           </motion.div>
         </div>
       </div>

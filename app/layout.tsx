@@ -1,5 +1,6 @@
 import { Providers } from "@/components/providers";
 import { SkipToContent } from "@/components/skip-to-content";
+import Footer2 from "@/components/blocks/footer-2";
 import { baseMetadata } from "@/lib/metadata";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -38,11 +39,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col bg-background font-sans text-foreground antialiased`}
       >
         <Providers>
           <SkipToContent />
-          {children}
+          <div className="flex min-h-screen flex-1 flex-col">{children}</div>
+          <Footer2 />
         </Providers>
       </body>
     </html>

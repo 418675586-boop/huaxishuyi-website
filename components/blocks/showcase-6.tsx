@@ -10,6 +10,7 @@ export type Showcase6Moment = {
   caption: string;
   date?: string;
   detail?: string;
+  label?: string;
   image: string;
   href?: string;
   tilt: number;
@@ -123,7 +124,7 @@ export function Showcase6({
           viewport={{ once: true, margin: "-80px" }}
           className={
             headerLayout === "stack"
-              ? "mb-10 flex max-w-3xl flex-col gap-3"
+              ? "mb-10 flex max-w-[1200px] flex-col gap-3"
               : "grid grid-cols-1 items-start gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16"
           }
         >
@@ -188,7 +189,7 @@ export function Showcase6({
               whileHover={{ rotate: 0, y: -6 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                "group relative block lg:-ml-14 lg:w-[28%] lg:first:ml-0",
+                "group relative z-0 block lg:-ml-10 lg:w-[28%] lg:first:ml-0 lg:hover:z-20",
                 moment.lift,
               )}
             >
@@ -201,6 +202,11 @@ export function Showcase6({
                     draggable={false}
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                   />
+                  {moment.label ? (
+                    <span className="absolute top-3 left-3 z-[1] rounded-full bg-white px-2.5 py-1 text-[12px] font-medium tracking-wide text-[#999] shadow-sm dark:bg-white dark:text-[#999]">
+                      {moment.label}
+                    </span>
+                  ) : null}
                 </div>
                 <div className="px-1 pt-4 pb-1.5">
                   <div className="flex items-baseline justify-between gap-3">

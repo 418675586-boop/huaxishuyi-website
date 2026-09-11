@@ -68,7 +68,7 @@ export default function Footer2() {
       <div className="relative z-10">
         <div className="h-36 sm:h-44 md:h-52" />
 
-        <div className="relative mx-[20px] mb-[20px] rounded-b-[10px] bg-white dark:bg-neutral-950">
+        <div className="relative mx-[20px] mb-[20px] rounded-b-[10px] bg-white dark:bg-[rgba(12,8,22,0.72)]">
           <div className="absolute top-0 left-0 z-10 -translate-y-full overflow-hidden rounded-tl-[10px]">
             <svg
               width="614"
@@ -80,7 +80,7 @@ export default function Footer2() {
             >
               <path
                 d="M0 0H451.601C467.78 0 483.071 7.75893 491.954 21.2815C558.518 122.612 538.359 153.074 614 153H0V0Z"
-                className="fill-white dark:fill-neutral-950"
+                className="fill-white dark:fill-[#0c0816]"
               />
             </svg>
           </div>
@@ -96,7 +96,7 @@ export default function Footer2() {
             >
               <path
                 d="M0 0H451.601C467.78 0 483.071 7.75893 491.954 21.2815C558.518 122.612 538.359 153.074 614 153H0V0Z"
-                className="fill-white dark:fill-neutral-950"
+                className="fill-white dark:fill-[#0c0816]"
               />
             </svg>
           </div>

@@ -584,7 +584,7 @@ export function ShowcaseCards(): ReactNode {
   return (
     <section
       id="solutions"
-      className="bg-white px-4 py-[150px] dark:bg-black sm:px-6 lg:px-8"
+      className="relative z-[1] bg-white px-4 py-[150px] dark:bg-transparent sm:px-6 lg:px-8"
     >
       <div className="mx-auto flex max-w-[1200px] flex-col gap-8 sm:gap-10">
         {/* 标题在卡片/图片上方 */}

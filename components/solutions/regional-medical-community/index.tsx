@@ -271,7 +271,7 @@ export function RegionalMedicalCommunity() {
 
             <div
               aria-hidden
-              className="h-px w-full bg-[#F8F8F8]"
+              className="h-px w-full bg-[#F8F8F8] dark:bg-[#F8F8F8]/50"
             />
 
             <Features1 embedded />

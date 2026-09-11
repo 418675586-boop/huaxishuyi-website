@@ -2,20 +2,21 @@
 
 import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
-
-const HERO_TAGS = ["一个底座", "五类应用", "三大保障", "五个统一"];
+import Link from "next/link";
 
 export function Hero1() {
   return (
-    <section className="relative flex w-full items-start overflow-hidden bg-white px-4 py-[80px] sm:px-6 lg:items-center lg:px-8 dark:bg-neutral-950">
-      {/* 底部淡色弥散光晕 */}
+    <section className="relative flex w-full items-start overflow-hidden bg-white px-4 pt-[calc(66px+3rem)] pb-12 sm:px-6 sm:pt-[calc(66px+3rem)] sm:pb-16 lg:items-center lg:px-8 dark:bg-transparent">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%] select-none"
+        className="pointer-events-none absolute inset-0 z-[1] select-none"
       >
-        <div className="absolute -bottom-24 left-[8%] h-[320px] w-[420px] rounded-full bg-[#B8D4F0]/35 blur-[90px] dark:bg-[#7BA3C9]/20" />
-        <div className="absolute -bottom-16 left-[38%] h-[280px] w-[360px] rounded-full bg-[#C5C8F0]/30 blur-[100px] dark:bg-[#8B8FC8]/15" />
-        <div className="absolute right-[6%] -bottom-20 h-[300px] w-[400px] rounded-full bg-[#A8C8E8]/28 blur-[95px] dark:bg-[#6A90B8]/18" />
+        <div className="absolute -top-[12%] left-[0%] h-[55%] w-[55%] rounded-full bg-[#A8C8EC]/55 blur-[110px] dark:hidden" />
+        <div className="absolute top-[8%] right-[-5%] h-[50%] w-[50%] rounded-full bg-[#B8B8F0]/50 blur-[120px] dark:hidden" />
+        <div className="absolute top-[18%] left-[32%] h-[40%] w-[40%] rounded-full bg-[#B0D4F5]/40 blur-[100px] dark:hidden" />
+        <div className="absolute -top-[14%] left-[6%] hidden h-[52%] w-[52%] rounded-full bg-[rgba(43,79,212,0.22)] blur-[130px] dark:block" />
+        <div className="absolute top-[6%] right-[4%] hidden h-[48%] w-[48%] rounded-full bg-[rgba(107,91,149,0.18)] blur-[120px] dark:block" />
+        <div className="absolute top-[16%] left-[36%] hidden h-[36%] w-[36%] rounded-full bg-[rgba(122,31,110,0.14)] blur-[110px] dark:block" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1200px]">
@@ -25,13 +26,13 @@ export function Hero1() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex w-fit items-center gap-2 rounded-full border border-neutral-300 p-1 sm:gap-3 dark:border-neutral-800"
+              className="flex w-fit cursor-default items-center gap-2 rounded-full border border-neutral-300 p-1 transition-colors sm:gap-3 dark:border-neutral-800"
             >
-              <span className="inline-flex items-center rounded-full bg-black px-3 py-1 text-xs font-medium text-white sm:text-sm dark:bg-white dark:text-black">
-                解决方案
+              <span className="inline-flex items-center rounded-full bg-black px-3 py-1 text-[10px] font-medium text-white sm:text-xs dark:bg-white dark:text-black">
+                新闻动态
               </span>
-              <span className="mr-2 text-sm text-neutral-900 sm:text-base dark:text-neutral-100">
-                区域型医共体数智化解决方案
+              <span className="mr-2 text-xs text-neutral-900 sm:text-sm dark:text-neutral-100">
+                华西数医 · 最新资讯
               </span>
             </motion.div>
 
@@ -41,7 +42,9 @@ export function Hero1() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-2xl leading-[1.15] font-medium tracking-tight text-neutral-900 sm:text-3xl md:text-4xl lg:text-5xl dark:text-white"
             >
-              数智医共体 · 健康共同体
+              洞察医疗数智前沿
+              <br />
+              见证华西数医每一步
             </motion.h1>
 
             <motion.p
@@ -50,23 +53,57 @@ export function Hero1() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="max-w-lg text-base leading-relaxed tracking-tight text-neutral-600 sm:text-lg dark:text-neutral-400"
             >
-              以统一数智底座，赋能区域医共体高质量发展
+              汇集公司公告、行业活动与创新实践，持续呈现华西数医在 AI
+              医疗领域的最新动态与落地成果。
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-wrap gap-2 sm:gap-3"
+              className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
             >
-              {HERO_TAGS.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-1.5 text-xs font-medium text-neutral-700 sm:text-sm dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200"
-                >
-                  {tag}
+              <a
+                href="#news-list"
+                className="inline-flex w-full cursor-pointer items-center justify-center rounded-full bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus-visible:ring-offset-neutral-950 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
+              >
+                浏览最新动态
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </a>
+              <Link
+                href="/about"
+                className="inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-neutral-300 bg-white/60 px-6 py-3 text-sm font-medium text-neutral-900 backdrop-blur transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:focus-visible:ring-offset-neutral-950 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
+              >
+                了解华西数医
+              </Link>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="flex select-none items-center gap-3 pt-2 sm:gap-4 sm:pt-4"
+            >
+              <div className="flex -space-x-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border-4 border-white bg-neutral-900 text-xs font-semibold text-white sm:h-12 sm:w-12 sm:text-sm dark:border-neutral-950 dark:bg-white dark:text-black">
+                  讯
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border-4 border-white bg-neutral-700 text-xs font-semibold text-white sm:h-12 sm:w-12 sm:text-sm dark:border-neutral-950 dark:bg-neutral-200 dark:text-black">
+                  研
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border-4 border-white bg-neutral-500 text-xs font-semibold text-white sm:h-12 sm:w-12 sm:text-sm dark:border-neutral-950 dark:bg-neutral-400 dark:text-black">
+                  告
+                </div>
+              </div>
+
+              <div className="flex flex-col">
+                <span className="text-base font-semibold text-neutral-900 sm:text-lg dark:text-white">
+                  7+
                 </span>
-              ))}
+                <span className="text-xs text-neutral-600 sm:text-sm dark:text-neutral-400">
+                  近期发布的公司新闻与公告
+                </span>
+              </div>
             </motion.div>
           </div>
 
@@ -76,10 +113,10 @@ export function Hero1() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="relative h-auto w-full"
           >
-            <div className="relative h-full min-h-[250px] w-full overflow-hidden rounded-4xl bg-neutral-100 transition-colors hover:bg-neutral-200 sm:min-h-[500px] dark:bg-neutral-900 dark:hover:bg-neutral-800">
+            <div className="relative h-full min-h-[250px] w-full overflow-hidden rounded-4xl bg-neutral-100 transition-colors sm:min-h-[500px] dark:bg-neutral-900">
               <img
-                src="/img/solutions/regional-healthcare-transform.png"
-                alt="区域型医共体数智化解决方案"
+                src="/img/news-hero-medical-insight.jpg?v=3"
+                alt="洞察医疗数智前沿"
                 className="absolute inset-0 h-full w-full object-cover"
               />
 
@@ -97,13 +134,13 @@ export function Hero1() {
                 </svg>
 
                 <div className="relative">
-                  <div className="h-24 w-24 rounded-tl-4xl bg-white pt-4 pl-4 dark:bg-neutral-950">
+                  <div className="rounded-tl-4xl bg-white pt-4 pl-4 dark:bg-neutral-950">
                     <a
-                      href="#pillars"
-                      className="flex h-full w-full cursor-pointer items-center justify-center rounded-[1.2em] border-none bg-black transition-opacity hover:opacity-90 dark:bg-white"
-                      aria-label="查看方案能力"
+                      href="#news-list"
+                      className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-[1.2em] border-none bg-black transition-opacity hover:opacity-90 sm:h-24 sm:w-24 dark:bg-white"
+                      aria-label="浏览最新动态"
                     >
-                      <ArrowRight className="h-6 w-6 text-white dark:text-neutral-950" />
+                      <ArrowRight className="-rotate-45 h-6 w-6 text-white dark:text-neutral-950" />
                     </a>
                   </div>
 

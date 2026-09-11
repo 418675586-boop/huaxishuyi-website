@@ -8,6 +8,7 @@ import {
   Brain,
   Building2,
   Database,
+  FlaskConical,
   Sparkles,
   Users,
 } from "lucide-react";
@@ -131,7 +132,7 @@ const capabilities: {
     title: "科研任务协同",
     description:
       "支持多人在线协作，科研团队在平台上共同完成数据标注、模型训练与应用开发，保障科研项目高效管理和协同推进。",
-    icon: Users,
+    icon: FlaskConical,
   },
 ];
 
@@ -214,7 +215,8 @@ export function XuanwuHospital() {
           secondaryCta={{ label: "了解合作医院", href: "#hospital" }}
           partnersLabel="合作建设方向"
           partners={["医疗大数据｜医疗大模型｜智能科研｜临床转化"]}
-          backgroundImage="/img/partner-hospitals/xuanwu-hospital-hero-v3.jpg"
+          backgroundImage="/img/partner-hospitals/xuanwu-hospital-hero-hd.jpg"
+          backgroundImageClassName="scale-110"
           bottomContent={
             <div
               aria-label="合作概览"
@@ -288,7 +290,7 @@ export function XuanwuHospital() {
             title="基于大数据与大模型的数智化应用科研管理平台"
             description="依托宣武医院临床数据与专科知识，打造数据、模型、应用一体的智能化科研平台。"
           />
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 [&>*]:relative">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 [&>*]:relative">
             {capabilities.map((item, index) => {
               const Icon = item.icon;
               return (
@@ -305,21 +307,19 @@ export function XuanwuHospital() {
                     },
                   }}
                   viewport={{ once: true }}
-                  className="group relative z-0 flex origin-center items-start gap-5 rounded-3xl bg-white p-8 shadow-[0_0_24px_rgba(0,0,0,0.06)] dark:border dark:border-white/10 dark:bg-white/[0.06] dark:shadow-none dark:backdrop-blur-xl sm:gap-6"
+                  className="group relative z-0 flex origin-center flex-col items-start rounded-3xl bg-white p-6 text-left shadow-[0_0_24px_rgba(0,0,0,0.06)] dark:border dark:border-white/10 dark:bg-white/[0.06] dark:shadow-none dark:backdrop-blur-xl sm:p-8"
                 >
                   <Icon
-                    className="icon-flip-once h-10 w-10 shrink-0 text-neutral-900 dark:text-white"
+                    className="icon-flip-once mb-4 h-10 w-10 shrink-0 text-neutral-900 dark:text-white"
                     strokeWidth={1.5}
                     aria-hidden="true"
                   />
-                  <div className="min-w-0 flex-1 pt-0.5">
-                    <h3 className="mb-2 text-[18px] font-semibold tracking-tight text-neutral-950 dark:text-white sm:text-[20px]">
-                      {item.title}
-                    </h3>
-                    <p className="line-clamp-2 text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400 sm:text-[15px]">
-                      {item.description}
-                    </p>
-                  </div>
+                  <h3 className="mb-2 text-[18px] font-semibold tracking-tight text-neutral-950 dark:text-white sm:text-[20px]">
+                    {item.title}
+                  </h3>
+                  <p className="text-[14px] leading-relaxed text-neutral-500 dark:text-neutral-400 sm:text-[15px]">
+                    {item.description}
+                  </p>
                 </motion.article>
               );
             })}
@@ -328,16 +328,18 @@ export function XuanwuHospital() {
 
         <Hero12
           id="extension"
+          tone="muted"
           title="应用延伸"
           titleLine2="从数据到验证"
-          backgroundImage="/img/partner-hospitals/xuanwu-extension-bg.jpg"
+          backgroundImage="/img/partner-hospitals/xuanwu-extension-bg-lab-v3.jpg"
+          backgroundMirrored
           backgroundAlt="从数据到验证的科研与临床转化场景"
           cta={{ label: "开启合作咨询", href: "#waitlist" }}
-          cardImage="/img/partner-hospitals/xuanwu-extension-card.jpg"
-          cardImageAlt="神经科学知识图谱与专病模型验证"
+          cardImage="/img/partner-hospitals/xuanwu-extension-card-bci-v2.jpg"
+          cardImageAlt="脑机接口信号采集与解码"
           cardTitle="华西数医科研管理平台"
-          cardDescription="宣武医院在 AI 与数字化领域已有深厚积累，包括认知障碍数字医疗北京市重点实验室、基于 GraphRAG 技术的帕金森专病智慧大脑、依托医院构建的北京前沿脑机接口研究院等，形成了从数据到验证的完整医工交叉研发链条。华西数医科研管理平台将进一步加速上述场景的模型训练与临床转化效率。"
-          cardCta={{ label: "开启合作咨询", href: "#waitlist" }}
+          cardDescription="宣武医院已在认知障碍、帕金森与脑机接口等方向形成从数据到验证的研发链条。华西数医科研管理平台将加速模型训练与临床转化。"
+          cardCta={null}
         />
 
         <Waitlist6
