@@ -203,7 +203,7 @@ export function Showcase6({
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                   />
                   {moment.label ? (
-                    <span className="absolute top-3 left-3 z-[1] rounded-full bg-white px-2.5 py-1 text-[12px] font-medium tracking-wide text-[#999] shadow-sm dark:bg-white dark:text-[#999]">
+                    <span className="absolute top-3 left-3 z-[1] rounded-full bg-white px-2.5 py-1 text-[12px] font-medium tracking-wide text-[#666] shadow-sm dark:bg-white dark:text-[#666]">
                       {moment.label}
                     </span>
                   ) : null}

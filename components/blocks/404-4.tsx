@@ -1,28 +1,13 @@
 "use client";
 
 import { motion } from "motion/react";
+import Link from "next/link";
 import SpotlightCard from "@/components/SpotlightCard";
-import { OutlineCtaButton } from "@/components/outline-cta";
+import { OutlineCtaLink } from "@/components/outline-cta";
 import { SocialProof9 } from "@/components/blocks/social-proof-9";
+import { homepageNewsPosts } from "@/components/news/posts";
+import { ParallaxNewsSection } from "@/components/news/parallax-news-section";
 import { ArrowRight } from "lucide-react";
-
-const cards = [
-  {
-    title: "分子医学新突破",
-    cta: "查看详情",
-    img: "/img/news-molecular-medicine.png",
-  },
-  {
-    title: "基因治疗新突破",
-    cta: "查看详情",
-    img: "/img/news-gene-therapy.png",
-  },
-  {
-    title: "AI 分子医学智能体",
-    cta: "查看详情",
-    img: "/img/news-ai-medical-agent.jpg",
-  },
-];
 
 export default function NotFound4() {
   return (
@@ -47,45 +32,53 @@ export default function NotFound4() {
             </p>
           </div>
 
-          <OutlineCtaButton className="self-start sm:self-auto">
+          <OutlineCtaLink href="/news" className="self-start sm:self-auto">
             查看全部
-          </OutlineCtaButton>
+          </OutlineCtaLink>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3 sm:gap-6">
-          {cards.map((card, index) => (
+          {homepageNewsPosts.map((post, index) => (
             <motion.div
-              key={index}
+              key={post.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 + index * 0.08 }}
-              className="relative rounded-xl sm:rounded-2xl overflow-hidden aspect-5/4 cursor-pointer group bg-neutral-100 dark:bg-neutral-900"
+              className="relative overflow-hidden rounded-xl bg-neutral-100 aspect-5/4 cursor-pointer group sm:rounded-2xl dark:bg-neutral-900"
             >
-              <SpotlightCard
-                className="h-full w-full"
-                spotlightColor="rgba(255, 255, 255, 0.38)"
+              <Link
+                href={`/news?id=${post.id}#news-list`}
+                className="absolute inset-0"
+                aria-label={post.title}
               >
-                <img
-                  src={card.img}
-                  alt={card.title}
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[850ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover:scale-[1.055]"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                <SpotlightCard
+                  className="h-full w-full"
+                  spotlightColor="rgba(255, 255, 255, 0.38)"
+                >
+                  <img
+                    src={post.image}
+                    alt={post.imageAlt}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[850ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover:scale-[1.055]"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
 
-                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 flex flex-col gap-3">
-                  <span className="text-xl sm:text-2xl font-semibold text-white leading-none uppercase tracking-tight">
-                    {card.title}
-                  </span>
-                  <button className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/50 text-neutral-900 text-[10px] sm:text-xs font-medium uppercase tracking-wider w-fit cursor-pointer backdrop-blur-[2px] hover:bg-white/60 transition-colors duration-200">
-                    {card.cta}
-                    <ArrowRight className="w-3 h-3" aria-hidden="true" />
-                  </button>
-                </div>
-              </SpotlightCard>
+                  <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-5 sm:p-6">
+                    <span className="line-clamp-2 text-lg font-semibold leading-snug tracking-tight text-white sm:text-xl">
+                      {post.title}
+                    </span>
+                    <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/50 px-3.5 py-1.5 text-[10px] font-medium tracking-wider text-neutral-900 uppercase backdrop-blur-[2px] transition-colors duration-200 group-hover:bg-white/60 sm:text-xs">
+                      查看详情
+                      <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                    </span>
+                  </div>
+                </SpotlightCard>
+              </Link>
             </motion.div>
           ))}
         </div>
       </div>
+
+      <ParallaxNewsSection />
 
       <SocialProof9 embedded />
     </section>

@@ -69,14 +69,14 @@ export default function Footer2() {
         <div className="h-36 sm:h-44 md:h-52" />
 
         <div className="relative mx-[20px] mb-[20px] rounded-b-[10px] bg-white dark:bg-[rgba(12,8,22,0.72)]">
-          <div className="absolute top-0 left-0 z-10 -translate-y-full overflow-hidden rounded-tl-[10px]">
+          <div className="absolute top-0 left-0 z-10 -translate-y-[calc(100%-2px)] overflow-hidden rounded-tl-[10px]">
             <svg
               width="614"
               height="153"
               viewBox="0 0 614 153"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="relative top-px h-auto w-[250px]"
+              className="block h-auto w-[250px]"
             >
               <path
                 d="M0 0H451.601C467.78 0 483.071 7.75893 491.954 21.2815C558.518 122.612 538.359 153.074 614 153H0V0Z"
@@ -85,14 +85,14 @@ export default function Footer2() {
             </svg>
           </div>
 
-          <div className="absolute top-0 right-0 z-10 -translate-y-full overflow-hidden rounded-tr-[10px]">
+          <div className="absolute top-0 right-0 z-10 -translate-y-[calc(100%-2px)] overflow-hidden rounded-tr-[10px]">
             <svg
               width="614"
               height="153"
               viewBox="0 0 614 153"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="relative top-px h-auto w-[250px] scale-x-[-1]"
+              className="block h-auto w-[250px] scale-x-[-1]"
             >
               <path
                 d="M0 0H451.601C467.78 0 483.071 7.75893 491.954 21.2815C558.518 122.612 538.359 153.074 614 153H0V0Z"
