@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowRight,
@@ -18,6 +18,13 @@ import { PainPointsSection } from "@/components/blocks/pain-points-section";
 import { SectionLabel } from "@/components/blocks/section-label";
 
 // ─── 数据定义 ───────────────────────────────────────────────────────────────
+
+const stats = [
+  { value: 98, format: (n: number) => `${Math.round(n)}`, suffix: "%+", label: "科室匹配准确率" },
+  { value: 60, format: (n: number) => `${Math.round(n)}`, suffix: "%↓", label: "误挂号率下降" },
+  { value: 30, format: (n: number) => `${Math.round(n)}`, suffix: "%↓", label: "导诊人力节省" },
+  { value: 280, format: (n: number) => `${Math.round(n)}`, suffix: "+", label: "覆盖医院数量" },
+];
 
 const CTA_GRADIENT_COLORS = ["#6366f1", "#8b5cf6", "#a78bfa"];
 
@@ -912,13 +919,6 @@ function FaqSection() {
 // ─── 主页面 ─────────────────────────────────────────────────────────────────
 
 export default function AiTriagePage() {
-  const stats = useMemo(() => [
-    { value: 98, format: (n: number) => `${Math.round(n)}`, suffix: "%+", label: "科室匹配准确率" },
-    { value: 60, format: (n: number) => `${Math.round(n)}`, suffix: "%↓", label: "误挂号率下降" },
-    { value: 30, format: (n: number) => `${Math.round(n)}`, suffix: "%↓", label: "导诊人力节省" },
-    { value: 280, format: (n: number) => `${Math.round(n)}`, suffix: "+", label: "覆盖医院数量" },
-  ], []);
-
   return (
     <>
       <Header />

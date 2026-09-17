@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOW IT WORKS - 智能导诊流程</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #000000;
+      --text: #f4f4f1;
+      --text-muted: #8b8b86;
+      --accent: #4ade80;
+      --divider: #1c1c19;
+      --rail-size: clamp(96px, 12vw, 190px);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body {
+      font-family: 'Noto Sans SC', 'Manrope', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+    }
+
+    .nav-brand {
+      font-family: 'Manrope', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      padding: 10px 20px;
+      background: var(--accent);
+      color: #000 !important;
+      border-radius: 100px;
+      font-weight: 600 !important;
+    }
+
+    .nav-cta:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding: 16px 20px;
+      }
+      .nav-links {
+        gap: 16px;
+      }
+      .nav-links a:not(.nav-cta) {
+        display: none;
+      }
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 60vh;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 40px 60px;
+    }
+
+    .hero-label {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(48px, 8vw, 100px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        padding: 0 20px 40px;
+        height: auto;
+        padding-top: 120px;
+      }
+    }
+
+    /* Stack Container */
+    .stack {
+      position: relative;
+      height: calc(100svh * 8);
+    }
+
+    /* Card */
+    .card {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 40px;
+      background: var(--bg);
+      z-index: 1;
+      will-change: transform;
+    }
+
+    .card:nth-child(1) { z-index: 8; }
+    .card:nth-child(2) { z-index: 7; }
+    .card:nth-child(3) { z-index: 6; }
+    .card:nth-child(4) { z-index: 5; }
+    .card:nth-child(5) { z-index: 4; }
+    .card:nth-child(6) { z-index: 3; }
+    .card:nth-child(7) { z-index: 2; }
+    .card:nth-child(8) { z-index: 1; }
+
+    /* Card Inner */
+    .card-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 1400px;
+      gap: 80px;
+    }
+
+    /* Rail (Left) */
+    .rail {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rail-number {
+      font-family: 'Manrope', sans-serif;
+      font-size: var(--rail-size);
+      font-weight: 800;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--text);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .rail-divider {
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.24em;
+    }
+
+    /* Body (Right) */
+    .body {
+      flex: none;
+      width: clamp(420px, 44vw, 680px);
+      margin-left: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .body-subtitle {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .body h2 {
+      font-family: 'Noto Sans SC', 'Manrope', sans-serif;
+      font-size: clamp(26px, 3vw, 42px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .body p {
+      font-size: 15px;
+      line-height: 1.95;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .body figure {
+      margin: 0 0 20px;
+      padding: 0;
+    }
+
+    .body figure img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 20px;
+      filter: grayscale(1) contrast(1.06);
+    }
+
+    .body ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .body ul li {
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border: 1px solid var(--divider);
+      border-radius: 100px;
+    }
+
+    /* Mobile Layout */
+    @media (max-width: 900px) {
+      .card {
+        padding: 80px 20px 40px;
+        height: auto;
+        min-height: 100svh;
+        align-items: flex-start;
+      }
+
+      .card-inner {
+        flex-direction: column;
+        gap: 24px;
+        align-items: flex-start;
+      }
+
+      .rail {
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .rail-number {
+        font-size: 64px;
+      }
+
+      .body {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--divider);
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .footer-team {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 900px) {
+      footer {
+        padding: 40px 20px;
+      }
+    }
+
+    /* Card Entry Animation */
+    .card .body > * {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .card.in .body > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.05s; }
+    .card.in .body > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
+    .card.in .body > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
+    .card.in .body > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.35s; }
+    .card.in .body > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.45s; }
+
+    .card .rail {
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .card.in .rail {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Noscript fallback */
+    noscript .card {
+      position: relative;
+      height: auto;
+      min-height: 100svh;
+    }
+
+    noscript .stack {
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="#" class="nav-brand">华西数医</a>
+    <div class="nav-links">
+      <a href="#">首页</a>
+      <a href="#how-it-works">HOW IT WORKS</a>
+      <a href="#">联系我们</a>
+      <a href="#" class="nav-cta">预约演示</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <span class="hero-label">智能导诊 · 八步闭环</span>
+    <h1>HOW IT WORKS</h1>
+    <p class="hero-desc">
+      AI 驱动的诊前智能导诊系统，通过八个核心步骤，为患者提供精准、高效的就医引导服务，显著提升就医体验与医院运营效率。
+    </p>
+  </section>
+
+  <!-- Stack Cards -->
+  <div class="stack" id="how-it-works">
+    <!-- Card 01 -->
+    <div class="card" data-index="0">
+      <div class="card-inner">
+        <div class="rail">
+          <span class="rail-number">01</span>
+          <span class="rail-divider">/ 08</span>
+        </div>
+        <div class="body">
+          <span class="body-subtitle">入口触发</span>
+          <h2>多入口智能唤起</h2>
+          <p>患者通过公众号 / 小程序 / 医院 APP 等多入口触发 AI 智能导诊。支持从魔法棒、对话意图、挂号入口、导医台等多场景智能唤起。</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80" alt="多入口智能唤起">
+          </figure>
+          <ul>
+            <li>支持公众号</li>
+            <li>小程序</li>
+            <li>APP</li>
+            <li>Web</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 02 -->
+    <div class="card" data-index="1">
+      <div class="card-inner">
+        <div class="rail">
+          <span class="rail-number">02</span>
+          <span class="rail-divider">/ 08</span>
+        </div>
+        <div class="body">
+          <span class="body-subtitle">症状理解</span>
+          <h2>自然语言理解</h2>
+          <p>当患者只知道"孩子咳嗽"，但说不清具体情况时，AI 会主动接住这个模糊需求。基于医疗大模型，能理解患者口语化描述，不局限于关键词匹配。</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800&q=80" alt="自然语言理解">
+          </figure>
+          <ul>
+            <li>医疗大模型</li>
+            <li>上下文记忆</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 03 -->
+    <div class="card" data-index="2">
+      <div class="card-inner">
+        <div class="rail">
+          <span class="rail-number">03</span>
+          <span class="rail-divider">/ 08</span>
+        </div>
+        <div class="body">
+          <span class="body-subtitle">关键追问</span>
+          <h2>模拟医生思维</h2>
+          <p>系统模拟医生导诊思路，用少量关键问题快速补齐信息：持续时间、是否咳痰、痰液颜色、是否发热。围绕核心症状追加必要问题。</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&q=80" alt="模拟医生思维">
+          </figure>
+          <ul>
+            <li>平均 3-4 个关键问题</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 04 -->
+    <div class="card" data-index="3">
+      <div class="card-inner">
+        <div class="rail">
+          <span class="rail-number">04</span>
+          <span class="rail-divider">/ 08</span>
+        </div>
+        <div class="body">
+          <span class="body-subtitle">点选交互</span>
+          <h2>低门槛交互</h2>
+          <p>点选式交互降低了患者表达门槛，尤其适合老人、儿童家属和不熟悉医学术语的用户。无需打字，点选即可完成完整导诊。</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="低门槛交互">
+          </figure>
+          <ul>
+            <li>点选 + 文字混合输入</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 05 -->
+    <div class="card" data-index="4">
+      <div class="card-inner">
+        <div class="rail">
+          <span class="rail-number">05</span>
+          <span class="rail-divider">/ 08</span>
+        </div>
+        <div class="body">
+          <span class="body-subtitle">科室推荐</span>
+          <h2>推荐 + 匹配度</h2>
+          <p>完成症状采集后，AI 结合科室结构树、专病门诊、年龄 / 性别规则、症状特征进行匹配，生成科室推荐和匹配度（如 80%、70%、65%），支持专病门诊精准分流。</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&q=80" alt="推荐匹配度">
+          </figure>
+          <ul>
+            <li>准确率 98%+</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 06 -->
+    <div class="card" data-index="5">
+      <div class="card-inner">
+        <div class="rail">
+          <span class="rail-number">06</span>
+          <span class="rail-divider">/ 08</span>
+        </div>
+        <div class="body">
+          <span class="body-subtitle">推荐解释</span>
+          <h2>推荐可解释</h2>
+          <p>患者不仅看到"推荐挂哪个科"，还可以看到推荐依据，理解自己的症状为什么匹配这个门诊。展示匹配度和推荐原因，让患者理解推荐依据。</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=800&q=80" alt="推荐可解释">
+          </figure>
+          <ul>
+            <li>决策更安心</li>
+            <li>信任度更高</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 07 -->
+    <div class="card" data-index="6">
+      <div class="card-inner">
+        <div class="rail">
+          <span class="rail-number">07</span>
+          <span class="rail-divider">/ 08</span>
+        </div>
+        <div class="body">
+          <span class="body-subtitle">医生推荐</span>
+          <h2>医生一体化</h2>
+          <p>进一步结合医生擅长方向、门诊诊断数据、号源情况辅助选择医生。从"找科室"走到"找医生"，缩短就医决策路径，提升专家号源利用率。</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&q=80" alt="医生推荐">
+          </figure>
+          <ul>
+            <li>擅长领域</li>
+            <li>患者偏好</li>
+            <li>号源</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 08 -->
+    <div class="card" data-index="7">
+      <div class="card-inner">
+        <div class="rail">
+          <span class="rail-number">08</span>
+          <span class="rail-divider">/ 08</span>
+        </div>
+        <div class="body">
+          <span class="body-subtitle">挂号衔接</span>
+          <h2>诊前服务闭环</h2>
+          <p>导诊结果可自然承接预约挂号，形成诊前服务闭环。减少挂错号和二次转诊，缓解人工导诊压力，让科室资源配置更高效。</p>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=800&q=80" alt="诊前服务闭环">
+          </figure>
+          <ul>
+            <li>诊间信息自动传</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p class="footer-brand">成都华西数字医疗科技有限公司</p>
+    <p class="footer-team">产研三组 · NEMO ADS</p>
+  </footer>
+
+  <script>
+    (function() {
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) return;
+
+      const stack = document.querySelector('.stack');
+      const cards = document.querySelectorAll('.card');
+      const totalCards = cards.length;
+
+      // Intersection Observer for card entry animation
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+          } else {
+            entry.target.classList.remove('in');
+          }
+        });
+      }, {
+        threshold: 0.3,
+        rootMargin: '0px'
+      });
+
+      cards.forEach(card => observer.observe(card));
+
+      // Scroll-driven animation
+      let ticking = false;
+
+      function updateCards() {
+        const stackRect = stack.getBoundingClientRect();
+        const stackTop = stackRect.top;
+        const vh = window.innerHeight;
+
+        // Calculate which cards are covered
+        cards.forEach((card, index) => {
+          // Card position relative to viewport
+          const cardProgress = -stackTop - (index * vh);
+          const p = Math.max(0, Math.min(1, cardProgress / vh));
+
+          if (p === 0) {
+            card.style.transform = '';
+            return;
+          }
+
+          // Last card special case
+          if (index === totalCards - 1) {
+            const lastCardP = Math.max(0, Math.min(1, p));
+            card.style.transform = `translateY(${(1 - lastCardP) * 4}%)`;
+            return;
+          }
+
+          // Cards being covered: slight upward + micro shrink
+          const coveredP = Math.max(0, Math.min(1, p));
+          card.style.transform = `translateY(${-coveredP * 4}%) scale(${1 - coveredP * 0.05})`;
+        });
+
+        ticking = false;
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          requestAnimationFrame(updateCards);
+          ticking = true;
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      
+      // Initial call
+      updateCards();
+    })();
+  </script>
+
+  <!-- Noscript fallback -->
+  <noscript>
+    <style>
+      .stack { height: auto !important; }
+      .card { position: relative !important; height: auto !important; min-height: 100vh; }
+      .card .body > *, .card .rail { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
+</body>
+</html>
