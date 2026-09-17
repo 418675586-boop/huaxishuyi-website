@@ -60,7 +60,6 @@
 html {
   color-scheme: light;
   scroll-behavior: smooth;
-  overflow-x: hidden;
 }
 
 html.dark {
@@ -88,7 +87,6 @@ body {
 }
 
 body {
-  overflow-x: hidden;
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
@@ -200,4 +198,109 @@ textarea:focus-visible {
 
 .group:hover .icon-flip-once {
   animation: icon-flip-once 0.55s ease-in-out;
+}
+
+/* ──────────────────────────────────────
+   Hero 视频背景（深色模式）
+   ────────────────────────────────────── */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+}
+
+/* 深色模式下显示视频 */
+html.dark .hero-video,
+.dark .hero-video {
+  display: block;
+}
+
+html.dark .hero-video-overlay,
+.dark .hero-video-overlay {
+  display: block;
+}
+
+/* ──────────────────────────────────────
+   HowItWorksInteractive（Pitch + Day）浅色模式适配
+   深色：黑底+白字；浅色：白底+深色字（光晕色保留蓝色）
+   ────────────────────────────────────── */
+
+/* Pitch section */
+html:not(.dark) section#pitch {
+  background-color: #f4f5f7 !important;
+}
+
+/* Day section 在浅色模式下需要改变背景色为白 */
+html:not(.dark) section#day {
+  background-color: #ffffff !important;
+}
+
+/* Day headline text 在浅色模式 */
+html:not(.dark) section#day .day-headline h2 {
+  color: #0a0a0a !important;
+}
+
+/* Pitch 主体文字 */
+html:not(.dark) section#pitch .pitch-txt h1,
+html:not(.dark) section#pitch .pitch-txt p {
+  color: #0a0a0a !important;
+}
+html:not(.dark) section#pitch .pitch-txt p {
+  color: #4a5260 !important;
+}
+
+/* Day section: day-item 内容 */
+html:not(.dark) .day-item {
+  background: #ffffff !important;
+  border-top-color: rgba(15, 23, 42, 0.08) !important;
+}
+html:not(.dark) .day-item .day-title {
+  color: #0a0a0a !important;
+}
+html:not(.dark) .day-item .day-subtitle {
+  color: #4338ca !important;
+}
+html:not(.dark) .day-item .day-desc {
+  color: #4a5260 !important;
+}
+html:not(.dark) .day-item .step-tag {
+  background: rgba(99, 102, 241, 0.08) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+  color: #4338ca !important;
+}
+
+/* parallax-div 浅色模式改为白色 */
+html:not(.dark) .parallax-div {
+  background: #ffffff !important;
+}
+
+/* night 步骤卡片（已是深色变体）：浅色模式下改为白色 */
+html:not(.dark) .day-item.night {
+  background: #ffffff !important;
+  border-top-color: rgba(15, 23, 42, 0.08) !important;
+}
+html:not(.dark) .day-item.night .day-title {
+  color: #0a0a0a !important;
+}
+html:not(.dark) .day-item.night .day-subtitle {
+  color: #4338ca !important;
+}
+html:not(.dark) .day-item.night .day-desc {
+  color: #4a5260 !important;
+}
+
+/* 圆圈旁编号：浅色模式 */
+html:not(.dark) .number-prefix,
+html:not(.dark) .number-flip {
+  color: #0a0a0a !important;
 }
