@@ -22,7 +22,7 @@ export default function Contact2() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4 }}
-                  className="mb-4 text-2xl font-normal text-neutral-900 dark:text-white sm:text-3xl"
+                  className="mb-4 text-[44px] font-medium leading-[1.15] tracking-tight text-neutral-900 dark:text-white"
                 >
                   准备好开启
                   <br />
@@ -81,7 +81,7 @@ export default function Contact2() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4 }}
-                className="mb-12 text-5xl font-normal text-neutral-900 dark:text-white sm:text-6xl lg:mb-16 lg:text-7xl"
+                className="mb-12 text-[44px] font-medium leading-[1.15] tracking-tight text-neutral-900 dark:text-white lg:mb-16"
               >
                 联系我们
               </motion.h1>
@@ -175,7 +175,7 @@ export default function Contact2() {
                 <div>
                   <button
                     type="submit"
-                    className="rounded-xl bg-neutral-900 px-12 py-4 text-base font-medium text-white transition-all hover:scale-105 dark:bg-white dark:text-neutral-900"
+                    className="rounded-full bg-neutral-900 px-7 py-3 text-[14px] font-medium text-white transition-all hover:scale-105 dark:bg-white dark:text-neutral-900"
                   >
                     提交
                   </button>

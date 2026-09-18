@@ -40,7 +40,7 @@ export function Hero1() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-2xl leading-[1.15] font-medium tracking-tight text-neutral-900 sm:text-3xl md:text-4xl lg:text-5xl dark:text-white"
+              className="text-[44px] leading-[1.15] font-medium tracking-tight text-neutral-900 dark:text-white"
             >
               洞察医疗数智前沿
               <br />
@@ -51,7 +51,7 @@ export function Hero1() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="max-w-lg text-base leading-relaxed tracking-tight text-neutral-600 sm:text-lg dark:text-neutral-400"
+              className="max-w-lg text-[16px] leading-relaxed tracking-tight text-neutral-600 dark:text-neutral-400"
             >
               汇集公司公告、行业活动与创新实践，持续呈现华西数医在 AI
               医疗领域的最新动态与落地成果。
@@ -65,14 +65,14 @@ export function Hero1() {
             >
               <a
                 href="#news-list"
-                className="inline-flex w-full cursor-pointer items-center justify-center rounded-full bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus-visible:ring-offset-neutral-950 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
+                className="inline-flex w-full cursor-pointer items-center justify-center rounded-full bg-neutral-950 px-5 py-2.5 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus-visible:ring-offset-neutral-950 sm:w-auto sm:px-7 sm:py-3"
               >
                 浏览最新动态
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden="true" />
               </a>
               <Link
                 href="/about"
-                className="inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-neutral-300 bg-white/60 px-6 py-3 text-sm font-medium text-neutral-900 backdrop-blur transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:focus-visible:ring-offset-neutral-950 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
+                className="inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-neutral-300 bg-white/60 px-5 py-2.5 text-[14px] font-medium text-neutral-900 backdrop-blur transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:focus-visible:ring-offset-neutral-950 sm:w-auto sm:px-7 sm:py-3"
               >
                 了解华西数医
               </Link>

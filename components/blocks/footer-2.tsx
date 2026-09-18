@@ -6,10 +6,10 @@ import Image from "next/image";
 import Scanner from "@/components/Scanner";
 
 const footerLinks = [
-  { text: "AI医疗应用开发平台", href: "#" },
-  { text: "AI患者应用平台", href: "#" },
-  { text: "AI医生应用平台", href: "#" },
-  { text: "解决方案", href: "/#solutions" },
+  { text: "AI医生应用平台", href: "/products/ai-doctor-platform" },
+  { text: "医院数智化转型解决方案", href: "/solutions/hospital-digital-transformation" },
+  { text: "新闻动态", href: "/news" },
+  { text: "关于我们", href: "/about" },
 ] as const;
 
 export default function Footer2() {

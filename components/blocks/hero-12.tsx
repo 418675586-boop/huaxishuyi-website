@@ -96,7 +96,7 @@ export function Hero12({
               surface,
             )}
           >
-            <h2 className="text-2xl font-medium leading-[1.1] tracking-tight whitespace-nowrap text-neutral-900 sm:text-5xl lg:text-7xl dark:text-white">
+            <h2 className="text-[36px] font-medium leading-[1.15] tracking-tight whitespace-nowrap text-neutral-900 dark:text-white">
               {title}
             </h2>
             <CornerMark
@@ -114,7 +114,7 @@ export function Hero12({
                 surface,
               )}
             >
-              <p className="text-3xl font-medium leading-[1.1] tracking-tight whitespace-nowrap text-neutral-900 sm:text-5xl lg:text-7xl dark:text-white">
+              <p className="text-[36px] font-medium leading-[1.15] tracking-tight whitespace-nowrap text-neutral-900 dark:text-white">
                 {titleLine2}
               </p>
               <CornerMark
@@ -135,14 +135,14 @@ export function Hero12({
           <div className="mt-8 ml-4 lg:hidden">
             <motion.a
               href={cta.href}
-              className="flex cursor-pointer items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-neutral-900 shadow-lg transition-colors hover:bg-neutral-50"
+              className="flex cursor-pointer items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-neutral-900 shadow-lg transition-colors hover:bg-neutral-50"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               {cta.label}
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-3.5 w-3.5" />
             </motion.a>
           </div>
         </div>
@@ -150,7 +150,7 @@ export function Hero12({
         <div className="absolute top-8 right-8 z-20 hidden lg:block">
           <motion.a
             href={cta.href}
-            className="flex cursor-pointer items-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-medium text-neutral-900 shadow-lg transition-colors hover:bg-neutral-50"
+            className="flex cursor-pointer items-center gap-2 rounded-2xl bg-white px-5 py-2.5 text-[14px] font-medium text-neutral-900 shadow-lg transition-colors hover:bg-neutral-50"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, y: 20 }}
@@ -159,7 +159,7 @@ export function Hero12({
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             {cta.label}
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-3.5 w-3.5" />
           </motion.a>
         </div>
 

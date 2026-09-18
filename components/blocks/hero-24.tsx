@@ -129,7 +129,7 @@ export function Hero24({
 
           <motion.h1
             variants={headline}
-            className="mt-4 text-3xl font-medium leading-[1.08] tracking-[-0.04em] text-neutral-950 dark:text-white sm:text-4xl md:text-5xl"
+            className="mt-4 text-[44px] font-medium leading-[1.15] tracking-tight text-neutral-950 dark:text-white"
           >
             {title}
             {titleAccent ? (
@@ -144,7 +144,7 @@ export function Hero24({
 
           <motion.p
             variants={item}
-            className="mt-4 max-w-lg text-base leading-relaxed text-neutral-600 dark:text-neutral-300 sm:text-lg"
+            className="mt-4 max-w-lg text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-300"
           >
             {description}
           </motion.p>
@@ -155,14 +155,14 @@ export function Hero24({
           >
             <a
               href={primaryCta.href}
-              className="inline-flex w-full cursor-pointer items-center justify-center rounded-full bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition-colors duration-200 hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus-visible:ring-offset-neutral-950 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
+              className="inline-flex w-full cursor-pointer items-center justify-center rounded-full bg-neutral-950 px-5 py-2.5 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus-visible:ring-offset-neutral-950 sm:w-auto sm:px-7 sm:py-3"
             >
               {primaryCta.label}
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden="true" />
             </a>
             <a
               href={secondaryCta.href}
-              className="inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-neutral-300 bg-white/60 px-6 py-3 text-sm font-medium text-neutral-900 backdrop-blur transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:focus-visible:ring-offset-neutral-950 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base"
+              className="inline-flex w-full cursor-pointer items-center justify-center rounded-full border border-neutral-300 bg-white/60 px-5 py-2.5 text-[14px] font-medium text-neutral-900 backdrop-blur transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:focus-visible:ring-offset-neutral-950 sm:w-auto sm:px-7 sm:py-3"
             >
               {secondaryCta.label}
             </a>

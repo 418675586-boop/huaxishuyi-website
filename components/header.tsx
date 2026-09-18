@@ -13,6 +13,14 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type NavMenuItem = { label: string; href?: string };
 
+const products: NavMenuItem[] = [
+  { label: "AI医生应用平台", href: "/products/ai-doctor-platform" },
+  { label: "AI预问诊系统", href: "/products/ai-pre-consultation" },
+  { label: "AI智能导诊平台", href: "/products/ai-triage" },
+  { label: "研究型数字医生平台", href: "/products/research-digital-doctor" },
+  { label: "AI医联体平台", href: "/products/ai-medical-alliance" },
+];
+
 const partnerHospitals: NavMenuItem[] = [
   { label: "首都医科大学宣武医院", href: "/partner-hospitals/xuanwu-hospital" },
   { label: "四川省儿童医院", href: "/partner-hospitals/sichuan-children-hospital" },
@@ -42,7 +50,11 @@ const navLinks: {
   menu?: NavMenuItem[];
 }[] = [
   { href: "/", label: "首页" },
-  { href: "/#products", label: "产品服务" },
+  {
+    href: "/#products",
+    label: "产品服务",
+    menu: products,
+  },
   {
     href: "/#solutions",
     label: "解决方案",
@@ -54,7 +66,6 @@ const navLinks: {
     menu: partnerHospitals,
   },
   { href: "/news", label: "新闻动态" },
-  { href: "/cases", label: "合作案例" },
   { href: "/about", label: "关于我们" },
 ];
 

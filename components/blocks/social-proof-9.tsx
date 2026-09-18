@@ -80,14 +80,14 @@ export function SocialProof9({ embedded = false }: { embedded?: boolean } = {}) 
 
   if (embedded) {
     return (
-      <div className="mt-16 w-full overflow-hidden text-neutral-900 dark:text-white sm:mt-20">
+      <div className="w-full overflow-hidden pt-0 pb-[100px] text-neutral-900 dark:text-white">
         {content}
       </div>
     );
   }
 
   return (
-    <section className="overflow-hidden bg-white pt-0 pb-[150px] text-neutral-900 dark:bg-neutral-950 dark:text-white">
+    <section className="overflow-hidden bg-white pt-0 pb-[100px] text-neutral-900 dark:bg-neutral-950 dark:text-white">
       {content}
     </section>
   );

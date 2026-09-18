@@ -179,15 +179,15 @@ export default function Contact9({
               </span>
               <h2
                 className={cn(
-                  "text-[44px] font-semibold leading-[1.15] tracking-tight text-neutral-900 dark:text-white",
-                  titleClassName,
+                  "font-semibold leading-[1.15] tracking-tight text-neutral-900 dark:text-white",
+                  titleClassName ?? "text-[44px]",
                 )}
               >
                 {title}
               </h2>
               <div
                 className={cn(
-                  "max-w-md space-y-3 text-base leading-relaxed text-neutral-600 dark:text-neutral-400",
+                  "max-w-md space-y-3 text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400",
                   descriptionClassName,
                 )}
               >

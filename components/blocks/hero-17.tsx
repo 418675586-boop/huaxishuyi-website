@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 
@@ -44,7 +45,7 @@ export function Hero17() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-[48px] leading-[1.2] font-medium tracking-tight text-neutral-900 dark:text-white"
+              className="text-[44px] leading-[1.15] font-medium tracking-tight text-neutral-900 dark:text-white"
             >
               智启健康新章
               <br />
@@ -55,7 +56,7 @@ export function Hero17() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.35 }}
-              className="w-full text-[18px] leading-relaxed text-neutral-600 dark:text-neutral-400"
+              className="w-full text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400"
             >
               以 AI 全栈能力贯通诊疗、数据与服务全链路，赋能医院数智转型，
               开启健康管理新篇章，重塑更高效、更精准的医疗未来。
@@ -70,9 +71,10 @@ export function Hero17() {
                 <motion.span
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
-                  className="inline-flex w-full cursor-pointer items-center justify-center rounded-full bg-neutral-900 px-7 py-3.5 text-sm font-medium text-white transition-colors duration-200 hover:bg-neutral-800 sm:w-auto sm:px-8 sm:text-base dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+                  className="inline-flex w-full cursor-pointer items-center justify-center rounded-full bg-neutral-900 px-5 py-2.5 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-neutral-800 sm:w-auto sm:px-7 sm:py-3 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
                 >
                   探索解决方案
+                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden="true" />
                 </motion.span>
               </Link>
             </motion.div>

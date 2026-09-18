@@ -776,24 +776,24 @@ export default function AiPreConsultationPage() {
                   </span>
                 </div>
 
-                <h1 className="text-[36px] font-semibold leading-tight tracking-tight text-neutral-950 dark:text-white sm:text-[44px]">
+                <h1 className="text-[44px] font-semibold leading-[1.15] tracking-tight text-neutral-950 dark:text-white">
                   预问诊系统
                   <br />
                   患者未到，信息先到
                 </h1>
-                <p className="max-w-2xl text-[14px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+                <p className="max-w-2xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400">
                   面向多医疗场景的诊前AI病史采集工具，依托华西数医大模型与多模态智能体，复刻临床标准化问诊逻辑，赋能医生高效接诊、规范病历采集，实现诊前信息前置、诊中高效决策。
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3 pt-1">
                   <a
                     href="#demo"
-                    className="inline-flex h-9 items-center gap-2 rounded-full bg-neutral-950 px-4 text-[14px] text-white transition-opacity hover:opacity-90 dark:bg-white dark:text-neutral-950"
+                    className="inline-flex cursor-pointer items-center justify-center rounded-full bg-neutral-950 px-5 py-2.5 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus-visible:ring-offset-neutral-950 sm:px-7 sm:py-3"
                   >
                     预约产品演示
-                    <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden="true" />
                   </a>
-                  <OutlineCtaLink href="#capabilities">
+                  <OutlineCtaLink href="#capabilities" showArrow={false}>
                     查看核心能力
                   </OutlineCtaLink>
                 </div>
@@ -846,7 +846,7 @@ export default function AiPreConsultationPage() {
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>行业痛点</SectionLabel>
-              <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
+              <h2 className="text-[44px] font-semibold tracking-tight text-neutral-950 dark:text-white">
                 传统问诊模式的六大瓶颈
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
@@ -865,12 +865,12 @@ export default function AiPreConsultationPage() {
         {/* Architecture */}
         <section className="relative z-[1] bg-[#F8F8F8] px-4 py-[100px] dark:bg-transparent sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-[1200px]">
-            <div className="mb-10 flex max-w-3xl flex-col gap-3">
+            <div className="mb-10 flex flex-col gap-3">
               <SectionLabel>产品架构</SectionLabel>
-              <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
+              <h2 className="text-[44px] font-semibold tracking-tight text-neutral-950 dark:text-white lg:whitespace-nowrap">
                 五层架构 · 从患者输入到医生工作站的全链路
               </h2>
-              <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
+              <p className="max-w-3xl text-[16px] text-neutral-600 dark:text-neutral-400">
                 以华西数医大模型为核心引擎，构建「采集-理解-生成-推送-应用」的诊前智能闭环
               </p>
             </div>
@@ -911,7 +911,7 @@ export default function AiPreConsultationPage() {
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>应用场景</SectionLabel>
-              <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
+              <h2 className="text-[44px] font-semibold tracking-tight text-neutral-950 dark:text-white">
                 六大场景 · 全方位赋能诊前采集
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
@@ -936,7 +936,7 @@ export default function AiPreConsultationPage() {
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>核心价值</SectionLabel>
-              <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
+              <h2 className="text-[44px] font-semibold tracking-tight text-neutral-950 dark:text-white">
                 六大价值 · 医生减负 · 患者受益
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
@@ -1015,7 +1015,7 @@ export default function AiPreConsultationPage() {
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>交付模式</SectionLabel>
-              <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
+              <h2 className="text-[44px] font-semibold tracking-tight text-neutral-950 dark:text-white">
                 三种交付方案 · 适配各级医疗机构
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
@@ -1084,7 +1084,7 @@ export default function AiPreConsultationPage() {
           </div>
 
           <div className="relative z-10 mx-auto flex w-full max-w-[900px] flex-col items-center gap-8 text-center">
-            <h2 className="text-[36px] font-semibold tracking-tight text-white">
+            <h2 className="text-[44px] font-semibold tracking-tight text-white">
               患者未到，信息先到 — 开启诊前智能采集新范式
             </h2>
             <p className="max-w-2xl text-[16px] leading-relaxed text-white/80">
@@ -1093,14 +1093,14 @@ export default function AiPreConsultationPage() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#demo"
-                className="inline-flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[14px] font-medium text-neutral-950 transition-opacity hover:opacity-90"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-neutral-950 transition-opacity hover:opacity-90 sm:px-7 sm:py-3"
               >
                 预约产品演示
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </a>
               <a
                 href="/#products"
-                className="inline-flex h-10 items-center rounded-full border border-white/40 px-5 text-[14px] font-medium text-white transition-colors hover:border-white hover:bg-white/10"
+                className="inline-flex items-center justify-center rounded-full border border-white/40 px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:border-white hover:bg-white/10 sm:px-7 sm:py-3"
               >
                 返回产品矩阵
               </a>

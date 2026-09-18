@@ -248,6 +248,7 @@ export function TibetMaternityChildrenHospital() {
           className="relative z-[1] scroll-mt-[90px] py-[100px] dark:bg-transparent"
           badge="医院介绍"
           title="医院概况"
+          titleClassName="text-[36px]"
           description={hospitalIntro.description}
           capabilities={hospitalIntro.capabilities}
           capabilitiesLayout="stats"
@@ -267,6 +268,7 @@ export function TibetMaternityChildrenHospital() {
           cta={null}
           captionClassName="text-[20px] font-bold tracking-normal text-neutral-950 dark:text-white"
           headerLayout="stack"
+          titleClassName="text-[36px]"
           moments={buildNeeds.map((item) => ({
             caption: item.title,
             detail: item.description,
@@ -335,6 +337,7 @@ export function TibetMaternityChildrenHospital() {
         <Waitlist6
           title="开启合作咨询"
           description="如需了解西藏自治区妇产儿童医院同类合作医院的建设路径与落地方式，欢迎联系我们"
+          titleClassName="text-[36px]"
           darkTransparent
         />
       </main>

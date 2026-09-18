@@ -29,6 +29,7 @@ type Showcase6Props = {
   description?: string;
   cta?: Showcase6Cta | null;
   captionClassName?: string;
+  titleClassName?: string;
   headerLayout?: "split" | "stack";
   moments?: Showcase6Moment[];
 };
@@ -105,6 +106,7 @@ export function Showcase6({
   description = "Lisbon HQ, Copenhagen, Seoul, New York, and a rotating cast of pop-up desks wherever the work lands.",
   cta = { label: "Browse the archive", href: "#" },
   captionClassName,
+  titleClassName,
   headerLayout = "split",
   moments = DEFAULT_MOMENTS,
 }: Showcase6Props) {
@@ -132,7 +134,10 @@ export function Showcase6({
             <h2
               className={
                 headerLayout === "stack"
-                  ? "text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white"
+                  ? cn(
+                      "font-semibold tracking-tight text-neutral-950 dark:text-white",
+                      titleClassName ?? "text-[44px]",
+                    )
                   : "text-balance text-4xl leading-[0.98] font-semibold tracking-tight text-neutral-900 sm:text-5xl md:text-6xl dark:text-white"
               }
             >

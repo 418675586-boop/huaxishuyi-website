@@ -120,7 +120,7 @@ export function Hero(): ReactNode {
           </div>
 
           <motion.p
-            className="max-w-3xl text-[22px] font-normal leading-snug tracking-[0.04em] text-black sm:text-[28px] lg:text-[32px] dark:text-white/90"
+            className="max-w-3xl text-[18px] font-normal leading-snug tracking-[0.04em] text-black sm:text-[24px] lg:text-[28px] dark:text-white/90"
             initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
@@ -129,7 +129,7 @@ export function Hero(): ReactNode {
               ease: [0.25, 0.46, 0.45, 0.94],
             }}
           >
-            循证医学AI内核 · 懂医疗更懂编程
+            登顶Med Bench大语言模型权威评测榜单第一
           </motion.p>
 
           <motion.p

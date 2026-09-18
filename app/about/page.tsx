@@ -75,8 +75,6 @@ export default function AboutPage(): ReactNode {
           <Contact9
             badge="公司简介"
             title="以AI全栈能力赋能医院数智转型"
-            titleClassName="text-[40px]"
-            descriptionClassName="text-[14px]"
             description={
               <>
                 <p>

@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence, useMotionValue } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { OutlineCtaButton } from "@/components/outline-cta";
 
 const SLIDE_DURATION_MS = 5000;
 
@@ -188,7 +187,7 @@ export function Hero6() {
   return (
     <section
       ref={sectionRef}
-      className="relative z-[1] flex w-full items-start overflow-hidden bg-[#F8F8F8] px-4 py-[150px] sm:px-6 lg:items-center lg:px-8 dark:bg-transparent"
+      className="relative z-[1] flex w-full items-start overflow-hidden bg-[#F8F8F8] px-4 py-[100px] sm:px-6 lg:items-center lg:px-8 dark:bg-transparent"
     >
       <div className="relative z-10 mx-auto w-full max-w-[1200px]">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_auto_1fr] lg:gap-16 xl:gap-20">
@@ -284,26 +283,6 @@ export function Hero6() {
                 >
                   {activeSlide.description}
                 </motion.p>
-
-                <motion.div
-                  variants={{
-                    hidden: { y: 14, opacity: 0 },
-                    visible: {
-                      y: 0,
-                      opacity: 1,
-                      transition: {
-                        duration: 0.45,
-                        ease: [0.22, 1, 0.36, 1],
-                      },
-                    },
-                  }}
-                >
-                  <OutlineCtaButton
-                    aria-label={`查看${activeSlide.title.replace("\n", "")}详情`}
-                  >
-                    查看详情
-                  </OutlineCtaButton>
-                </motion.div>
               </motion.div>
             </AnimatePresence>
           </div>

@@ -43,7 +43,7 @@ export function AiProductsSection() {
   return (
     <section
       id="products"
-      className="relative z-[1] flex w-full items-start bg-[#F8F8F8] px-4 py-[150px] sm:px-6 lg:px-8 dark:bg-transparent"
+      className="relative z-[1] flex w-full items-start bg-[#F8F8F8] px-4 py-[100px] sm:px-6 lg:px-8 dark:bg-transparent"
     >
       <div className="mx-auto w-full min-w-0 max-w-[1200px] overflow-hidden">
         <div className="mb-8 flex flex-col gap-8 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
@@ -55,7 +55,7 @@ export function AiProductsSection() {
               direction="bottom"
               delay={70}
               blur={false}
-              className="justify-start text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white"
+              className="justify-start text-[44px] font-semibold tracking-tight text-neutral-950 dark:text-white"
             />
             <StaggeredText
               as="p"

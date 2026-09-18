@@ -189,11 +189,11 @@ function ContentCard({ entry }: { entry: TimelineEntry }) {
               transition={{ duration: 0.3 }}
               className="space-y-2"
             >
-              <h2 className="text-3xl font-medium tracking-tight text-neutral-900 dark:text-white">
+              <h2 className="text-[44px] font-medium tracking-tight text-neutral-900 dark:text-white">
                 {entry.title}
               </h2>
 
-              <p className="text-base tracking-tight text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xl">
+              <p className="text-[16px] tracking-tight text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xl">
                 {entry.description}
               </p>
             </motion.div>

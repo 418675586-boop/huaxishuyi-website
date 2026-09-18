@@ -58,6 +58,11 @@ export interface ParallaxCarouselProps {
   className?: string;
   /** Container inline styles. */
   style?: React.CSSProperties;
+  /**
+   * Cover-fit zoom applied while a plane is hovered. Matches the
+   * 合作案例 `group-hover:scale-[1.06]` treatment (clip stays put).
+   */
+  hoverZoom?: number;
 }
 
 export interface ParallaxCarouselRef {
@@ -89,6 +94,7 @@ uniform float uIntensity;
 uniform float uMaxShift;
 uniform float uRadiusPx;
 uniform float uHasTexture;
+uniform float uHoverScale;
 
 vec2 coverFit(vec2 uv, vec2 planeSize, vec2 texSize) {
   float planeAspect = planeSize.x / max(planeSize.y, 1.0);
@@ -113,7 +119,7 @@ float roundedBoxAlpha(vec2 uv, vec2 sizePx, float radiusPx) {
 void main() {
   vec2 uv = coverFit(vUv, uPlanePx, uTexPx);
 
-  float zoom = 1.0 / (1.0 + 2.0 * uMaxShift);
+  float zoom = 1.0 / ((1.0 + 2.0 * uMaxShift) * max(uHoverScale, 1.0));
   uv = (uv - 0.5) * zoom + 0.5;
 
   uv.x += uShift * uIntensity * zoom;
@@ -144,6 +150,7 @@ function buildUniforms() {
     uMaxShift: { value: 0.2 },
     uRadiusPx: { value: 0 },
     uHasTexture: { value: 0 },
+    uHoverScale: { value: 1 },
   };
 }
 
@@ -165,6 +172,8 @@ interface PlaneProps {
   loop: boolean;
   totalCount: number;
   scrollRef: React.RefObject<ScrollState>;
+  hoveredIndexRef: React.MutableRefObject<number | null>;
+  hoverZoom: number;
 }
 
 const Plane: React.FC<PlaneProps> = ({
@@ -179,9 +188,12 @@ const Plane: React.FC<PlaneProps> = ({
   loop,
   totalCount,
   scrollRef,
+  hoveredIndexRef,
+  hoverZoom,
 }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const textureRef = useRef<THREE.Texture | null>(null);
+  const hoverAmountRef = useRef(0);
   const { size } = useThree();
 
   const [uniforms] = React.useState(buildUniforms);
@@ -194,6 +206,7 @@ const Plane: React.FC<PlaneProps> = ({
     imageHeight,
     gap,
     loop,
+    hoverZoom,
   });
   useEffect(() => {
     propsRef.current = {
@@ -204,6 +217,7 @@ const Plane: React.FC<PlaneProps> = ({
       imageHeight,
       gap,
       loop,
+      hoverZoom,
     };
   }, [
     parallaxIntensity,
@@ -213,6 +227,7 @@ const Plane: React.FC<PlaneProps> = ({
     imageHeight,
     gap,
     loop,
+    hoverZoom,
   ]);
 
   useEffect(() => {
@@ -248,7 +263,7 @@ const Plane: React.FC<PlaneProps> = ({
     };
   }, [src]);
 
-  useFrame(() => {
+  useFrame((_, delta) => {
     const mesh = meshRef.current;
     if (!mesh) return;
     const mat = mesh.material as THREE.ShaderMaterial;
@@ -256,6 +271,12 @@ const Plane: React.FC<PlaneProps> = ({
     const p = propsRef.current;
     const scroll = scrollRef.current;
     if (!scroll) return;
+
+    const dt = Math.min(delta, 0.05);
+    const hoverTarget = hoveredIndexRef.current === index ? 1 : 0;
+    hoverAmountRef.current +=
+      (hoverTarget - hoverAmountRef.current) * (1 - Math.exp(-dt * 8));
+    u.uHoverScale.value = 1 + (p.hoverZoom - 1) * hoverAmountRef.current;
 
     const planeStride = p.imageWidth + p.gap;
     let offsetPx = index * planeStride - scroll.current;
@@ -351,6 +372,7 @@ const ParallaxCarousel = React.forwardRef<
       captionHeight = 0,
       className,
       style,
+      hoverZoom = 1.06,
     },
     ref,
   ) => {
@@ -358,6 +380,7 @@ const ParallaxCarousel = React.forwardRef<
     const captionElsRef = useRef<Array<HTMLDivElement | null>>([]);
     const rafRef = useRef<number | null>(null);
     const hoverRef = useRef(false);
+    const hoveredIndexRef = useRef<number | null>(null);
     const draggingRef = useRef(false);
     const lastPointerXRef = useRef(0);
     const lastFrameTsRef = useRef<number | null>(null);
@@ -377,6 +400,7 @@ const ParallaxCarousel = React.forwardRef<
       loop,
       pauseOnHover,
       imageWidth,
+      imageHeight,
       gap,
       count: images.length,
     });
@@ -389,6 +413,7 @@ const ParallaxCarousel = React.forwardRef<
         loop,
         pauseOnHover,
         imageWidth,
+        imageHeight,
         gap,
         count: images.length,
       };
@@ -400,6 +425,7 @@ const ParallaxCarousel = React.forwardRef<
       loop,
       pauseOnHover,
       imageWidth,
+      imageHeight,
       gap,
       images.length,
     ]);
@@ -497,6 +523,8 @@ const ParallaxCarousel = React.forwardRef<
       };
 
       const onPointerDown = (e: PointerEvent) => {
+        const target = e.target as HTMLElement | null;
+        if (target?.closest("a, button")) return;
         draggingRef.current = true;
         lastPointerXRef.current = e.clientX;
         node.setPointerCapture(e.pointerId);
@@ -504,8 +532,38 @@ const ParallaxCarousel = React.forwardRef<
       };
 
       const onPointerMove = (e: PointerEvent) => {
-        if (!draggingRef.current) return;
         const settings = settingsRef.current;
+        const scroll = scrollRef.current;
+        const rect = node.getBoundingClientRect();
+        const localY = e.clientY - rect.top;
+        if (localY < 0 || localY > settings.imageHeight) {
+          hoveredIndexRef.current = null;
+        } else {
+          const localX = e.clientX - rect.left - rect.width / 2;
+          const planeStride = settings.imageWidth + settings.gap;
+          const count = settings.count;
+          let best: number | null = null;
+          let bestDist = Infinity;
+          for (let i = 0; i < count; i += 1) {
+            let offsetPx = i * planeStride - scroll.current;
+            if (settings.loop && count > 0) {
+              const stripLength = count * planeStride;
+              const halfStrip = stripLength * 0.5;
+              offsetPx =
+                ((((offsetPx + halfStrip) % stripLength) + stripLength) %
+                  stripLength) -
+                halfStrip;
+            }
+            const dist = Math.abs(localX - offsetPx);
+            if (dist <= settings.imageWidth / 2 && dist < bestDist) {
+              bestDist = dist;
+              best = i;
+            }
+          }
+          hoveredIndexRef.current = best;
+        }
+
+        if (!draggingRef.current) return;
         const dx = e.clientX - lastPointerXRef.current;
         lastPointerXRef.current = e.clientX;
         scrollRef.current.target -= dx * settings.dragSensitivity;
@@ -527,6 +585,7 @@ const ParallaxCarousel = React.forwardRef<
       };
       const onLeave = () => {
         hoverRef.current = false;
+        hoveredIndexRef.current = null;
       };
 
       node.addEventListener("wheel", onWheel, { passive: true });
@@ -535,6 +594,8 @@ const ParallaxCarousel = React.forwardRef<
       node.addEventListener("pointerup", onPointerUp);
       node.addEventListener("pointercancel", onPointerUp);
       node.addEventListener("pointerleave", onPointerUp);
+      node.addEventListener("pointerenter", onEnter);
+      node.addEventListener("pointerleave", onLeave);
       node.addEventListener("mouseenter", onEnter);
       node.addEventListener("mouseleave", onLeave);
 
@@ -545,6 +606,8 @@ const ParallaxCarousel = React.forwardRef<
         node.removeEventListener("pointerup", onPointerUp);
         node.removeEventListener("pointercancel", onPointerUp);
         node.removeEventListener("pointerleave", onPointerUp);
+        node.removeEventListener("pointerenter", onEnter);
+        node.removeEventListener("pointerleave", onLeave);
         node.removeEventListener("mouseenter", onEnter);
         node.removeEventListener("mouseleave", onLeave);
       };
@@ -607,6 +670,8 @@ const ParallaxCarousel = React.forwardRef<
               loop={loop}
               totalCount={images.length}
               scrollRef={scrollRef}
+              hoveredIndexRef={hoveredIndexRef}
+              hoverZoom={hoverZoom}
             />
           ))}
         </Canvas>

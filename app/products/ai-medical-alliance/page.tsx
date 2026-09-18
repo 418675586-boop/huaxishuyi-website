@@ -404,24 +404,26 @@ export default function AiMedicalAlliancePage() {
                   </span>
                 </div>
 
-                <h1 className="text-[36px] font-semibold leading-tight tracking-tight text-neutral-950 dark:text-white sm:text-[44px]">
+                <h1 className="text-[44px] font-semibold leading-[1.15] tracking-tight text-neutral-950 dark:text-white">
                   AI医联体平台
                   <br />
                   跨机构AI医疗协同赋能
                 </h1>
-                <p className="max-w-2xl text-[14px] leading-relaxed text-neutral-600 dark:text-neutral-400">
+                <p className="max-w-2xl text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400">
                   面向医联体、多院区、专科联盟的一体化跨机构医疗协同平台。以患者为核心，串联患者服务、基层医疗机构、上级专科资源与院内业务系统，打通院内外、上下级医疗服务链路，实现跨院诊疗协同、信息共享、资源下沉与集团化统一调度。
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3 pt-1">
                   <a
                     href="#demo"
-                    className="inline-flex h-9 items-center gap-2 rounded-full bg-neutral-950 px-4 text-[14px] text-white transition-opacity hover:opacity-90 dark:bg-white dark:text-neutral-950"
+                    className="inline-flex cursor-pointer items-center justify-center rounded-full bg-neutral-950 px-5 py-2.5 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus-visible:ring-offset-neutral-950 sm:px-7 sm:py-3"
                   >
                     预约产品演示
-                    <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden="true" />
                   </a>
-                  <OutlineCtaLink href="#capabilities">查看核心能力</OutlineCtaLink>
+                  <OutlineCtaLink href="#capabilities" showArrow={false}>
+                    查看核心能力
+                  </OutlineCtaLink>
                 </div>
               </motion.div>
 
@@ -472,7 +474,7 @@ export default function AiMedicalAlliancePage() {
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>行业痛点</SectionLabel>
-              <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
+              <h2 className="text-[44px] font-semibold tracking-tight text-neutral-950 dark:text-white">
                 医联体协同的六大困局
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
@@ -499,7 +501,7 @@ export default function AiMedicalAlliancePage() {
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>分层赋能</SectionLabel>
-              <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
+              <h2 className="text-[44px] font-semibold tracking-tight text-neutral-950 dark:text-white">
                 基层医生 · 上级专家 · 管理端 三角色协同
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
@@ -547,7 +549,7 @@ export default function AiMedicalAlliancePage() {
           <div className="mx-auto w-full max-w-[1200px]">
             <div className="mb-10 flex max-w-3xl flex-col gap-3">
               <SectionLabel>核心价值</SectionLabel>
-              <h2 className="text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
+              <h2 className="text-[44px] font-semibold tracking-tight text-neutral-950 dark:text-white">
                 六大价值 · 协同提效 · 资源下沉
               </h2>
               <p className="text-[16px] text-neutral-600 dark:text-neutral-400">
@@ -643,7 +645,7 @@ export default function AiMedicalAlliancePage() {
           </div>
 
           <div className="relative z-10 mx-auto flex w-full max-w-[900px] flex-col items-center gap-8 text-center">
-            <h2 className="text-[36px] font-semibold tracking-tight text-white">
+            <h2 className="text-[44px] font-semibold tracking-tight text-white">
               让优质资源下沉基层 — 构建连续医疗服务新生态
             </h2>
             <p className="max-w-2xl text-[16px] leading-relaxed text-white/80">
@@ -652,14 +654,14 @@ export default function AiMedicalAlliancePage() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#demo"
-                className="inline-flex h-10 items-center gap-2 rounded-full bg-white px-5 text-[14px] font-medium text-neutral-950 transition-opacity hover:opacity-90"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-neutral-950 transition-opacity hover:opacity-90 sm:px-7 sm:py-3"
               >
                 预约产品演示
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </a>
               <a
                 href="/#products"
-                className="inline-flex h-10 items-center rounded-full border border-white/40 px-5 text-[14px] font-medium text-white transition-colors hover:border-white hover:bg-white/10"
+                className="inline-flex items-center justify-center rounded-full border border-white/40 px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:border-white hover:bg-white/10 sm:px-7 sm:py-3"
               >
                 返回产品矩阵
               </a>

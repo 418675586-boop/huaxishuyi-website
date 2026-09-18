@@ -172,7 +172,7 @@ export default function Comparison8() {
           <span className="inline-flex w-fit rounded-full border border-neutral-300 px-3 py-1 text-[12px] tracking-wide text-neutral-600 dark:border-neutral-700 dark:text-neutral-400">
             对比优势
           </span>
-          <h2 className="mt-4 text-balance text-[36px] font-semibold tracking-tight text-neutral-950 dark:text-white">
+          <h2 className="mt-4 text-balance text-[44px] font-semibold tracking-tight text-neutral-950 dark:text-white">
             传统医联体协同 vs AI医联体平台
           </h2>
           <p className="mt-3 max-w-2xl text-pretty text-[16px] leading-relaxed text-neutral-600 dark:text-neutral-400">

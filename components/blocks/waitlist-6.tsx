@@ -221,6 +221,7 @@ type Waitlist6Props = {
   ctaHref?: string;
   className?: string;
   darkTransparent?: boolean;
+  titleClassName?: string;
 };
 
 export default function Waitlist6({
@@ -230,6 +231,7 @@ export default function Waitlist6({
   ctaHref = "tel:02860198639",
   className,
   darkTransparent = false,
+  titleClassName,
 }: Waitlist6Props) {
   const reduce = useReducedMotion();
 
@@ -262,7 +264,10 @@ export default function Waitlist6({
         <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
           <motion.h2
             variants={item}
-            className="text-[32px] font-semibold tracking-tight text-neutral-900 dark:text-white sm:text-[40px]"
+            className={cn(
+              "font-semibold tracking-tight text-neutral-900 dark:text-white",
+              titleClassName ?? "text-[44px]",
+            )}
           >
             {title}
           </motion.h2>
@@ -279,10 +284,10 @@ export default function Waitlist6({
             href={ctaHref}
             whileHover={reduce ? undefined : { y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="mt-8 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-black px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 dark:focus-visible:ring-white dark:focus-visible:ring-offset-neutral-950"
+            className="mt-8 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-black px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-white dark:text-black dark:hover:bg-neutral-200 dark:focus-visible:ring-white dark:focus-visible:ring-offset-neutral-950 sm:px-7 sm:py-3"
           >
             {ctaLabel}
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </motion.a>
         </div>
       </motion.div>
