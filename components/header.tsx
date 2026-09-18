@@ -16,7 +16,7 @@ type NavMenuItem = { label: string; href?: string };
 const products: NavMenuItem[] = [
   { label: "AI医生应用平台", href: "/products/ai-doctor-platform" },
   { label: "AI预问诊系统", href: "/products/ai-pre-consultation" },
-  { label: "AI智能导诊平台", href: "/products/ai-triage" },
+  // 暂时隐藏：{ label: "AI智能导诊平台", href: "/products/ai-triage" },
   { label: "研究型数字医生平台", href: "/products/research-digital-doctor" },
   { label: "AI医联体平台", href: "/products/ai-medical-alliance" },
 ];
@@ -132,20 +132,20 @@ function NavFlyoutMenu({
             id={menuId}
             role="menu"
             aria-label={label}
-            className="min-w-[320px] rounded-2xl border border-neutral-200/80 bg-white p-2 shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:border-white/15 dark:bg-white/10 dark:shadow-none dark:backdrop-blur-xl"
+            className="w-max rounded-2xl border border-neutral-200/80 bg-white p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:border-white/15 dark:bg-white/10 dark:shadow-none dark:backdrop-blur-xl"
           >
             {items.map((item) => {
               const content = (
                 <>
-                  <span>{item.label}</span>
+                  <span className="whitespace-nowrap">{item.label}</span>
                   <ArrowUpRight
-                    className="h-4 w-4 shrink-0 opacity-0 transition-opacity group-hover/item:opacity-100"
+                    className="h-3.5 w-3.5 shrink-0 opacity-0 transition-opacity group-hover/item:opacity-100"
                     aria-hidden="true"
                   />
                 </>
               );
               const itemClassName =
-                "group/item flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left text-sm text-neutral-900 transition-colors hover:bg-neutral-100 dark:text-white dark:hover:bg-white/10";
+                "group/item flex w-full items-center justify-between gap-2 rounded-lg px-2.5 py-1.5 text-left text-sm text-neutral-900 transition-colors hover:bg-neutral-100 dark:text-white dark:hover:bg-white/10";
 
               if (item.href) {
                 return (
