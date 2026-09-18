@@ -5,6 +5,8 @@ import { fileURLToPath } from "url";
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
+  // Generate a fully static site in ./out for deployment behind Nginx.
+  output: "export",
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -21,6 +23,8 @@ const nextConfig: NextConfig = {
     removeConsole: process.env.NODE_ENV === "production",
   },
   images: {
+    // Static exports have no Next.js server available for image optimization.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
