@@ -75,8 +75,21 @@ package-lock.json.bak
 *.zip
 *.tgz
 *.tar.gz
-deliverables/**/*.zip
-deliverables/**/static-html/
-deliverables/screenshots/
+*.tar
+*.rar
+.next/
+out/
+dist/
+build/
+coverage/
+storybook-static/
+tsconfig.tsbuildinfo
+next-env.d.ts
+
+# local dumps and delivery packages
+backups/
+deliverables/
+
+# debug screenshots
 **/homepage-*-debug*.png
 **/_dbg_*.png
